@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JUMIE | Online Shopping</title>
+<style>
+:root{--ink:#171717;--muted:#666;--brand:#e85b35;--bg:#fff8f4;--line:#eee2dc}*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--ink);background:#fff}header{background:var(--ink);color:white;padding:18px 5%;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}header h1{margin:0;font-size:25px;letter-spacing:2px}header span{font-size:13px;color:#ddd}.hero{background:var(--bg);padding:38px 5%;text-align:center}.hero h2{font-size:clamp(27px,5vw,42px);margin:0 0 10px}.hero p{color:var(--muted);margin:0}.wrap{max-width:1100px;margin:auto;padding:26px 5%}.tools{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}input,select,button{font:inherit;border-radius:9px;padding:12px;border:1px solid var(--line)}input{flex:1;min-width:180px}button{cursor:pointer;background:var(--brand);color:white;border:0;font-weight:bold}.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px}.product{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:white}.product .pic{height:145px;background:linear-gradient(135deg,#f9e2d8,#f3c7b6);display:grid;place-items:center;font-size:48px}.product .info{padding:14px}.product h3{margin:0 0 7px}.price{font-weight:bold;color:var(--brand);margin:8px 0 12px}.product button{width:100%}.panel{margin-top:26px;border:1px solid var(--line);border-radius:14px;padding:18px;background:#fffdfb}.panel h2{margin-top:0}.bank{background:var(--bg);padding:14px;border-radius:10px;line-height:1.8}.muted{color:var(--muted);font-size:14px}.cartline{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--line)}footer{text-align:center;background:var(--ink);color:#ddd;padding:22px;margin-top:35px;font-size:13px}.notice{font-size:13px;color:var(--muted);line-height:1.5}
+</style>
+</head>
+<body>
+<header><h1>JUMIE</h1><span>SHOP SMART • SHOP EASY</span></header>
+<section class="hero"><h2>Welcome to JUMIE</h2><p>Discover lovely finds at great prices.</p></section>
+<main class="wrap">
+<div class="tools"><input id="search" type="search" placeholder="Search products..." aria-label="Search products"><select id="category" aria-label="Category"><option value="all">All categories</option><option value="fashion">Fashion</option><option value="beauty">Beauty</option><option value="accessories">Accessories</option></select></div>
+<section class="products" id="products">
+<article class="product" data-name="Classic handbag" data-category="fashion" data-price="18000"><div class="pic">👜</div><div class="info"><h3>Classic Handbag</h3><div class="price">₦18,000</div><button onclick="add('Classic Handbag',18000)">Add to order</button></div></article>
+<article class="product" data-name="Ladies sneakers" data-category="fashion" data-price="25000"><div class="pic">👟</div><div class="info"><h3>Ladies Sneakers</h3><div class="price">₦25,000</div><button onclick="add('Ladies Sneakers',25000)">Add to order</button></div></article>
+<article class="product" data-name="Beauty set" data-category="beauty" data-price="12000"><div class="pic">💄</div><div class="info"><h3>Beauty Set</h3><div class="price">₦12,000</div><button onclick="add('Beauty Set',12000)">Add to order</button></div></article>
+<article class="product" data-name="Fashion watch" data-category="accessories" data-price="15000"><div class="pic">⌚</div><div class="info"><h3>Fashion Watch</h3><div class="price">₦15,000</div><button onclick="add('Fashion Watch',15000)">Add to order</button></div></article>
+</section>
+<section class="panel"><h2>Your order</h2><div id="cart"><p class="muted">Your order is empty. Add a product above to begin.</p></div><p><strong>Total: <span id="total">₦0</span></strong></p>
+<h3>Payment by bank transfer</h3><div class="bank"><strong>Bank:</strong> Ecobank<br><strong>Account name:</strong> Ilo Kingsley Chidera<br><strong>Account number:</strong> 4390095010</div><p class="notice">Please confirm the account name and number in your banking app before transferring. Your order is not confirmed until payment is received and checked.</p>
+<button onclick="sendOrder()">Send order on WhatsApp</button>
+<p class="notice">After sending your order, you can arrange payment and delivery details on WhatsApp.</p></section>
+</main>
+<footer>© <span id="year"></span> JUMIE. All rights reserved.</footer>
+<script>
+const whatsapp='2349037736350';const cart=[];
+function money(n){return '₦'+n.toLocaleString('en-NG')}
+function add(name,price){const found=cart.find(x=>x.name===name);if(found)found.qty++;else cart.push({name,price,qty:1});render()}
+function render(){const box=document.getElementById('cart');if(!cart.length){box.innerHTML='<p class="muted">Your order is empty. Add a product above to begin.</p>'}else{box.innerHTML=cart.map((x,i)=>`<div class="cartline"><span>${x.name} × ${x.qty}</span><span>${money(x.price*x.qty)} <button style="padding:5px 9px;margin-left:6px" onclick="removeItem(${i})">Remove</button></span></div>`).join('')}document.getElementById('total').textContent=money(cart.reduce((s,x)=>s+x.price*x.qty,0))}
+function removeItem(i){cart.splice(i,1);render()}
+function sendOrder(){if(!cart.length){alert('Please add at least one product first.');return}const lines=cart.map(x=>`${x.name} x ${x.qty} — ${money(x.price*x.qty)}`).join('\n');const total=cart.reduce((s,x)=>s+x.price*x.qty,0);const msg=`Hello JUMIE, I would like to place this order:\n${lines}\nTotal: ${money(total)}\n\nPlease confirm availability, delivery fee and payment details.`;window.open('https://wa.me/'+whatsapp+'?text='+encodeURIComponent(msg),'_blank')}
+document.getElementById('search').addEventListener('input',filter);document.getElementById('category').addEventListener('change',filter);function filter(){const q=document.getElementById('search').value.toLowerCase(),c=document.getElementById('category').value;document.querySelectorAll('.product').forEach(p=>{p.style.display=(p.dataset.name.toLowerCase().includes(q)&&(c==='all'||p.dataset.category===c))?'':'none'})}document.getElementById('year').textContent=new Date().getFullYear();
+</script>
+</body></html>
