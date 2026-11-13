@@ -63,8 +63,9 @@ if ("serviceWorker" in navigator) {
   let showSaved = false;
 
   function update(){
-    document.getElementById("jumieSavedCount").textContent =
-      saved.size + " saved";
+    const countLabel = document.getElementById("jumieSavedCount");
+    const countText = saved.size + " saved";
+    if (countLabel.textContent !== countText) countLabel.textContent = countText;
 
     document.querySelectorAll(".product").forEach(card => {
       const add = card.querySelector(".add");
@@ -90,12 +91,13 @@ if ("serviceWorker" in navigator) {
         };
       }
 
-      button.textContent = saved.has(id)
+      const buttonText = saved.has(id)
         ? "♥ Saved to Wishlist"
         : "♡ Save for Later";
+      if (button.textContent !== buttonText) button.textContent = buttonText;
 
-      card.style.display =
-        showSaved && !saved.has(id) ? "none" : "";
+      const display = showSaved && !saved.has(id) ? "none" : "";
+      if (card.style.display !== display) card.style.display = display;
     });
   }
 
