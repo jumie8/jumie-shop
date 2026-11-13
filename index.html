@@ -41,4 +41,77 @@ if ("serviceWorker" in navigator) {
   });
 }
 </script>
+<script>
+(function(){
+  const saved = new Set(
+    JSON.parse(localStorage.getItem("jumieWishlist") || "[]").map(String)
+  );
+
+  const products = document.getElementById("products");
+  if (!products) return;
+
+  const controls = document.createElement("div");
+  controls.style.cssText = "display:flex;gap:10px;margin:12px 0;align-items:center";
+  controls.innerHTML = `
+    <button id="jumieSavedOnly" style="padding:10px 14px;border:0;border-radius:8px;background:#f68b1f;color:white;font-weight:bold">
+      ♡ My Wishlist
+    </button>
+    <span id="jumieSavedCount">0 saved</span>
+  `;
+  products.parentNode.insertBefore(controls, products);
+
+  let showSaved = false;
+
+  function update(){
+    document.getElementById("jumieSavedCount").textContent =
+      saved.size + " saved";
+
+    document.querySelectorAll(".product").forEach(card => {
+      const add = card.querySelector(".add");
+      if (!add) return;
+
+      const id = String(add.dataset.id);
+      let button = card.querySelector(".jumie-wish");
+
+      if (!button) {
+        button = document.createElement("button");
+        button.className = "jumie-wish";
+        button.style.cssText =
+          "width:100%;padding:9px;margin-top:7px;border:1px solid #f68b1f;border-radius:8px;background:#fff5eb;color:#d85c00;font-weight:bold";
+        card.querySelector(".info").appendChild(button);
+        button.onclick = () => {
+          if(saved.has(id)) saved.delete(id);
+          else saved.add(id);
+
+          localStorage.setItem(
+            "jumieWishlist", JSON.stringify([...saved])
+          );
+          update();
+        };
+      }
+
+      button.textContent = saved.has(id)
+        ? "♥ Saved to Wishlist"
+        : "♡ Save for Later";
+
+      card.style.display =
+        showSaved && !saved.has(id) ? "none" : "";
+    });
+  }
+
+  document.getElementById("jumieSavedOnly").onclick = function(){
+    showSaved = !showSaved;
+    this.textContent = showSaved ? "← All Products" : "♡ My Wishlist";
+    update();
+  };
+
+  new MutationObserver(update).observe(products, {
+    childList:true,
+    subtree:true
+  });
+
+  update();
+})();
+</script>
+
 </body></html>
