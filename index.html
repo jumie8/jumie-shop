@@ -21,7 +21,15 @@
 <p><b>Account Number:</b> 4390095010</p>
 <p><b>Bank:</b> Ecobank</p>
 <p>Transfer the total amount and submit your order form. JUMIE will confirm your payment.</p>
-</div><a class="checkout" href="https://forms.gle/5QuiosdPxQXaa2bR8" target="_blank" rel="noopener">Proceed to Checkout</a><p class="hint">Fill in your delivery details and product names and quantities in the order form. Payment is by Ecobank bank transfer. JUMIE will confirm payment before processing your order. Never share your PIN or OTP.</p></section></main>
+</div><form id="flutterwaveForm" style="margin:14px 0;padding:15px;border:1px solid #f3c08f;border-radius:10px;background:#fffaf5">
+<h3 style="margin-top:0">💳 Pay securely with Flutterwave</h3>
+<p class="hint">Enter your name and email, then continue to Flutterwave's secure test checkout.</p>
+<input id="fwCustomerName" type="text" placeholder="Your full name" required style="width:100%;padding:12px;margin:6px 0;border:1px solid #ddd;border-radius:8px">
+<input id="fwCustomerEmail" type="email" placeholder="Your email address" required style="width:100%;padding:12px;margin:6px 0;border:1px solid #ddd;border-radius:8px">
+<button id="fwPayButton" type="submit" class="checkout" style="border:0;cursor:pointer">Pay with Flutterwave</button>
+<p id="fwMessage" class="hint" role="status"></p>
+</form>
+<a class="checkout" href="https://forms.gle/5QuiosdPxQXaa2bR8" target="_blank" rel="noopener">Proceed to Checkout</a><p class="hint">Fill in your delivery details and product names and quantities in the order form. Payment is by Ecobank bank transfer. JUMIE will confirm payment before processing your order. Never share your PIN or OTP.</p></section></main>
 <footer>© <span id="year"></span> JUMIE — Shop Smart • Live Better</footer>
 <script>
 const URL='https://vwiohwwquxiqytqcbwtj.supabase.co',KEY='sb_publishable_FGJ4Xs5dl5XMc3xrVULLTQ_x8c1cGwp';let products=[],cart=[];
@@ -59,6 +67,51 @@ $('accountLogin').onclick=()=>customerAuth('login');
 $('accountSignup').onclick=()=>customerAuth('signup');
 showCustomer();
 
+</script>
+<script>
+document.getElementById("flutterwaveForm").addEventListener("submit", async function(event) {
+  event.preventDefault();
+  const message = document.getElementById("fwMessage");
+  const button = document.getElementById("fwPayButton");
+  if (!cart.length) {
+    message.textContent = "Your cart is empty. Add a product before paying.";
+    return;
+  }
+  const name = document.getElementById("fwCustomerName").value.trim();
+  const email = document.getElementById("fwCustomerEmail").value.trim();
+  if (!name || !email) {
+    message.textContent = "Please enter your name and email address.";
+    return;
+  }
+  button.disabled = true;
+  button.textContent = "Creating secure checkout...";
+  message.textContent = "Please wait while JUMIE prepares your payment.";
+  try {
+    const response = await fetch(URL + "/functions/v1/flutterwave-checkout", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "apikey": KEY,
+        "Authorization": "Bearer " + KEY
+      },
+      body: JSON.stringify({
+        cart: cart.map(item => ({ id: item.id, qty: item.qty })),
+        email,
+        name
+      })
+    });
+    const data = await response.json();
+    if (!response.ok || !data.checkout_url) {
+      throw new Error(data.error || data.message || "Could not create checkout. Please try again.");
+    }
+    message.textContent = "Checkout created. Redirecting to Flutterwave...";
+    window.location.href = data.checkout_url;
+  } catch (error) {
+    message.textContent = "Payment setup error: " + error.message;
+    button.disabled = false;
+    button.textContent = "Pay with Flutterwave";
+  }
+});
 </script>
 <script>
 if ("serviceWorker" in navigator) {
