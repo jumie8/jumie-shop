@@ -234,6 +234,9 @@ footer{background:#252525;color:#eee;text-align:center;padding:25px 15px;font-si
 
 /* Select Payment screen */
 .payment-page-title{font-size:24px;margin:18px 0 20px}.payment-summary{background:#fff;margin:0 -13px 18px;padding:15px;border-top:8px solid #f1f1f1;border-bottom:1px solid #ddd}.payment-summary h3{color:#777;font-size:14px;margin:0 0 14px}.payment-summary>div{display:flex;justify-content:space-between;gap:12px;padding:9px 0;font-size:14px}.payment-grand-total{border-top:1px solid #ddd;font-size:17px!important;font-weight:800}.payment-method-panel{background:#fff;margin:18px -13px;padding:0 14px 14px}.payment-method-panel>h3{background:#f1f1f1;color:#777;font-size:14px;padding:15px;margin:0 -14px}.payment-prepay{font-weight:700;border-bottom:1px solid #ddd;padding:13px 0;margin:0}.payment-choice{display:flex;align-items:center;gap:12px;padding:18px 0;cursor:pointer}.payment-choice input{position:absolute;opacity:0}.payment-radio{width:24px;height:24px;border:2px solid #aaa;border-radius:50%;flex:none}.payment-choice input:checked+.payment-radio{border:6px solid var(--orange)}.payment-choice b{display:block;font-size:15px;line-height:1.4}.payment-choice small{display:block;color:#555;font-size:12px;line-height:1.45;margin-top:5px}.payment-shield{font-size:23px;margin-left:auto}.payment-credit{background:#f1f1f1;border-radius:5px;padding:12px;color:#34558a;display:flex;justify-content:space-between;gap:8px;font-weight:700;font-size:13px}.payment-accepted{border:1px solid #ddd;border-radius:7px;padding:12px;margin-top:13px;font-size:12px}.payment-accepted p{margin:8px 0 0;color:#555;line-height:1.45}#fwPayButton{width:100%;margin:5px 0 15px;padding:16px;font-size:15px}
+
+/* Remove the duplicate fixed cart checkout bar; keep the normal checkout button inside the cart/payment page. */
+.cart-checkout-dock{display:none!important;visibility:hidden!important;pointer-events:none!important}
 </style>
 </head>
 <body>
