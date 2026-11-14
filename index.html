@@ -495,7 +495,7 @@ if ("serviceWorker" in navigator) {
 </script>
 <script>document.querySelectorAll('[data-category]').forEach(btn=>btn.addEventListener('click',()=>{activeCategory=btn.dataset.category;document.querySelectorAll('[data-category]').forEach(x=>x.classList.toggle('active',x.dataset.category===activeCategory));render();if(btn.closest('.product-filters'))document.getElementById('products').scrollIntoView({behavior:'smooth'});}));</script>
 <script>if('serviceWorker'in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(console.error));}</script>
-<script src="./store-enhancements.js"></script>
+<!-- Cart uses the single native add-to-cart and renderCart implementation in the main storefront script. -->
 
 <script>
 (function(){
