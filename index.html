@@ -24,22 +24,113 @@ footer{background:#252525;color:#eee;text-align:center;padding:25px 15px;font-si
 @media(max-width:650px){
  body{padding-bottom:75px}.promo{font-size:10px;padding:7px}.head{padding:10px 12px;gap:9px;flex-wrap:wrap}.logo{min-width:0;flex:1}.mark{width:35px;height:35px;font-size:21px}.logo strong{font-size:23px}.logo small{font-size:9px}.search{order:3;flex-basis:100%;max-width:none}.search input{padding:11px}.search button{padding:0 16px}.headlink{padding:5px 3px;font-size:11px}.headlink span{font-size:17px}.nav{display:none}main{padding:0 10px;margin:10px auto}.hero-layout{display:block}.sidecats{display:none}.hero{min-height:190px;padding:18px 17px}.hero-copy{max-width:65%}.eyebrow{font-size:9px}.hero h1{font-size:37px;margin:7px 0}.hero p{font-size:12px;margin-bottom:12px}.shopbtn{padding:10px 14px;font-size:11px}.hero-art{font-size:104px;right:0;bottom:-5px}.quickcats{grid-template-columns:repeat(4,1fr);gap:7px;margin:10px 0}.quickcats button{font-size:10px;padding:9px 3px}.quickcats button .emoji{font-size:24px;margin-bottom:4px}.promo-tiles{gap:7px;margin:10px 0}.tile{min-height:79px;padding:9px;border-radius:8px}.tile b{font-size:12px}.tile small{font-size:9px}.tile span{font-size:24px}.section{margin:14px 0}.sectionhead{margin-bottom:9px}.sectionhead h2{font-size:16px}.products{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.product img,.placeholder{height:142px}.info{padding:8px}.info h3{font-size:12px;min-height:32px}.price{font-size:15px}.stock{font-size:10px}.add{font-size:11px;padding:9px}.benefits{grid-template-columns:1fr;gap:7px}.benefits div{padding:12px;font-size:13px}.account-panel,.cart{padding:13px;margin:12px 0}.account-panel form{display:grid}.account-panel input{min-width:0}.delivery{padding:12px}.bottomnav{position:fixed;bottom:0;left:0;right:0;z-index:30;background:#fff;border-top:1px solid #e8e8e8;display:grid;grid-template-columns:repeat(5,1fr);padding:7px 3px calc(7px + env(safe-area-inset-bottom));box-shadow:0 -3px 12px #0000000a}.bottomnav a{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;color:#5f6369;font-weight:700}.bottomnav a span{font-size:19px}.bottomnav a.active{color:var(--deep)}
 }
+
+/* JUMIE Jumia-inspired responsive header and 3-column hero */
+.jumie-utility{background:#292929;color:#fff;padding:7px max(18px,calc((100% - 1320px)/2));display:flex;justify-content:space-between;font-size:11px;font-weight:700}
+.jumie-utility a{color:#fff;text-decoration:none;margin-left:12px}
+.jumie-main-header{position:sticky;top:0;z-index:40;background:#fff;box-shadow:0 2px 8px #00000010}
+.jumie-head-inner{max-width:1320px;margin:auto;display:flex;align-items:center;gap:18px;padding:12px 18px}
+.jumie-head-inner .logo{min-width:170px}
+.jumie-head-inner .search{max-width:none}
+.jumie-head-inner .headlink{display:flex;align-items:center;gap:5px;cursor:pointer}
+.jumie-head-inner .headlink span{font-size:19px}
+.jumie-menu-toggle{display:none;border:0;background:none;font-size:25px}
+.jumie-nav{background:#fff;border-top:1px solid #eee}
+.jumie-nav>div{max-width:1320px;margin:auto;display:flex;gap:28px;padding:0 18px}
+.jumie-nav a{padding:11px 0;font-size:12px;font-weight:700;text-decoration:none}
+.jumie-home-hero{display:grid;grid-template-columns:220px minmax(0,1fr) 220px;gap:13px;align-items:stretch;margin:0 0 15px}
+.jumie-sidecats{background:#fff;border-radius:10px;padding:12px 0}
+.jumie-sidecats h3{font-size:14px;margin:4px 14px 9px}
+.jumie-sidecats button{width:100%;border:0;background:#fff;text-align:left;padding:11px 13px;font-size:12px;color:#34383e}
+.jumie-sidecats button span{float:right;color:#999}
+.jumie-sidecats button:hover{background:#fff4e8;color:#d96800}
+.jumie-banner-carousel{min-height:275px;border-radius:10px;overflow:hidden;position:relative;background:#24142f}
+.jumie-banner-slide{display:none;position:absolute;inset:0;padding:30px 6%;align-items:center;justify-content:space-between;background:linear-gradient(110deg,#201329,#4a1d52);color:#fff}
+.jumie-banner-slide.active{display:flex}
+.jumie-banner-slide:nth-child(2){background:linear-gradient(110deg,#152c48,#1972a1)}
+.jumie-banner-slide:nth-child(3){background:linear-gradient(110deg,#57203c,#c54c63)}
+.jumie-banner-copy{max-width:60%;z-index:1}
+.jumie-banner-copy small{font-weight:800;letter-spacing:1px}
+.jumie-banner-copy h1{font-size:clamp(28px,3.2vw,45px);line-height:1.05;margin:12px 0}
+.jumie-banner-copy p{font-size:13px;line-height:1.5}
+.jumie-banner-copy a{display:inline-block;background:#fff;color:#222;border-radius:30px;padding:11px 19px;font-size:12px;font-weight:800;margin-top:9px}
+.jumie-banner-art{font-size:clamp(75px,9vw,125px);background:#ff671c;border-radius:50%;width:190px;height:190px;display:grid;place-items:center;flex-shrink:0}
+.jumie-banner-prev,.jumie-banner-next{position:absolute;top:46%;border:0;border-radius:50%;background:#fff;color:#222;width:32px;height:32px;font-size:21px;z-index:3}
+.jumie-banner-prev{left:8px}.jumie-banner-next{right:8px}
+.jumie-banner-dots{position:absolute;bottom:12px;left:0;right:0;display:flex;justify-content:center;gap:7px}
+.jumie-banner-dots button{border:0;width:9px;height:9px;border-radius:50%;padding:0;background:#ffffff99}
+.jumie-banner-dots button.active{width:25px;border-radius:10px;background:#fff}
+.jumie-right-promos{display:flex;flex-direction:column;gap:12px}
+.jumie-right-card{border-radius:10px;padding:18px;color:#fff;display:flex;flex-direction:column;justify-content:center;min-height:130px}
+.jumie-right-card.orange{background:linear-gradient(135deg,#f68b1f,#d95700)}
+.jumie-right-card.dark{background:linear-gradient(135deg,#393c47,#17191f)}
+.jumie-right-card small{font-size:10px}
+.jumie-right-card b{font-size:21px;line-height:1.1;margin:8px 0}
+.jumie-right-card span{font-size:11px}
+.jumie-drawer{display:none}
+@media(max-width:900px){.jumie-home-hero{grid-template-columns:185px minmax(0,1fr)}.jumie-right-promos{display:none}}
+@media(max-width:650px){
+.jumie-utility{display:none}.jumie-nav{display:none}
+.jumie-head-inner{padding:9px 12px;gap:9px;flex-wrap:wrap}
+.jumie-menu-toggle{display:block;order:0}
+.jumie-head-inner .logo{min-width:0;flex:1;order:1}
+.jumie-head-inner .logo .mark{width:34px;height:34px}
+.jumie-head-inner .logo strong{font-size:22px}
+.jumie-head-inner .headlink{order:2;padding:4px;font-size:0}
+.jumie-head-inner .headlink i{display:none}
+.jumie-head-inner .headlink span{font-size:20px}
+.jumie-head-inner .search{order:3;flex-basis:100%;height:43px;border-radius:24px;background:#f1f1f2}
+.jumie-head-inner .search input{background:transparent;border-radius:24px 0 0 24px}
+.jumie-head-inner .search button{border-radius:0 24px 24px 0}
+.jumie-home-hero{display:block;margin:0 0 12px}
+.jumie-sidecats,.jumie-right-promos{display:none}
+.jumie-banner-carousel{min-height:220px}
+.jumie-banner-slide{padding:20px 16px}
+.jumie-banner-copy{max-width:65%}
+.jumie-banner-copy h1{font-size:27px}
+.jumie-banner-copy p{font-size:11px}
+.jumie-banner-art{width:115px;height:115px;font-size:65px}
+.jumie-drawer{display:block;position:fixed;inset:0;background:#0008;z-index:100;opacity:0;visibility:hidden;transition:.2s}
+.jumie-drawer.open{opacity:1;visibility:visible}
+.jumie-drawer-box{background:#fff;width:min(84%,330px);height:100%;padding:15px 0;transform:translateX(-100%);transition:.2s}
+.jumie-drawer.open .jumie-drawer-box{transform:translateX(0)}
+.jumie-drawer-top{display:flex;justify-content:space-between;padding:0 17px 13px;border-bottom:1px solid #eee;font-size:16px}
+.jumie-drawer-top button{border:0;background:none;font-size:25px}
+.jumie-drawer-box>button:not(.jumie-drawer-top button){display:block;width:100%;padding:14px 18px;text-align:left;border:0;background:#fff;font-size:13px}
+}
 </style>
 </head>
 <body>
-<div class="promo">JUMIE STORE <b>• DEALS YOU’LL LOVE</b>　 |　Shop Smart • Live Better</div>
-<header><div class="head">
+<div class="jumie-utility"><span>Welcome to JUMIE Store</span><span><a href="#help">Help Centre</a>　<a href="#account">My Account</a>　<a href="#sell">Sell on JUMIE</a></span></div>
+<header class="jumie-main-header"><div class="jumie-head-inner">
+<button class="jumie-menu-toggle" id="jumieMenuOpen" aria-label="Open categories">☰</button>
 <a class="logo" href="#"><span class="mark">J</span><span><strong>JUMIE</strong><small>SHOP SMART • LIVE BETTER</small></span></a>
-<form class="search" id="searchForm"><input id="search" type="search" placeholder="Search for products, brands and more..." aria-label="Search products"><button type="submit">Search</button></form>
-<button class="headlink" onclick="document.getElementById('account').scrollIntoView({behavior:'smooth'})"><span>♙</span> Account</button>
-<button class="headlink" onclick="document.getElementById('cart').scrollIntoView({behavior:'smooth'})"><span>🛒</span> Cart <b id="count">0</b></button>
-</div>
-<nav class="nav"><div class="navinner"><a href="#categories">☰ All Categories</a><a href="#flash">⚡ Flash Deals</a><a href="#products">Top Products</a><a href="#benefits">Why Shop JUMIE</a><a href="#account">My Account</a></div></nav></header>
+<form class="search" id="searchForm"><input id="search" type="search" placeholder="Search on JUMIE" aria-label="Search products"><button type="submit">SEARCH</button></form>
+<button class="headlink" onclick="document.getElementById('account').scrollIntoView({behavior:'smooth'})"><span>♙</span> <i>Account</i></button>
+<a class="headlink" href="#help"><span>ⓘ</span> <i>Help</i></a>
+<button class="headlink" onclick="document.getElementById('cart').scrollIntoView({behavior:'smooth'})"><span>🛒</span> <i>Cart</i> <b id="count">0</b></button>
+</div></header>
+<nav class="jumie-nav"><div><a href="#categories">☰ All Categories</a><a href="#flash">⚡ Flash Deals</a><a href="#products">Top Products</a><a href="#benefits">Why Shop JUMIE</a></div></nav>
+<div class="jumie-drawer" id="jumieDrawer"><div class="jumie-drawer-box"><div class="jumie-drawer-top"><b>Shop by Category</b><button id="jumieMenuClose" aria-label="Close">×</button></div><button data-category="phones">📱 Phones & Tablets</button><button data-category="fashion">👗 Fashion & Clothing</button><button data-category="beauty">💄 Beauty & Personal Care</button><button data-category="home">🏠 Home & Kitchen</button><button data-category="electronics">💻 Electronics</button><button data-category="all">🛍️ All Products</button></div></div>
 <main>
-<section class="hero-layout">
-<aside class="sidecats" id="categories"><h3>Shop by Category</h3>
-<button data-category="phones">📱 Phones & Tablets</button><button data-category="fashion">👗 Fashion & Clothing</button><button data-category="beauty">💄 Beauty & Personal Care</button><button data-category="home">🏠 Home & Kitchen</button><button data-category="electronics">💻 Electronics</button><button data-category="all">🛍️ All Products</button></aside>
-<div class="hero"><div class="hero-copy"><div class="eyebrow">WELCOME TO JUMIE STORE</div><h1>Find your<br>next favourite.</h1><p>Great finds for everyday living. Shop your favourites in one place.</p><a class="shopbtn" href="#products">SHOP NOW　›</a></div><div class="hero-art">🛍️</div></div>
+<section class="jumie-home-hero">
+<aside class="jumie-sidecats" id="categories"><h3>Shop by Category</h3>
+<button data-category="phones">📱 Phones & Tablets <span>›</span></button>
+<button data-category="fashion">👗 Fashion & Clothing <span>›</span></button>
+<button data-category="beauty">💄 Beauty & Personal Care <span>›</span></button>
+<button data-category="home">🏠 Home & Kitchen <span>›</span></button>
+<button data-category="electronics">💻 Electronics <span>›</span></button>
+<button data-category="all">🛍️ All Products <span>›</span></button>
+<button data-category="all">👟 Shoes & Bags <span>›</span></button>
+</aside>
+<div class="jumie-banner-carousel" id="jumieBanner">
+<div class="jumie-banner-slide active"><div class="jumie-banner-copy"><small>WELCOME TO JUMIE STORE</small><h1>BIG DEALS.<br>BETTER PRICES.</h1><p>Discover amazing products for everyday living.</p><a href="#products">Shop Now　→</a></div><div class="jumie-banner-art">🛍️</div></div>
+<div class="jumie-banner-slide"><div class="jumie-banner-copy"><small>TECHNOLOGY DEALS</small><h1>UPGRADE<br>YOUR TECH</h1><p>Explore phones, computers and electronics.</p><a href="#products">Shop Electronics　→</a></div><div class="jumie-banner-art">📱</div></div>
+<div class="jumie-banner-slide"><div class="jumie-banner-copy"><small>FASHION COLLECTION</small><h1>STYLE THAT<br>STANDS OUT</h1><p>Find your next favourite fashion pieces.</p><a href="#products">Explore Fashion　→</a></div><div class="jumie-banner-art">👟</div></div>
+<button class="jumie-banner-prev" id="jumieBannerPrev" aria-label="Previous banner">‹</button><button class="jumie-banner-next" id="jumieBannerNext" aria-label="Next banner">›</button>
+<div class="jumie-banner-dots" id="jumieBannerDots"><button class="active"></button><button></button><button></button></div>
+</div>
+<aside class="jumie-right-promos"><a href="#flash" class="jumie-right-card orange"><small>JUMIE SPECIAL OFFERS</small><b>DEALS YOU<br>WILL LOVE</b><span>Shop selected products →</span></a><a href="#account" class="jumie-right-card dark"><small>GROW YOUR BUSINESS</small><b>SELL ON<br>JUMIE</b><span>Reach more customers →</span></a></aside>
 </section>
 <section class="quickcats" aria-label="Popular categories">
 <button data-category="phones"><span class="emoji">📱</span>Phones</button><button data-category="fashion"><span class="emoji">👗</span>Fashion</button><button data-category="beauty"><span class="emoji">💄</span>Beauty</button><button data-category="home"><span class="emoji">🏠</span>Home</button><button data-category="electronics"><span class="emoji">💻</span>Electronics</button><button data-category="all"><span class="emoji">👟</span>Shoes & More</button><button data-category="all"><span class="emoji">👜</span>Bags</button><button data-category="all"><span class="emoji">🎁</span>All Deals</button>
@@ -178,4 +269,20 @@ if ("serviceWorker" in navigator) {
 <script>document.querySelectorAll('[data-category]').forEach(btn=>btn.addEventListener('click',()=>{activeCategory=btn.dataset.category;document.querySelectorAll('[data-category]').forEach(x=>x.classList.toggle('active',x===btn));render();document.getElementById('products').scrollIntoView({behavior:'smooth'});}));</script>
 <script>if('serviceWorker'in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(console.error));}</script>
 <script src="./store-enhancements.js"></script>
+
+<script>
+(function(){
+ const drawer=document.getElementById('jumieDrawer');
+ document.getElementById('jumieMenuOpen')?.addEventListener('click',()=>drawer?.classList.add('open'));
+ document.getElementById('jumieMenuClose')?.addEventListener('click',()=>drawer?.classList.remove('open'));
+ drawer?.addEventListener('click',e=>{if(e.target===drawer)drawer.classList.remove('open')});
+ drawer?.querySelectorAll('button[data-category]').forEach(b=>b.addEventListener('click',()=>drawer.classList.remove('open')));
+ const slides=[...document.querySelectorAll('.jumie-banner-slide')],dots=[...document.querySelectorAll('#jumieBannerDots button')];let index=0,timer;
+ function show(n){index=(n+slides.length)%slides.length;slides.forEach((s,i)=>s.classList.toggle('active',i===index));dots.forEach((d,i)=>d.classList.toggle('active',i===index))}
+ function restart(){clearInterval(timer);timer=setInterval(()=>show(index+1),5000)}
+ document.getElementById('jumieBannerPrev')?.addEventListener('click',()=>{show(index-1);restart()});
+ document.getElementById('jumieBannerNext')?.addEventListener('click',()=>{show(index+1);restart()});
+ dots.forEach((d,i)=>d.addEventListener('click',()=>{show(i);restart()}));if(slides.length>1)restart();
+})();
+</script>
 </body></html>
