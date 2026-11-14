@@ -421,6 +421,31 @@ $('searchForm').onsubmit=e=>e.preventDefault();$('search').oninput=render;$('pro
 
 const AUTH_STORE='jumieCustomerSession';
 function readCustomerSession(){try{return JSON.parse(localStorage.getItem(AUTH_STORE)||'null')}catch{return null}}
+async function getFreshCustomerSession(){
+ const session=readCustomerSession();
+ if(!session?.access_token)return null;
+ // Reuse a still-valid access token; otherwise rotate it with Supabase Auth.
+ try{
+  const check=await fetch(URL+'/auth/v1/user',{headers:{apikey:KEY,Authorization:'Bearer '+session.access_token},cache:'no-store'});
+  if(check.ok)return session;
+ }catch(e){console.warn('Could not validate saved JUMIE session:',e)}
+ if(!session.refresh_token){
+  localStorage.removeItem(AUTH_STORE);
+  throw new Error('Your sign-in session has expired. Please open Account and log in again.');
+ }
+ const refresh=await fetch(URL+'/auth/v1/token?grant_type=refresh_token',{
+  method:'POST',headers:{'Content-Type':'application/json',apikey:KEY},
+  body:JSON.stringify({refresh_token:session.refresh_token}),cache:'no-store'
+ });
+ const fresh=await refresh.json();
+ if(!refresh.ok||!fresh.access_token||!fresh.user){
+  localStorage.removeItem(AUTH_STORE);
+  throw new Error('Your sign-in session has expired. Please open Account and log in again.');
+ }
+ const updated={access_token:fresh.access_token,refresh_token:fresh.refresh_token||session.refresh_token,user:fresh.user};
+ localStorage.setItem(AUTH_STORE,JSON.stringify(updated));
+ return updated;
+}
 async function loadCustomerOrders(){
  const s=readCustomerSession(),target=$('customerOrders');
  if(!s?.access_token||!s?.user?.id){target.innerHTML='<p class="account-note">Sign in to view your orders and delivery progress.</p>';return}
@@ -476,12 +501,15 @@ document.getElementById("flutterwaveForm").addEventListener("submit", async func
   button.textContent = "Creating secure checkout...";
   message.textContent = "Please wait while JUMIE prepares your payment.";
   try {
+    // Refresh an expired customer session before sending it to the checkout function.
+    // Guests may still check out without an account.
+    const customerSession = await getFreshCustomerSession();
     const response = await fetch(URL + "/functions/v1/flutterwave-checkout", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         "apikey": KEY,
-        "Authorization": "Bearer " + ((readCustomerSession() && readCustomerSession().access_token) || KEY)
+        "Authorization": "Bearer " + (customerSession?.access_token || KEY)
       },
       body: JSON.stringify({
         items: cart.map(item => ({ id: item.id, qty: item.qty })),
