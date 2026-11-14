@@ -107,7 +107,7 @@ footer{background:#252525;color:#eee;text-align:center;padding:25px 15px;font-si
 .jumie-flash-timer{display:inline-flex;align-items:center;gap:8px;background:#fff;color:#a51b40;border-radius:7px;padding:7px 10px;font-size:12px}
 .jumie-flash-timer b{font-variant-numeric:tabular-nums;font-size:14px}
 .jumie-flash-head>a{background:#fff;color:#a51b40;padding:10px 15px;border-radius:25px;font-size:12px;font-weight:900;white-space:nowrap}
-.jumie-flash-track{display:grid;grid-auto-flow:column;grid-auto-columns: minmax(175px,1fr);gap:10px;overflow-x:auto;padding:1px 1px 8px;scroll-snap-type:x mandatory;scrollbar-width:thin}
+.jumie-flash-track{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(155px,1fr);gap:10px;overflow-x:auto;padding:1px 1px 8px;scroll-snap-type:x mandatory;scrollbar-width:thin}
 .jumie-flash-card{background:#fff;color:#282a2e;border-radius:9px;overflow:hidden;min-width:0;position:relative;scroll-snap-align:start}
 .jumie-flash-image{height:150px;display:grid;place-items:center;background:#fff;position:relative}
 .jumie-flash-image img{width:100%;height:100%;object-fit:contain;padding:9px}
@@ -201,13 +201,16 @@ function icon(n){n=(n||'').toLowerCase();if(/iphone|phone|samsung|tecno|infinix|
 function render(){let q=$('search').value.toLowerCase().trim(),list=products.filter(p=>{const hay=((p.name||'')+' '+(p.description||'')).toLowerCase();const matchesSearch=hay.includes(q);const terms={phones:['phone','iphone','samsung','tecno','infinix','tablet'],fashion:['fashion','dress','shirt','shoe','bag','clothing'],beauty:['beauty','makeup','skin','hair','perfume'],home:['home','kitchen','cook','chair','bed','appliance'],electronics:['laptop','computer','electronic','speaker','headphone','watch']};const matchesCategory=activeCategory==='all'||(terms[activeCategory]||[]).some(t=>hay.includes(t));return matchesSearch&&matchesCategory;});$('products').innerHTML=list.length?list.map(p=>`<article class="product">${p.image_url?`<img src="${esc(p.image_url)}" alt="${esc(p.name)}" loading="lazy" onerror="this.style.display='none'">`:`<div class="placeholder">${icon(p.name)}</div>`}<div class="info"><h3>${esc(p.name)}</h3><p class="price">${money(p.price)}</p><p class="stock">${Number(p.stock||0)>0?p.stock+' available':'Availability to be confirmed'}</p><button class="add" data-id="${esc(p.id)}" ${Number(p.stock||0)<=0?'disabled':''}>🛒 Add to Cart</button></div></article>`).join(''):'<p>No products found.</p>';document.querySelectorAll('.add').forEach(b=>b.onclick=()=>add(b.dataset.id));}
 function renderFlashDeals(){
  const target=$('flashProducts');if(!target)return;
- const picks=products.slice(0,12);
- if(!picks.length){target.innerHTML='<div class="jumie-flash-loading">No products are available for Flash Sales yet.</div>';return}
+ if(!products.length){target.innerHTML='<div class="jumie-flash-loading">No products are available for today’s featured picks yet.</div>';return}
+ // Rotate six real catalogue products by calendar day; no fake discounts or stock totals.
+ const day=Math.floor(Date.now()/86400000),count=Math.min(6,products.length);
+ const offset=products.length?day%products.length:0;
+ const picks=Array.from({length:count},(_,i)=>products[(offset+i)%products.length]);
  target.innerHTML=picks.map(p=>{
   const price=Number(p.price||0),old=Number(p.original_price||0),discount=old>price&&old>0?Math.round((old-price)/old*100):0;
-  const stock=Number(p.stock||0),initial=Number(p.flash_sale_initial_stock||0);
+  const stock=Math.max(0,Number(p.stock||0)),initial=Math.max(0,Number(p.flash_sale_initial_stock||0));
   const progress=initial>0?Math.max(0,Math.min(100,Math.round(stock/initial*100))):null;
-  return '<article class="jumie-flash-card"><div class="jumie-flash-image">'+(p.image_url?'<img src="'+esc(p.image_url)+'" alt="'+esc(p.name)+'" loading="lazy" onerror="this.style.display=\'none\'">':'<span class="jumie-flash-placeholder">'+icon(p.name)+'</span>')+'<span class="jumie-flash-tag">'+(discount?discount+'% OFF':'JUMIE DEAL')+'</span></div><div class="jumie-flash-info"><h3>'+esc(p.name)+'</h3><p class="jumie-flash-price">'+money(price)+(discount?'<span class="jumie-flash-old">'+money(old)+'</span><span class="jumie-flash-discount">-'+discount+'%</span>':'')+'</p><p class="jumie-flash-stock">'+(stock>0?stock+' in stock':'Out of stock')+'</p>'+(progress!==null?'<div class="jumie-flash-progress"><span style="width:'+progress+'%"></span></div>':'')+'<button class="jumie-flash-add" data-flash-id="'+esc(p.id)+'" '+(stock<=0?'disabled':'')+'>＋ Add to Cart</button></div></article>';
+  return '<article class="jumie-flash-card"><div class="jumie-flash-image">'+(p.image_url?'<img src="'+esc(p.image_url)+'" alt="'+esc(p.name)+'" loading="lazy" onerror="this.style.display=\'none\'">':'<span class="jumie-flash-placeholder">'+icon(p.name)+'</span>')+'<span class="jumie-flash-tag">'+(discount?discount+'% OFF':'FEATURED PICK')+'</span></div><div class="jumie-flash-info"><h3>'+esc(p.name)+'</h3><p class="jumie-flash-price">'+money(price)+(discount?'<span class="jumie-flash-old">'+money(old)+'</span><span class="jumie-flash-discount">-'+discount+'%</span>':'')+'</p><p class="jumie-flash-stock">'+(stock>0?stock+' in stock':'Out of stock')+'</p>'+(progress!==null?'<div class="jumie-flash-progress" role="progressbar" aria-label="Stock remaining" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'+progress+'"><span style="width:'+progress+'%"></span></div>':'')+'<button class="jumie-flash-add" data-flash-id="'+esc(p.id)+'" '+(stock<=0?'disabled':'')+'>＋ Add to Cart</button></div></article>';
  }).join('');
  target.querySelectorAll('[data-flash-id]').forEach(b=>b.addEventListener('click',()=>add(b.dataset.flashId)));
 }
