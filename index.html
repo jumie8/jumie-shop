@@ -183,6 +183,47 @@ footer{background:#252525;color:#eee;text-align:center;padding:25px 15px;font-si
 .account-shortcuts a+ a{background:#fff;color:#18a85b;border:1px solid #18a85b}
 .account-menu{background:#fff;margin:0 -10px}.account-menu h3{font-size:13px;color:#777;padding:15px 16px;margin:0;border-bottom:1px solid #eee}.account-menu a,.account-menu button{display:block;width:100%;text-align:left;padding:20px 18px;border:0;border-bottom:1px solid #f0f0f0;background:#fff;font-size:15px;color:#333}
 @media(max-width:650px){.bottomnav{grid-template-columns:repeat(5,1fr)}.bottomnav button{font-size:10px}.category-browser{grid-template-columns:92px minmax(0,1fr);gap:8px;margin:0 -10px}.category-tabs button{font-size:12px;padding:17px 5px;min-height:72px}.category-mini-grid{grid-template-columns:repeat(3,minmax(0,1fr));padding:12px 8px;gap:6px}.category-mini-grid img,.category-mini-grid button>span{height:78px}.cart-line{padding:16px 10px;gap:7px}.cart-thumb{width:100px}.cart-actions{gap:8px}.qty-control{gap:12px}.qty-control button{width:36px;height:40px}.cart-summary{padding-left:16px;padding-right:16px}.cart-summary h3{margin-left:-16px;margin-right:-16px;padding-left:16px}.account-panel{margin:10px 0}}
+
+/* Homepage layout tuned to the supplied JUMIE mobile reference */
+:root{--bg:#f1f2f5}
+@media(max-width:650px){
+ .jumie-head-inner{padding:11px 12px 10px;gap:8px}
+ .jumie-head-inner .logo{flex:1 1 auto;min-width:145px}
+ .jumie-head-inner .headlink{font-size:12px;order:2}
+ .jumie-head-inner .headlink span{font-size:23px}
+ .jumie-head-inner .headlink i{display:inline;font-style:normal;font-size:12px}
+ .jumie-head-inner .search{order:4;flex-basis:100%;height:48px;border-radius:10px;background:#fff;margin-top:2px}
+ .jumie-head-inner .search input{font-size:15px;border:1px solid #dedfe3;border-right:0;border-radius:10px 0 0 10px;padding:0 13px;min-width:0}
+ .jumie-head-inner .search button{font-size:14px;padding:0 16px;border-radius:0 10px 10px 0}
+ .jumie-head-inner .headlink:nth-last-child(1){order:3}
+ .quickcats{display:flex;overflow-x:auto;gap:8px;margin:0 -10px 12px;padding:9px 10px;scrollbar-width:none;white-space:nowrap}
+ .quickcats::-webkit-scrollbar{display:none}
+ .quickcats button{flex:0 0 auto;padding:10px 17px;border-radius:17px;font-size:12px;min-height:42px}
+ .quickcats button .emoji{display:none}
+ .promo-tiles{gap:8px;margin:12px 0 16px}
+ .tile{min-height:155px;align-items:center;padding:14px 12px;border-radius:12px}
+ .tile>div{max-width:75%}
+ .tile b{font-size:15px;line-height:1.45}
+ .tile small{font-size:12px;line-height:1.35}
+ .tile span{font-size:37px;align-self:center}
+ .sectionhead h2{font-size:20px}
+ .status{padding:16px 14px;font-size:13px;border-radius:14px;margin:12px 0}
+ .product-toolbar{display:flex;flex-direction:column;align-items:flex-start;gap:10px;margin:12px 0 15px}
+ .product-filters{display:flex;flex-wrap:wrap;gap:8px}
+ .product-filters button{background:#fff;border:1px solid #dedfe3;border-radius:10px;padding:11px 14px;font-size:13px}
+ .product-filters button.active{border:2px solid var(--orange);background:#fff7ef;color:#a94e00;font-weight:800}
+ #productSort{background:#fff;border:1px solid #dedfe3;border-radius:10px;padding:12px 14px;min-width:210px;color:#222}
+ .products{gap:10px}
+ .product{border-radius:15px}
+ .product img,.product .placeholder{height:205px;padding:8px}
+ .info{padding:12px}
+ .info h3{font-size:14px;min-height:39px}
+ .price{font-size:17px}
+ .product .add{margin-top:5px}
+ .jumie-flash{margin-top:15px}
+ .bottomnav{background:#fff}
+}
+@media(min-width:651px){.product-toolbar{display:flex;justify-content:space-between;align-items:center;gap:14px;margin:12px 0}.product-filters{display:flex;gap:8px;flex-wrap:wrap}.product-filters button{border:1px solid var(--line);background:#fff;border-radius:8px;padding:9px 13px}.product-filters button.active{border-color:var(--orange);color:var(--deep)}#productSort{padding:9px;border:1px solid var(--line);border-radius:8px;background:#fff}}
 </style>
 </head>
 <body>
@@ -190,9 +231,9 @@ footer{background:#252525;color:#eee;text-align:center;padding:25px 15px;font-si
 <header class="jumie-main-header"><div class="jumie-head-inner">
 <button class="jumie-menu-toggle" id="jumieMenuOpen" aria-label="Open categories">☰</button>
 <a class="logo" href="#"><span class="mark">J</span><span><strong>JUMIE</strong><small>SHOP SMART • LIVE BETTER</small></span></a>
-<form class="search" id="searchForm"><input id="search" type="search" placeholder="Search on JUMIE" aria-label="Search products"><button type="submit">SEARCH</button></form>
+<form class="search" id="searchForm"><input id="search" type="search" placeholder="Search for products, brands and more" aria-label="Search products"><button type="submit">SEARCH</button></form>
 <button class="headlink" onclick="showView('account')"><span>♙</span> <i>Account</i></button>
-<a class="headlink" href="#help"><span>ⓘ</span> <i>Help</i></a>
+
 <button class="headlink" onclick="showView('cart')"><span>🛒</span> <i>Cart</i> <b id="count">0</b></button>
 </div></header>
 <nav class="jumie-nav"><div><a href="#categories">☰ All Categories</a><a href="#flash">⚡ Flash Deals</a><a href="#products">Top Products</a><a href="#benefits">Why Shop JUMIE</a></div></nav>
@@ -218,14 +259,17 @@ footer{background:#252525;color:#eee;text-align:center;padding:25px 15px;font-si
 <aside class="jumie-right-promos"><a href="#flash" class="jumie-right-card orange"><small>JUMIE SPECIAL OFFERS</small><b>DEALS YOU<br>WILL LOVE</b><span>Shop selected products →</span></a><a href="#account" class="jumie-right-card dark"><small>GROW YOUR BUSINESS</small><b>SELL ON<br>JUMIE</b><span>Reach more customers →</span></a></aside>
 </section>
 <section class="quickcats" aria-label="Popular categories">
-<button data-category="phones"><span class="emoji">📱</span>Phones</button><button data-category="fashion"><span class="emoji">👗</span>Fashion</button><button data-category="beauty"><span class="emoji">💄</span>Beauty</button><button data-category="home"><span class="emoji">🏠</span>Home</button><button data-category="electronics"><span class="emoji">💻</span>Electronics</button><button data-category="all"><span class="emoji">👟</span>Shoes & More</button><button data-category="all"><span class="emoji">👜</span>Bags</button><button data-category="all"><span class="emoji">🎁</span>All Deals</button>
+<button data-category="all" class="active">All products</button><button data-category="phones">Phones</button><button data-category="fashion">Fashion</button><button data-category="electronics">Electronics</button><button data-category="home">Home</button><button data-category="beauty">Beauty</button><button data-view="wishlist">♡ My Wishlist</button>
 </section>
+
+<section class="promo-tiles"><div class="tile"><div><b>GREAT FINDS</b><small>Shop everyday essentials</small></div><span>🎁</span></div><div class="tile"><div><b>SHOP WITH EASE</b><small>Secure online checkout</small></div><span>🔒</span></div><div class="tile"><div><b>JUMIE PICKS</b><small>Discover popular products</small></div><span>🛍️</span></div></section>
 <section class="jumie-flash section" id="flash">
  <div class="jumie-flash-head"><div><span class="jumie-flash-kicker">DON'T MISS OUT</span><h2>⚡ Flash Sales</h2><div class="jumie-flash-timer">Today's deals refresh in <b id="jumieFlashTimer">00h : 00m : 00s</b></div></div><a href="#flashProducts">See All　→</a></div>
  <div class="jumie-flash-track" id="flashProducts"><div class="jumie-flash-loading">Loading today's deals…</div></div>
 </section>
-<section class="promo-tiles"><div class="tile"><div><b>GREAT FINDS</b><small>Shop everyday essentials</small></div><span>🎁</span></div><div class="tile"><div><b>SHOP WITH EASE</b><small>Secure online checkout</small></div><span>🔒</span></div><div class="tile"><div><b>JUMIE PICKS</b><small>Discover popular products</small></div><span>🛍️</span></div></section>
-<section class="section"><div class="sectionhead"><h2>🔥 Popular picks</h2><a href="#products">SHOP ALL　›</a></div><div class="status" id="status">Loading JUMIE products…</div><section class="products" id="products"></section></section>
+<section class="section"><div class="sectionhead"><h2>🔥 Popular picks</h2><a href="#products">SHOP ALL　›</a></div><div class="status" id="status">Loading JUMIE products…</div>
+<div class="product-toolbar"><div class="product-filters"><button class="active" data-category="all">All products</button><button data-category="phones">Phones</button><button data-category="fashion">Fashion</button><button data-category="electronics">Electronics</button><button data-category="home">Home</button><button data-category="beauty">Beauty</button><button data-view="wishlist">♡ My Wishlist</button></div><select id="productSort" aria-label="Sort products"><option value="recommended">Recommended</option><option value="price-low">Price: Low to High</option><option value="price-high">Price: High to Low</option><option value="name">Name: A to Z</option></select></div>
+<section class="products" id="products"></section></section>
 <section class="section panel"><div class="sectionhead"><h2>✨ Why shop with JUMIE?</h2></div><div class="benefits" id="benefits"><div>🚚 Delivery across Nigeria<small>Enter your address at checkout</small></div><div>🔒 Secure payments<small>Checkout powered by Flutterwave</small></div><div>💬 Customer care<small>We’re here to help</small></div></div></section>
 </div>
 <section class="app-view" id="categoriesView">
@@ -271,7 +315,7 @@ const URL='https://vwiohwwquxiqytqcbwtj.supabase.co',KEY='sb_publishable_FGJ4Xs5
 const $=id=>document.getElementById(id),money=n=>'₦'+Number(n||0).toLocaleString('en-NG');
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function icon(n){n=(n||'').toLowerCase();if(/iphone|phone|samsung|tecno|infinix|pixel|redmi/.test(n))return'📱';if(/laptop|computer/.test(n))return'💻';if(/ear|airpod|speaker/.test(n))return'🎧';if(/watch/.test(n))return'⌚';return'🛍️';}
-function render(){let q=$('search').value.toLowerCase().trim(),list=products.filter(p=>{const hay=((p.name||'')+' '+(p.description||'')).toLowerCase();const matchesSearch=hay.includes(q);const terms={phones:['phone','iphone','samsung','tecno','infinix','tablet'],fashion:['fashion','dress','shirt','shoe','bag','clothing'],beauty:['beauty','makeup','skin','hair','perfume'],home:['home','kitchen','cook','chair','bed','appliance'],electronics:['laptop','computer','electronic','speaker','headphone','watch']};const matchesCategory=activeCategory==='all'||(terms[activeCategory]||[]).some(t=>hay.includes(t));return matchesSearch&&matchesCategory;});$('products').innerHTML=list.length?list.map(p=>`<article class="product"><button class="wishlist-toggle" data-wish-id="${esc(p.id)}" aria-label="Save to wishlist">♡</button>${p.image_url?`<img src="${esc(p.image_url)}" alt="${esc(p.name)}" loading="lazy" onerror="this.style.display='none'">`:`<div class="placeholder">${icon(p.name)}</div>`}<div class="info"><h3>${esc(p.name)}</h3><p class="price">${money(p.price)}</p><p class="stock">${Number(p.stock||0)>0?p.stock+' available':'Availability to be confirmed'}</p><button class="add" data-id="${esc(p.id)}" ${Number(p.stock||0)<=0?'disabled':''}>🛒 Add to Cart</button></div></article>`).join(''):'<p>No products found.</p>';document.querySelectorAll('.add').forEach(b=>b.onclick=()=>add(b.dataset.id));document.querySelectorAll('[data-wish-id]').forEach(b=>{b.classList.toggle('saved',wishlist.includes(String(b.dataset.wishId)));b.onclick=()=>toggleWish(b.dataset.wishId)});}
+function render(){let q=$('search').value.toLowerCase().trim(),list=products.filter(p=>{const hay=((p.name||'')+' '+(p.description||'')).toLowerCase();const matchesSearch=hay.includes(q);const terms={phones:['phone','iphone','samsung','tecno','infinix','tablet'],fashion:['fashion','dress','shirt','shoe','bag','clothing'],beauty:['beauty','makeup','skin','hair','perfume'],home:['home','kitchen','cook','chair','bed','appliance'],electronics:['laptop','computer','electronic','speaker','headphone','watch']};const matchesCategory=activeCategory==='all'||(terms[activeCategory]||[]).some(t=>hay.includes(t));return matchesSearch&&matchesCategory;});const sort=$('productSort')?.value||'recommended';if(sort==='price-low')list.sort((a,b)=>Number(a.price)-Number(b.price));if(sort==='price-high')list.sort((a,b)=>Number(b.price)-Number(a.price));if(sort==='name')list.sort((a,b)=>(a.name||'').localeCompare(b.name||''));$('products').innerHTML=list.length?list.map(p=>`<article class="product"><button class="wishlist-toggle" data-wish-id="${esc(p.id)}" aria-label="Save to wishlist">♡</button>${p.image_url?`<img src="${esc(p.image_url)}" alt="${esc(p.name)}" loading="lazy" onerror="this.style.display='none'">`:`<div class="placeholder">${icon(p.name)}</div>`}<div class="info"><h3>${esc(p.name)}</h3><p class="price">${money(p.price)}</p><p class="stock">${Number(p.stock||0)>0?p.stock+' available':'Availability to be confirmed'}</p><button class="add" data-id="${esc(p.id)}" ${Number(p.stock||0)<=0?'disabled':''}>🛒 Add to Cart</button></div></article>`).join(''):'<p>No products found.</p>';document.querySelectorAll('.add').forEach(b=>b.onclick=()=>add(b.dataset.id));document.querySelectorAll('[data-wish-id]').forEach(b=>{b.classList.toggle('saved',wishlist.includes(String(b.dataset.wishId)));b.onclick=()=>toggleWish(b.dataset.wishId)});}
 function renderFlashDeals(){
  const target=$('flashProducts');if(!target)return;
  if(!products.length){target.innerHTML='<div class="jumie-flash-loading">No products are available for today’s featured picks yet.</div>';return}
@@ -312,7 +356,7 @@ function renderCart(){
  document.querySelectorAll('#items [data-view]').forEach(b=>b.onclick=()=>showView(b.dataset.view));
 }
 async function load(){const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),12000);$('status').textContent='Connecting to JUMIE inventory...';try{let r=await fetch(`${URL}/rest/v1/products?select=*&order=created_at.desc`,{headers:{apikey:KEY,Accept:'application/json'},cache:'no-store',signal:controller.signal});if(!r.ok){let detail=await r.text();throw Error('Supabase HTTP '+r.status+': '+detail.slice(0,180));}products=await r.json();renderCategories();renderWishlist();$('status').textContent=products.length?`Showing ${products.length} products from JUMIE inventory.`:'Connected, but no products were found in the products table.';render();renderFlashDeals();}catch(e){console.error('JUMIE product loading error:',e);$('status').textContent=e.name==='AbortError'?'Connection timed out. Check internet and Supabase settings.':'Products could not load: '+(e.message||'Network error');$('products').innerHTML='<p>Product loading failed. Please send us the message above.</p>';}finally{clearTimeout(timer);}}
-$('searchForm').onsubmit=e=>e.preventDefault();$('search').oninput=render;$('year').textContent=new Date().getFullYear();renderCart();updateFlashCountdown();setInterval(updateFlashCountdown,1000);load();
+$('searchForm').onsubmit=e=>e.preventDefault();$('search').oninput=render;$('productSort')?.addEventListener('change',render);$('year').textContent=new Date().getFullYear();renderCart();updateFlashCountdown();setInterval(updateFlashCountdown,1000);load();
 
 const AUTH_STORE='jumieCustomerSession';
 function readCustomerSession(){try{return JSON.parse(localStorage.getItem(AUTH_STORE)||'null')}catch{return null}}
@@ -415,7 +459,7 @@ if ("serviceWorker" in navigator) {
 ;
 
 </script>
-<script>document.querySelectorAll('[data-category]').forEach(btn=>btn.addEventListener('click',()=>{activeCategory=btn.dataset.category;document.querySelectorAll('[data-category]').forEach(x=>x.classList.toggle('active',x===btn));render();document.getElementById('products').scrollIntoView({behavior:'smooth'});}));</script>
+<script>document.querySelectorAll('[data-category]').forEach(btn=>btn.addEventListener('click',()=>{activeCategory=btn.dataset.category;document.querySelectorAll('[data-category]').forEach(x=>x.classList.toggle('active',x.dataset.category===activeCategory));render();if(btn.closest('.product-filters'))document.getElementById('products').scrollIntoView({behavior:'smooth'});}));</script>
 <script>if('serviceWorker'in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(console.error));}</script>
 <script src="./store-enhancements.js"></script>
 
