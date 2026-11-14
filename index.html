@@ -101,13 +101,15 @@ document.getElementById("flutterwaveForm").addEventListener("submit", async func
         "Authorization": "Bearer " + KEY
       },
       body: JSON.stringify({
-        amount: Number(cart.reduce((sum, item) => sum + (Number(item.price) * Number(item.qty)), 0).toFixed(2)),
-        name,
-        email,
-        phone: document.getElementById("fwCustomerPhone").value.trim(),
-        state: document.getElementById("fwCustomerState").value.trim(),
-        city: document.getElementById("fwCustomerCity").value.trim(),
-        address: document.getElementById("fwCustomerAddress").value.trim()
+        items: cart.map(item => ({ id: item.id, qty: item.qty })),
+        customer: {
+          name,
+          email,
+          phone: document.getElementById("fwCustomerPhone").value.trim(),
+          state: document.getElementById("fwCustomerState").value.trim(),
+          city: document.getElementById("fwCustomerCity").value.trim(),
+          address: document.getElementById("fwCustomerAddress").value.trim()
+        }
       })
     });
     const data = await response.json();
