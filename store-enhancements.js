@@ -31,6 +31,7 @@
   // Add the Jumia-inspired product discovery controls without changing product records.
   const tools = document.createElement('div');
   tools.className = 'jumie-tools';
+  tools.id = 'wishlist';
   tools.innerHTML = '<button type="button" class="active" data-jumie-filter="all">All products</button><button type="button" data-jumie-filter="Phones & Tablets">Phones</button><button type="button" data-jumie-filter="Fashion">Fashion</button><button type="button" data-jumie-filter="Electronics">Electronics</button><button type="button" data-jumie-filter="Home">Home</button><button type="button" data-jumie-filter="Beauty">Beauty</button><button type="button" id="jumieWishlistToggle">♡ My Wishlist</button><select id="jumieSort" aria-label="Sort products"><option value="featured">Recommended</option><option value="low">Price: Low to High</option><option value="high">Price: High to Low</option><option value="name">Name: A to Z</option></select>';
   catalog.parentNode.insertBefore(tools, catalog);
 
@@ -81,6 +82,12 @@
   function rerender(){decorate();if(typeof renderCart==='function')renderCart()}
   // Keep existing product search working with the new filter/sort controls.
   window.jumieCategory='all';
+  document.querySelectorAll('[data-category]').forEach(btn=>btn.addEventListener('click',()=>{
+    const value=String(btn.dataset.category||'all').toLowerCase();
+    window.jumieCategory=({phones:'Phones & Tablets',fashion:'Fashion',beauty:'Beauty',home:'Home',electronics:'Electronics',all:'all'})[value]||btn.dataset.category||'all';
+    wishlistOnly=false;
+    decorate();
+  }));
   tools.querySelectorAll('[data-jumie-filter]').forEach(b=>b.addEventListener('click',()=>{
     window.jumieCategory=b.dataset.jumieFilter;
     tools.querySelectorAll('[data-jumie-filter]').forEach(x=>x.classList.toggle('active',x===b));
