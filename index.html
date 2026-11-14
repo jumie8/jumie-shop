@@ -98,6 +98,41 @@ footer{background:#252525;color:#eee;text-align:center;padding:25px 15px;font-si
 .jumie-drawer-top button{border:0;background:none;font-size:25px}
 .jumie-drawer-box>button:not(.jumie-drawer-top button){display:block;width:100%;padding:14px 18px;text-align:left;border:0;background:#fff;font-size:13px}
 }
+
+/* JUMIE Flash Sales shelf */
+.jumie-flash{background:#bd1745;border-radius:13px;padding:17px;color:#fff;overflow:hidden}
+.jumie-flash-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:0 0 14px}
+.jumie-flash-kicker{font-size:10px;letter-spacing:1.5px;font-weight:900;opacity:.85}
+.jumie-flash-head h2{font-size:26px;margin:3px 0 7px;color:#fff}
+.jumie-flash-timer{display:inline-flex;align-items:center;gap:8px;background:#fff;color:#a51b40;border-radius:7px;padding:7px 10px;font-size:12px}
+.jumie-flash-timer b{font-variant-numeric:tabular-nums;font-size:14px}
+.jumie-flash-head>a{background:#fff;color:#a51b40;padding:10px 15px;border-radius:25px;font-size:12px;font-weight:900;white-space:nowrap}
+.jumie-flash-track{display:grid;grid-auto-flow:column;grid-auto-columns: minmax(175px,1fr);gap:10px;overflow-x:auto;padding:1px 1px 8px;scroll-snap-type:x mandatory;scrollbar-width:thin}
+.jumie-flash-card{background:#fff;color:#282a2e;border-radius:9px;overflow:hidden;min-width:0;position:relative;scroll-snap-align:start}
+.jumie-flash-image{height:150px;display:grid;place-items:center;background:#fff;position:relative}
+.jumie-flash-image img{width:100%;height:100%;object-fit:contain;padding:9px}
+.jumie-flash-placeholder{font-size:48px}
+.jumie-flash-tag{position:absolute;top:8px;left:8px;background:#ffeadb;color:#b34b00;padding:5px 7px;border-radius:4px;font-size:10px;font-weight:900}
+.jumie-flash-info{padding:10px}
+.jumie-flash-info h3{font-size:12px;font-weight:500;line-height:1.35;height:33px;overflow:hidden;margin:0 0 7px}
+.jumie-flash-price{font-size:17px;font-weight:900;margin:0 0 3px}
+.jumie-flash-old{font-size:10px;color:#858585;text-decoration:line-through;margin-left:5px;font-weight:400}
+.jumie-flash-discount{font-size:10px;color:#b42318;background:#ffeded;border-radius:4px;padding:3px 5px;margin-left:4px;font-weight:800}
+.jumie-flash-stock{font-size:10px;color:#777;margin:7px 0 8px}
+.jumie-flash-progress{height:5px;background:#ececec;border-radius:8px;overflow:hidden;margin-top:5px}
+.jumie-flash-progress span{display:block;height:100%;background:#f68b1f}
+.jumie-flash-add{width:100%;border:0;background:#f68b1f;color:#fff;padding:9px;border-radius:6px;font-size:11px;font-weight:900}
+.jumie-flash-add:disabled{background:#c8cbd0}
+.jumie-flash-loading{background:#fff;color:#777;border-radius:8px;padding:18px;font-size:12px}
+@media(max-width:650px){
+ .jumie-flash{padding:13px 11px;border-radius:10px;margin-left:0;margin-right:0}
+ .jumie-flash-head h2{font-size:22px}
+ .jumie-flash-timer{font-size:10px;padding:6px 8px}
+ .jumie-flash-timer b{font-size:12px}
+ .jumie-flash-head>a{font-size:11px;padding:9px 12px}
+ .jumie-flash-track{grid-auto-columns: minmax(155px,46%)}
+ .jumie-flash-image{height:135px}
+}
 </style>
 </head>
 <body>
@@ -135,7 +170,11 @@ footer{background:#252525;color:#eee;text-align:center;padding:25px 15px;font-si
 <section class="quickcats" aria-label="Popular categories">
 <button data-category="phones"><span class="emoji">📱</span>Phones</button><button data-category="fashion"><span class="emoji">👗</span>Fashion</button><button data-category="beauty"><span class="emoji">💄</span>Beauty</button><button data-category="home"><span class="emoji">🏠</span>Home</button><button data-category="electronics"><span class="emoji">💻</span>Electronics</button><button data-category="all"><span class="emoji">👟</span>Shoes & More</button><button data-category="all"><span class="emoji">👜</span>Bags</button><button data-category="all"><span class="emoji">🎁</span>All Deals</button>
 </section>
-<section class="promo-tiles" id="flash"><div class="tile"><div><b>FLASH DEALS</b><small>Find something you love</small></div><span>⚡</span></div><div class="tile"><div><b>GREAT FINDS</b><small>Shop everyday essentials</small></div><span>🎁</span></div><div class="tile"><div><b>SHOP WITH EASE</b><small>Secure online checkout</small></div><span>🔒</span></div></section>
+<section class="jumie-flash section" id="flash">
+ <div class="jumie-flash-head"><div><span class="jumie-flash-kicker">DON'T MISS OUT</span><h2>⚡ Flash Sales</h2><div class="jumie-flash-timer">Today's deals refresh in <b id="jumieFlashTimer">00h : 00m : 00s</b></div></div><a href="#flashProducts">See All　→</a></div>
+ <div class="jumie-flash-track" id="flashProducts"><div class="jumie-flash-loading">Loading today's deals…</div></div>
+</section>
+<section class="promo-tiles"><div class="tile"><div><b>GREAT FINDS</b><small>Shop everyday essentials</small></div><span>🎁</span></div><div class="tile"><div><b>SHOP WITH EASE</b><small>Secure online checkout</small></div><span>🔒</span></div><div class="tile"><div><b>JUMIE PICKS</b><small>Discover popular products</small></div><span>🛍️</span></div></section>
 <section class="section"><div class="sectionhead"><h2>🔥 Popular picks</h2><a href="#products">SHOP ALL　›</a></div><div class="status" id="status">Loading JUMIE products…</div><section class="products" id="products"></section></section>
 <section class="section panel"><div class="sectionhead"><h2>✨ Why shop with JUMIE?</h2></div><div class="benefits" id="benefits"><div>🚚 Delivery across Nigeria<small>Enter your address at checkout</small></div><div>🔒 Secure payments<small>Checkout powered by Flutterwave</small></div><div>💬 Customer care<small>We’re here to help</small></div></div></section>
 <section class="account-panel" id="account"><h2>👤 Your JUMIE Account</h2><div id="accountState">Sign in or create an account to get started.</div><form id="accountForm"><input id="accountEmail" type="email" placeholder="Email address" autocomplete="email" required><input id="accountPassword" type="password" placeholder="Password (at least 6 characters)" autocomplete="current-password" minlength="6" required><button type="button" id="accountLogin">Log In</button><button type="button" id="accountSignup" class="secondary">Create Account</button></form><p class="account-note" id="accountMessage">Use an email address you can access. Never share your password or verification code.</p></section>
@@ -160,10 +199,29 @@ const $=id=>document.getElementById(id),money=n=>'₦'+Number(n||0).toLocaleStri
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function icon(n){n=(n||'').toLowerCase();if(/iphone|phone|samsung|tecno|infinix|pixel|redmi/.test(n))return'📱';if(/laptop|computer/.test(n))return'💻';if(/ear|airpod|speaker/.test(n))return'🎧';if(/watch/.test(n))return'⌚';return'🛍️';}
 function render(){let q=$('search').value.toLowerCase().trim(),list=products.filter(p=>{const hay=((p.name||'')+' '+(p.description||'')).toLowerCase();const matchesSearch=hay.includes(q);const terms={phones:['phone','iphone','samsung','tecno','infinix','tablet'],fashion:['fashion','dress','shirt','shoe','bag','clothing'],beauty:['beauty','makeup','skin','hair','perfume'],home:['home','kitchen','cook','chair','bed','appliance'],electronics:['laptop','computer','electronic','speaker','headphone','watch']};const matchesCategory=activeCategory==='all'||(terms[activeCategory]||[]).some(t=>hay.includes(t));return matchesSearch&&matchesCategory;});$('products').innerHTML=list.length?list.map(p=>`<article class="product">${p.image_url?`<img src="${esc(p.image_url)}" alt="${esc(p.name)}" loading="lazy" onerror="this.style.display='none'">`:`<div class="placeholder">${icon(p.name)}</div>`}<div class="info"><h3>${esc(p.name)}</h3><p class="price">${money(p.price)}</p><p class="stock">${Number(p.stock||0)>0?p.stock+' available':'Availability to be confirmed'}</p><button class="add" data-id="${esc(p.id)}" ${Number(p.stock||0)<=0?'disabled':''}>🛒 Add to Cart</button></div></article>`).join(''):'<p>No products found.</p>';document.querySelectorAll('.add').forEach(b=>b.onclick=()=>add(b.dataset.id));}
+function renderFlashDeals(){
+ const target=$('flashProducts');if(!target)return;
+ const picks=products.slice(0,12);
+ if(!picks.length){target.innerHTML='<div class="jumie-flash-loading">No products are available for Flash Sales yet.</div>';return}
+ target.innerHTML=picks.map(p=>{
+  const price=Number(p.price||0),old=Number(p.original_price||0),discount=old>price&&old>0?Math.round((old-price)/old*100):0;
+  const stock=Number(p.stock||0),initial=Number(p.flash_sale_initial_stock||0);
+  const progress=initial>0?Math.max(0,Math.min(100,Math.round(stock/initial*100))):null;
+  return '<article class="jumie-flash-card"><div class="jumie-flash-image">'+(p.image_url?'<img src="'+esc(p.image_url)+'" alt="'+esc(p.name)+'" loading="lazy" onerror="this.style.display=\'none\'">':'<span class="jumie-flash-placeholder">'+icon(p.name)+'</span>')+'<span class="jumie-flash-tag">'+(discount?discount+'% OFF':'JUMIE DEAL')+'</span></div><div class="jumie-flash-info"><h3>'+esc(p.name)+'</h3><p class="jumie-flash-price">'+money(price)+(discount?'<span class="jumie-flash-old">'+money(old)+'</span><span class="jumie-flash-discount">-'+discount+'%</span>':'')+'</p><p class="jumie-flash-stock">'+(stock>0?stock+' in stock':'Out of stock')+'</p>'+(progress!==null?'<div class="jumie-flash-progress"><span style="width:'+progress+'%"></span></div>':'')+'<button class="jumie-flash-add" data-flash-id="'+esc(p.id)+'" '+(stock<=0?'disabled':'')+'>＋ Add to Cart</button></div></article>';
+ }).join('');
+ target.querySelectorAll('[data-flash-id]').forEach(b=>b.addEventListener('click',()=>add(b.dataset.flashId)));
+}
+function updateFlashCountdown(){
+ const el=$('jumieFlashTimer');if(!el)return;
+ const now=new Date(),end=new Date(now);end.setHours(24,0,0,0);
+ let left=Math.max(0,Math.floor((end-now)/1000));
+ const h=String(Math.floor(left/3600)).padStart(2,'0'),m=String(Math.floor(left%3600/60)).padStart(2,'0'),s=String(left%60).padStart(2,'0');
+ el.textContent=h+'h : '+m+'m : '+s+'s';
+}
 function add(id){let p=products.find(x=>String(x.id)===String(id));if(!p)return;let x=cart.find(x=>String(x.id)===String(id));if(x)x.qty++;else cart.push({id:p.id,name:p.name,price:Number(p.price||0),qty:1});renderCart();}
 function renderCart(){let count=cart.reduce((s,x)=>s+x.qty,0),sum=cart.reduce((s,x)=>s+x.price*x.qty,0);$('count').textContent=count;$('total').textContent=money(sum);$('items').innerHTML=cart.length?cart.map((x,i)=>`<div class="row"><span>${esc(x.name)} × ${x.qty} — ${money(x.price*x.qty)}</span><button data-del="${i}">Remove</button></div>`).join(''):'Your cart is empty.';document.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{cart.splice(+b.dataset.del,1);renderCart();});}
-async function load(){const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),12000);$('status').textContent='Connecting to JUMIE inventory...';try{let r=await fetch(`${URL}/rest/v1/products?select=*&order=created_at.desc`,{headers:{apikey:KEY,Accept:'application/json'},cache:'no-store',signal:controller.signal});if(!r.ok){let detail=await r.text();throw Error('Supabase HTTP '+r.status+': '+detail.slice(0,180));}products=await r.json();$('status').textContent=products.length?`Showing ${products.length} products from JUMIE inventory.`:'Connected, but no products were found in the products table.';render();}catch(e){console.error('JUMIE product loading error:',e);$('status').textContent=e.name==='AbortError'?'Connection timed out. Check internet and Supabase settings.':'Products could not load: '+(e.message||'Network error');$('products').innerHTML='<p>Product loading failed. Please send us the message above.</p>';}finally{clearTimeout(timer);}}
-$('searchForm').onsubmit=e=>e.preventDefault();$('search').oninput=render;$('year').textContent=new Date().getFullYear();renderCart();load();
+async function load(){const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),12000);$('status').textContent='Connecting to JUMIE inventory...';try{let r=await fetch(`${URL}/rest/v1/products?select=*&order=created_at.desc`,{headers:{apikey:KEY,Accept:'application/json'},cache:'no-store',signal:controller.signal});if(!r.ok){let detail=await r.text();throw Error('Supabase HTTP '+r.status+': '+detail.slice(0,180));}products=await r.json();$('status').textContent=products.length?`Showing ${products.length} products from JUMIE inventory.`:'Connected, but no products were found in the products table.';render();renderFlashDeals();}catch(e){console.error('JUMIE product loading error:',e);$('status').textContent=e.name==='AbortError'?'Connection timed out. Check internet and Supabase settings.':'Products could not load: '+(e.message||'Network error');$('products').innerHTML='<p>Product loading failed. Please send us the message above.</p>';}finally{clearTimeout(timer);}}
+$('searchForm').onsubmit=e=>e.preventDefault();$('search').oninput=render;$('year').textContent=new Date().getFullYear();renderCart();updateFlashCountdown();setInterval(updateFlashCountdown,1000);load();
 
 const AUTH_STORE='jumieCustomerSession';
 function readCustomerSession(){try{return JSON.parse(localStorage.getItem(AUTH_STORE)||'null')}catch{return null}}
