@@ -133,6 +133,56 @@ footer{background:#252525;color:#eee;text-align:center;padding:25px 15px;font-si
  .jumie-flash-track{grid-auto-columns: minmax(155px,46%)}
  .jumie-flash-image{height:135px}
 }
+
+/* JUMIE app-like category, cart, wishlist and account screens */
+.app-view{display:none}.app-view.active{display:block}
+.bottomnav button{border:0;background:transparent;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;color:#24272c;font-weight:700;position:relative}
+.bottomnav button span{font-size:22px;line-height:24px;position:relative}
+.bottomnav button.active{color:var(--orange)}
+.nav-count{position:absolute;top:-7px;right:-12px;background:var(--orange);color:white;border-radius:20px;min-width:17px;height:17px;display:grid;place-items:center;font-size:10px}
+.mobile-page-title{background:#fff;padding:17px 16px;margin:0 -10px 10px}.mobile-page-title h1{font-size:23px;margin:0}.mobile-page-title p{margin:5px 0 0;color:#777;font-size:12px}
+.category-browser{display:grid;grid-template-columns:170px 1fr;gap:10px;min-height:65vh}
+.category-tabs{background:#fff;display:flex;flex-direction:column}
+.category-tabs button{border:0;border-bottom:1px solid #eee;background:#fff;padding:17px 12px;text-align:center;font-size:13px;color:#444}
+.category-tabs button.active{border-left:5px solid var(--orange);background:#f4f4f4;font-weight:700}
+.category-content{display:flex;flex-direction:column;gap:12px}
+.category-group{background:#fff;border-radius:9px;overflow:hidden}
+.category-group h3{margin:0;padding:16px;border-bottom:1px solid #eee;font-size:15px;font-weight:500}
+.category-group h3 span,.category-group h3 a{float:right;color:var(--orange)}
+.category-mini-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;padding:15px}
+.category-mini-grid button{border:0;background:#fff;text-align:center;min-width:0;font-size:12px}
+.category-mini-grid img,.category-mini-grid button>span{width:100%;height:92px;object-fit:contain;background:#f4f4f4;border-radius:7px;display:grid;place-items:center;font-size:38px}
+.category-mini-grid small{display:block;margin-top:7px;line-height:1.3}
+.wishlist-toggle{position:absolute;right:9px;top:9px;z-index:2;border:0;border-radius:50%;width:34px;height:34px;background:#fff;font-size:21px;color:#444;box-shadow:0 1px 5px #0002}
+.wishlist-toggle.saved{color:var(--orange)}
+.wish-remove{width:100%;border:1px solid #eee;background:#fff;color:var(--orange);padding:8px;margin-top:6px;border-radius:6px}
+.empty-state{background:#f1f1f1;text-align:center;padding:55px 24px;margin:0 -10px 15px;min-height:350px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.empty-icon{width:120px;height:120px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:57px;margin-bottom:20px}
+.empty-state h2{font-size:20px;margin:8px 0}.empty-state p{font-size:14px;line-height:1.5;color:#4c4c4c;max-width:480px}
+.primary-action{border:0;background:var(--orange);color:#fff;padding:15px 25px;border-radius:7px;font-weight:800;min-width:80%;margin-top:15px}
+.cart{border:0;border-radius:0;padding:0;margin:0 -10px;background:#fff}
+.cart>h2{display:none}
+#items{background:#fff}
+.cart-summary{padding:15px 18px 0}
+.cart-summary h3{color:#777;font-size:13px;letter-spacing:.3px;border-bottom:1px solid #ddd;padding-bottom:13px;margin:0 -18px 8px;padding-left:18px}
+.cart-summary>div{display:flex;justify-content:space-between;padding:9px 0;font-size:15px}
+.cart-summary .cart-subtotal{font-weight:800;border-top:1px solid #ddd;font-size:17px}
+.cart-items-title{background:#f0f0f0;color:#777;padding:12px 18px;font-size:14px;margin:0}
+.cart-line{display:flex;gap:13px;padding:20px 14px;border-bottom:9px solid #f2f2f2;min-height:175px}
+.cart-thumb{width:112px;flex-shrink:0;display:grid;place-items:center}
+.cart-thumb img{width:100%;height:120px;object-fit:contain}
+.cart-line-info{flex:1;min-width:0}.cart-line-info h3{font-size:14px;font-weight:500;margin:8px 0}.cart-line-info>b{font-size:18px}.cart-line-info p{color:#777;font-size:12px;margin:7px 0}
+.cart-actions{display:flex;justify-content:space-between;align-items:center;margin-top:16px}
+.cart-actions>button{border:0;background:#fff;color:var(--orange);font-weight:700;padding:8px}
+.qty-control{display:flex;align-items:center;gap:20px}.qty-control button{border:0;border-radius:6px;background:var(--orange);color:#fff;width:40px;height:40px;font-size:22px}.qty-control button:first-child{background:#fbd5ae;color:#fff}
+#cartView .bank-payment{margin:12px;border-radius:7px}
+#cartView .delivery{margin:12px}
+.account-welcome{background:#fff;padding:20px 16px;margin:0 -10px}.account-welcome h2{font-size:20px;margin:4px 0}.account-welcome p{color:var(--orange);margin:4px 0}
+.account-shortcuts{display:grid;grid-template-columns:1fr 1fr;gap:10px;background:#f0f0f0;padding:14px;margin:0 -10px}
+.account-shortcuts a{padding:20px 8px;background:var(--orange);color:#fff;text-align:center;border-radius:6px;font-weight:800}
+.account-shortcuts a+ a{background:#fff;color:#18a85b;border:1px solid #18a85b}
+.account-menu{background:#fff;margin:0 -10px}.account-menu h3{font-size:13px;color:#777;padding:15px 16px;margin:0;border-bottom:1px solid #eee}.account-menu a,.account-menu button{display:block;width:100%;text-align:left;padding:20px 18px;border:0;border-bottom:1px solid #f0f0f0;background:#fff;font-size:15px;color:#333}
+@media(max-width:650px){.bottomnav{grid-template-columns:repeat(5,1fr)}.bottomnav button{font-size:10px}.category-browser{grid-template-columns:92px minmax(0,1fr);gap:8px;margin:0 -10px}.category-tabs button{font-size:12px;padding:17px 5px;min-height:72px}.category-mini-grid{grid-template-columns:repeat(3,minmax(0,1fr));padding:12px 8px;gap:6px}.category-mini-grid img,.category-mini-grid button>span{height:78px}.cart-line{padding:16px 10px;gap:7px}.cart-thumb{width:100px}.cart-actions{gap:8px}.qty-control{gap:12px}.qty-control button{width:36px;height:40px}.cart-summary{padding-left:16px;padding-right:16px}.cart-summary h3{margin-left:-16px;margin-right:-16px;padding-left:16px}.account-panel{margin:10px 0}}
 </style>
 </head>
 <body>
@@ -147,7 +197,7 @@ footer{background:#252525;color:#eee;text-align:center;padding:25px 15px;font-si
 </div></header>
 <nav class="jumie-nav"><div><a href="#categories">☰ All Categories</a><a href="#flash">⚡ Flash Deals</a><a href="#products">Top Products</a><a href="#benefits">Why Shop JUMIE</a></div></nav>
 <div class="jumie-drawer" id="jumieDrawer"><div class="jumie-drawer-box"><div class="jumie-drawer-top"><b>Shop by Category</b><button id="jumieMenuClose" aria-label="Close">×</button></div><button data-category="phones">📱 Phones & Tablets</button><button data-category="fashion">👗 Fashion & Clothing</button><button data-category="beauty">💄 Beauty & Personal Care</button><button data-category="home">🏠 Home & Kitchen</button><button data-category="electronics">💻 Electronics</button><button data-category="all">🛍️ All Products</button></div></div>
-<main>
+<main><div class="app-view active" id="homeView">
 <section class="jumie-home-hero">
 <aside class="jumie-sidecats" id="categories"><h3>Shop by Category</h3>
 <button data-category="phones">📱 Phones & Tablets <span>›</span></button>
@@ -177,8 +227,24 @@ footer{background:#252525;color:#eee;text-align:center;padding:25px 15px;font-si
 <section class="promo-tiles"><div class="tile"><div><b>GREAT FINDS</b><small>Shop everyday essentials</small></div><span>🎁</span></div><div class="tile"><div><b>SHOP WITH EASE</b><small>Secure online checkout</small></div><span>🔒</span></div><div class="tile"><div><b>JUMIE PICKS</b><small>Discover popular products</small></div><span>🛍️</span></div></section>
 <section class="section"><div class="sectionhead"><h2>🔥 Popular picks</h2><a href="#products">SHOP ALL　›</a></div><div class="status" id="status">Loading JUMIE products…</div><section class="products" id="products"></section></section>
 <section class="section panel"><div class="sectionhead"><h2>✨ Why shop with JUMIE?</h2></div><div class="benefits" id="benefits"><div>🚚 Delivery across Nigeria<small>Enter your address at checkout</small></div><div>🔒 Secure payments<small>Checkout powered by Flutterwave</small></div><div>💬 Customer care<small>We’re here to help</small></div></div></section>
-<section class="account-panel" id="account"><h2>👤 Your JUMIE Account</h2><div id="accountState">Sign in or create an account to get started.</div><form id="accountForm"><input id="accountEmail" type="email" placeholder="Email address" autocomplete="email" required><input id="accountPassword" type="password" placeholder="Password (at least 6 characters)" autocomplete="current-password" minlength="6" required><button type="button" id="accountLogin">Log In</button><button type="button" id="accountSignup" class="secondary">Create Account</button></form><p class="account-note" id="accountMessage">Use an email address you can access. Never share your password or verification code.</p></section>
+</div>
+<section class="app-view" id="categoriesView">
+ <div class="mobile-page-title"><h1>Categories</h1><p>Browse products by department</p></div>
+ <div class="category-browser"><aside class="category-tabs" id="categoryTabs"></aside><div class="category-content" id="categoryContent"></div></div>
+</section>
+<section class="app-view" id="wishlistView">
+ <div class="mobile-page-title"><h1>Wishlist</h1></div>
+ <div id="wishlistContent"></div>
+ <section class="section"><div class="sectionhead"><h2>Recently Viewed</h2><a href="#" data-view="home">See All</a></div><div class="products" id="recentProducts"></div></section>
+</section>
+<div class="app-view" id="accountView">
+ <div class="account-welcome" id="accountWelcome"></div>
+ <div class="account-shortcuts"><a href="#help" id="liveChatLink">▣　Live Chat</a><a href="https://wa.me/" target="_blank" rel="noopener">WhatsApp</a></div>
+ <div class="account-menu"><h3>Need Assistance?</h3><a href="#help">ⓘ　 Help & Support　›</a><h3>My JUMIE Account</h3><a href="#myOrders">▣　 Orders　›</a><a href="#inbox">✉　 Inbox　›</a><a href="#reviews">▤　 Ratings & Reviews　›</a><a href="#vouchers">♧　 Vouchers　›</a><button data-view="wishlist">♡　 Wishlist　›</button><a href="#sell">▣　 Follow Seller　›</a><a href="#recent">◷　 Recently Viewed　›</a></div>
+<h2>👤 Your JUMIE Account</h2><div id="accountState">Sign in or create an account to get started.</div><form id="accountForm"><input id="accountEmail" type="email" placeholder="Email address" autocomplete="email" required><input id="accountPassword" type="password" placeholder="Password (at least 6 characters)" autocomplete="current-password" minlength="6" required><button type="button" id="accountLogin">Log In</button><button type="button" id="accountSignup" class="secondary">Create Account</button></form><p class="account-note" id="accountMessage">Use an email address you can access. Never share your password or verification code.</p></section>
 <section class="account-panel" id="myOrders"><h2>📦 My Orders</h2><div id="customerOrders"><p class="account-note">Sign in to view your orders and delivery progress.</p></div></section>
+</div>
+<div class="app-view" id="cartView">
 <section class="cart" id="cart"><h2>🛒 Your Shopping Cart</h2><div id="items">Your cart is empty.</div><p><b>Total: <span id="total">₦0</span></b></p>
 <div class="bank-payment"><b>🔒 Secure payment:</b> You will be redirected to Flutterwave to complete payment. JUMIE does not collect or store your card PIN, OTP or banking password.</div>
 <form id="flutterwaveForm" class="delivery"><h3>📦 Delivery details</h3><p class="hint">Enter the details needed to deliver your order. Your cart and total are sent securely to JUMIE checkout.</p>
@@ -190,15 +256,22 @@ footer{background:#252525;color:#eee;text-align:center;padding:25px 15px;font-si
 <label for="fwCustomerAddress">Full delivery address</label><textarea id="fwCustomerAddress" autocomplete="street-address" placeholder="House number, street, area and delivery instructions" rows="3" required></textarea>
 <button id="fwPayButton" type="submit" class="checkout">Continue to secure payment</button><p id="fwMessage" class="hint" role="status"></p></form>
 <p class="hint">Never share your PIN or OTP with anyone.</p></section>
+</div>
 </main>
-<nav class="bottomnav" aria-label="Main navigation"><a class="active" href="#"><span>⌂</span>Home</a><a href="#categories"><span>▦</span>Categories</a><a href="#cart"><span>🛒</span>Cart</a><a href="#wishlist"><span>♡</span>Wishlist</a><a href="#account"><span>♙</span>Account</a></nav>
+<nav class="bottomnav" aria-label="Main navigation">
+<button class="active" data-view="home"><span>⌂</span>Home</button>
+<button data-view="categories"><span>▦</span>Categories</button>
+<button data-view="cart"><span>🛒<b class="nav-count" id="navCartCount">0</b></span>Cart</button>
+<button data-view="wishlist"><span>♡</span>Wishlist</button>
+<button data-view="account"><span>♙</span>Account</button>
+</nav>
 <footer>© <span id="year"></span> JUMIE Store. Shop Smart • Live Better.</footer>
 <script>
-const URL='https://vwiohwwquxiqytqcbwtj.supabase.co',KEY='sb_publishable_FGJ4Xs5dl5XMc3xrVULLTQ_x8c1cGwp';let products=[],cart=[],activeCategory='all';
+const URL='https://vwiohwwquxiqytqcbwtj.supabase.co',KEY='sb_publishable_FGJ4Xs5dl5XMc3xrVULLTQ_x8c1cGwp';let products=[],cart=[],activeCategory='all',wishlist=JSON.parse(localStorage.getItem('jumieWishlist')||'[]'),recentlyViewed=JSON.parse(localStorage.getItem('jumieRecent')||'[]');
 const $=id=>document.getElementById(id),money=n=>'₦'+Number(n||0).toLocaleString('en-NG');
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function icon(n){n=(n||'').toLowerCase();if(/iphone|phone|samsung|tecno|infinix|pixel|redmi/.test(n))return'📱';if(/laptop|computer/.test(n))return'💻';if(/ear|airpod|speaker/.test(n))return'🎧';if(/watch/.test(n))return'⌚';return'🛍️';}
-function render(){let q=$('search').value.toLowerCase().trim(),list=products.filter(p=>{const hay=((p.name||'')+' '+(p.description||'')).toLowerCase();const matchesSearch=hay.includes(q);const terms={phones:['phone','iphone','samsung','tecno','infinix','tablet'],fashion:['fashion','dress','shirt','shoe','bag','clothing'],beauty:['beauty','makeup','skin','hair','perfume'],home:['home','kitchen','cook','chair','bed','appliance'],electronics:['laptop','computer','electronic','speaker','headphone','watch']};const matchesCategory=activeCategory==='all'||(terms[activeCategory]||[]).some(t=>hay.includes(t));return matchesSearch&&matchesCategory;});$('products').innerHTML=list.length?list.map(p=>`<article class="product">${p.image_url?`<img src="${esc(p.image_url)}" alt="${esc(p.name)}" loading="lazy" onerror="this.style.display='none'">`:`<div class="placeholder">${icon(p.name)}</div>`}<div class="info"><h3>${esc(p.name)}</h3><p class="price">${money(p.price)}</p><p class="stock">${Number(p.stock||0)>0?p.stock+' available':'Availability to be confirmed'}</p><button class="add" data-id="${esc(p.id)}" ${Number(p.stock||0)<=0?'disabled':''}>🛒 Add to Cart</button></div></article>`).join(''):'<p>No products found.</p>';document.querySelectorAll('.add').forEach(b=>b.onclick=()=>add(b.dataset.id));}
+function render(){let q=$('search').value.toLowerCase().trim(),list=products.filter(p=>{const hay=((p.name||'')+' '+(p.description||'')).toLowerCase();const matchesSearch=hay.includes(q);const terms={phones:['phone','iphone','samsung','tecno','infinix','tablet'],fashion:['fashion','dress','shirt','shoe','bag','clothing'],beauty:['beauty','makeup','skin','hair','perfume'],home:['home','kitchen','cook','chair','bed','appliance'],electronics:['laptop','computer','electronic','speaker','headphone','watch']};const matchesCategory=activeCategory==='all'||(terms[activeCategory]||[]).some(t=>hay.includes(t));return matchesSearch&&matchesCategory;});$('products').innerHTML=list.length?list.map(p=>`<article class="product"><button class="wishlist-toggle" data-wish-id="${esc(p.id)}" aria-label="Save to wishlist">♡</button>${p.image_url?`<img src="${esc(p.image_url)}" alt="${esc(p.name)}" loading="lazy" onerror="this.style.display='none'">`:`<div class="placeholder">${icon(p.name)}</div>`}<div class="info"><h3>${esc(p.name)}</h3><p class="price">${money(p.price)}</p><p class="stock">${Number(p.stock||0)>0?p.stock+' available':'Availability to be confirmed'}</p><button class="add" data-id="${esc(p.id)}" ${Number(p.stock||0)<=0?'disabled':''}>🛒 Add to Cart</button></div></article>`).join(''):'<p>No products found.</p>';document.querySelectorAll('.add').forEach(b=>b.onclick=()=>add(b.dataset.id));document.querySelectorAll('[data-wish-id]').forEach(b=>{b.classList.toggle('saved',wishlist.includes(String(b.dataset.wishId)));b.onclick=()=>toggleWish(b.dataset.wishId)});}
 function renderFlashDeals(){
  const target=$('flashProducts');if(!target)return;
  if(!products.length){target.innerHTML='<div class="jumie-flash-loading">No products are available for today’s featured picks yet.</div>';return}
@@ -221,9 +294,24 @@ function updateFlashCountdown(){
  const h=String(Math.floor(left/3600)).padStart(2,'0'),m=String(Math.floor(left%3600/60)).padStart(2,'0'),s=String(left%60).padStart(2,'0');
  el.textContent=h+'h : '+m+'m : '+s+'s';
 }
-function add(id){let p=products.find(x=>String(x.id)===String(id));if(!p)return;let x=cart.find(x=>String(x.id)===String(id));if(x)x.qty++;else cart.push({id:p.id,name:p.name,price:Number(p.price||0),qty:1});renderCart();}
-function renderCart(){let count=cart.reduce((s,x)=>s+x.qty,0),sum=cart.reduce((s,x)=>s+x.price*x.qty,0);$('count').textContent=count;$('total').textContent=money(sum);$('items').innerHTML=cart.length?cart.map((x,i)=>`<div class="row"><span>${esc(x.name)} × ${x.qty} — ${money(x.price*x.qty)}</span><button data-del="${i}">Remove</button></div>`).join(''):'Your cart is empty.';document.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{cart.splice(+b.dataset.del,1);renderCart();});}
-async function load(){const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),12000);$('status').textContent='Connecting to JUMIE inventory...';try{let r=await fetch(`${URL}/rest/v1/products?select=*&order=created_at.desc`,{headers:{apikey:KEY,Accept:'application/json'},cache:'no-store',signal:controller.signal});if(!r.ok){let detail=await r.text();throw Error('Supabase HTTP '+r.status+': '+detail.slice(0,180));}products=await r.json();$('status').textContent=products.length?`Showing ${products.length} products from JUMIE inventory.`:'Connected, but no products were found in the products table.';render();renderFlashDeals();}catch(e){console.error('JUMIE product loading error:',e);$('status').textContent=e.name==='AbortError'?'Connection timed out. Check internet and Supabase settings.':'Products could not load: '+(e.message||'Network error');$('products').innerHTML='<p>Product loading failed. Please send us the message above.</p>';}finally{clearTimeout(timer);}}
+function toggleWish(id){id=String(id);wishlist=wishlist.includes(id)?wishlist.filter(x=>x!==id):[...wishlist,id];localStorage.setItem('jumieWishlist',JSON.stringify(wishlist));render();renderWishlist()}
+function renderWishlist(){const box=$('wishlistContent');if(!box)return;const saved=products.filter(p=>wishlist.includes(String(p.id)));box.innerHTML=saved.length?'<div class="products">'+saved.map(p=>'<article class="product">'+(p.image_url?'<img src="'+esc(p.image_url)+'" alt="'+esc(p.name)+'">':'<div class="placeholder">'+icon(p.name)+'</div>')+'<div class="info"><h3>'+esc(p.name)+'</h3><p class="price">'+money(p.price)+'</p><button class="add" data-wish-add="'+esc(p.id)+'">Add to Cart</button><button class="wish-remove" data-wish-remove="'+esc(p.id)+'">Remove</button></div></article>').join('')+'</div>':'<div class="empty-state"><div class="empty-icon">🧡</div><h2>You haven’t saved an item yet!</h2><p>Found something you like? Tap the heart next to the item to add it to your wishlist. All your saved items will appear here.</p><button class="primary-action" data-view="home">Continue Shopping</button></div>';
+box.querySelectorAll('[data-wish-add]').forEach(b=>b.onclick=()=>add(b.dataset.wishAdd));box.querySelectorAll('[data-wish-remove]').forEach(b=>b.onclick=()=>toggleWish(b.dataset.wishRemove));}
+function categoryFor(p){const n=((p.name||'')+' '+(p.description||'')).toLowerCase();if(/phone|iphone|samsung|tecno|infinix|tablet/.test(n))return'Phones & Tablets';if(/fashion|dress|shirt|shoe|bag|clothing|watch/.test(n))return'Fashion';if(/beauty|makeup|skin|hair|perfume/.test(n))return'Health & Beauty';if(/laptop|computer|electronic|speaker|headphone|charger|power bank/.test(n))return'Electronics';if(/home|kitchen|cook|chair|bed|appliance|pillow/.test(n))return'Home & Office';if(/grocery|food|drink/.test(n))return'Groceries';return'Other Products'}
+function renderCategories(){const names=['Home & Office','Phones & Tablets','Fashion','Health & Beauty','Electronics','Computing','Grocery','Garden & Outdoors','Automobile','Sporting Goods','Other Products'];const tabs=$('categoryTabs'),content=$('categoryContent');if(!tabs||!content)return;const selected=window.jumieSelectedCategory||names[0];tabs.innerHTML=names.map(n=>'<button class="'+(selected===n?'active':'')+'" data-cat-tab="'+esc(n)+'">'+esc(n)+'</button>').join('');const groups=selected==='Home & Office'?['All Products','Home & Office','Appliances','Small Appliances']:selected==='Phones & Tablets'?['All Products','Smartphones','Tablets','Phone Accessories']:selected==='Fashion'?['All Products','Clothing','Shoes','Bags']:selected==='Health & Beauty'?['All Products','Beauty','Personal Care']:selected==='Electronics'?['All Products','Electronics','Accessories']:['All Products',selected];const subset=selected==='Home & Office'?products.filter(p=>['Home & Office','Other Products'].includes(categoryFor(p))):products.filter(p=>categoryFor(p)===selected);content.innerHTML=groups.map((g,i)=>'<section class="category-group"><h3>'+esc(g)+(i===0?'<span>›</span>':'<a href="#categoryProducts">See All</a>')+'</h3><div class="category-mini-grid">'+(i===0?subset.slice(0,3):subset.slice(i*3,(i+1)*3)).map(p=>'<button data-category-product="'+esc(p.id)+'">'+(p.image_url?'<img src="'+esc(p.image_url)+'" alt="">':'<span>'+icon(p.name)+'</span>')+'<small>'+esc(p.name)+'</small></button>').join('')+'</div></section>').join('')||'<div class="empty-state">Products in this category will appear here as you add them to JUMIE.</div>';tabs.querySelectorAll('[data-cat-tab]').forEach(b=>b.onclick=()=>{window.jumieSelectedCategory=b.dataset.catTab;renderCategories()});content.querySelectorAll('[data-category-product]').forEach(b=>b.onclick=()=>{const p=products.find(x=>String(x.id)===b.dataset.categoryProduct);if(p){recentlyViewed=[String(p.id),...recentlyViewed.filter(x=>x!==String(p.id))].slice(0,6);localStorage.setItem('jumieRecent',JSON.stringify(recentlyViewed));showView('home');$('search').value=p.name;render()}})}
+function showView(view){const ids={home:'homeView',categories:'categoriesView',cart:'cartView',wishlist:'wishlistView',account:'accountView'};Object.entries(ids).forEach(([k,id])=>$(id)?.classList.toggle('active',k===view));document.querySelectorAll('.bottomnav [data-view]').forEach(b=>b.classList.toggle('active',b.dataset.view===view));if(view==='categories')renderCategories();if(view==='wishlist')renderWishlist();if(view==='account'){const s=readCustomerSession();$('accountWelcome').innerHTML=s&&s.user?'<h2>Welcome '+esc((s.user.email||'JUMIE customer').split('@')[0])+'!</h2><p>'+esc(s.user.email||'')+'</p>':'<h2>Welcome to JUMIE!</h2><p>Sign in to manage your account.</p>';}if(view==='cart')renderCart();window.scrollTo({top:0,behavior:'smooth'})}
+document.querySelectorAll('.bottomnav [data-view]').forEach(b=>b.addEventListener('click',()=>showView(b.dataset.view)));
+document.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>showView(b.dataset.view)));
+function add(id){let p=products.find(x=>String(x.id)===String(id));if(!p)return;recentlyViewed=[String(p.id),...recentlyViewed.filter(x=>x!==String(p.id))].slice(0,6);localStorage.setItem('jumieRecent',JSON.stringify(recentlyViewed));let x=cart.find(x=>String(x.id)===String(id));if(x)x.qty++;else cart.push({id:p.id,name:p.name,price:Number(p.price||0),qty:1});renderCart();}
+function renderCart(){
+ const count=cart.reduce((s,x)=>s+x.qty,0),sum=cart.reduce((s,x)=>s+x.price*x.qty,0);
+ $('count').textContent=count;if($('navCartCount'))$('navCartCount').textContent=count;$('total').textContent=money(sum);
+ $('items').innerHTML=cart.length?'<div class="cart-summary"><h3>CART SUMMARY</h3><div><span>Cart ('+count+')</span><b>'+money(sum)+'</b></div><div class="cart-subtotal"><span>Subtotal</span><b>'+money(sum)+'</b></div></div><h3 class="cart-items-title">Cart ('+count+')</h3>'+cart.map((x,i)=>{const p=products.find(p=>String(p.id)===String(x.id));return '<article class="cart-line"><div class="cart-thumb">'+(p&&p.image_url?'<img src="'+esc(p.image_url)+'" alt="">':'🛍️')+'</div><div class="cart-line-info"><h3>'+esc(x.name)+'</h3><b>'+money(x.price)+'</b><p>'+(p&&Number(p.stock)>0?'In Stock':'Availability to be confirmed')+'</p><div class="cart-actions"><button data-del="'+i+'">Remove</button><div class="qty-control"><button data-qty="'+i+'" data-change="-1" aria-label="Decrease quantity">−</button><b>'+x.qty+'</b><button data-qty="'+i+'" data-change="1" aria-label="Increase quantity">＋</button></div></div></div></article>'}).join(''):'<div class="empty-state"><div class="empty-icon">🛒</div><h2>Your cart is empty</h2><p>Find something you love and add it to your cart.</p><button class="primary-action" data-view="home">Continue Shopping</button></div>';
+ document.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{cart.splice(+b.dataset.del,1);renderCart()});
+ document.querySelectorAll('[data-qty]').forEach(b=>b.onclick=()=>{let i=+b.dataset.qty,change=+b.dataset.change;cart[i].qty=Math.max(1,cart[i].qty+change);let p=products.find(p=>String(p.id)===String(cart[i].id));if(p&&Number(p.stock)>0)cart[i].qty=Math.min(cart[i].qty,Number(p.stock));renderCart()});
+ document.querySelectorAll('#items [data-view]').forEach(b=>b.onclick=()=>showView(b.dataset.view));
+}
+async function load(){const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),12000);$('status').textContent='Connecting to JUMIE inventory...';try{let r=await fetch(`${URL}/rest/v1/products?select=*&order=created_at.desc`,{headers:{apikey:KEY,Accept:'application/json'},cache:'no-store',signal:controller.signal});if(!r.ok){let detail=await r.text();throw Error('Supabase HTTP '+r.status+': '+detail.slice(0,180));}products=await r.json();renderCategories();renderWishlist();$('status').textContent=products.length?`Showing ${products.length} products from JUMIE inventory.`:'Connected, but no products were found in the products table.';render();renderFlashDeals();}catch(e){console.error('JUMIE product loading error:',e);$('status').textContent=e.name==='AbortError'?'Connection timed out. Check internet and Supabase settings.':'Products could not load: '+(e.message||'Network error');$('products').innerHTML='<p>Product loading failed. Please send us the message above.</p>';}finally{clearTimeout(timer);}}
 $('searchForm').onsubmit=e=>e.preventDefault();$('search').oninput=render;$('year').textContent=new Date().getFullYear();renderCart();updateFlashCountdown();setInterval(updateFlashCountdown,1000);load();
 
 const AUTH_STORE='jumieCustomerSession';
