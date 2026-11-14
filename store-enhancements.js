@@ -73,8 +73,9 @@
     const list = productsList();
     catalog.innerHTML = list.length ? list.map(p=>{
       const id=String(p.id),isSaved=saved.has(id);
+      const stockKnown=p.stock!=null&&p.stock!=='',stock=stockKnown?Number(p.stock):null;
       const img=p.image_url?'<img src="'+esc(p.image_url)+'" alt="'+esc(p.name)+'" loading="lazy" onerror="this.style.display=\'none\'">':'<div class="placeholder">🛍️</div>';
-      return '<article class="product" data-product-card="'+esc(id)+'">'+img+'<button type="button" class="jumie-wish '+(isSaved?'saved':'')+'" data-jumie-wish="'+esc(id)+'" aria-label="Save to wishlist">'+(isSaved?'♥':'♡')+'</button><div class="info"><h3>'+esc(p.name)+'</h3><p class="price">'+money(p.price)+'</p><p class="stock">'+(Number(p.stock||0)>0?Number(p.stock)+' available':'Out of stock')+'</p><button class="add" type="button" data-id="'+esc(id)+'" '+(Number(p.stock||0)<=0?'disabled':'')+'>🛒 Add to Cart</button><button type="button" class="jumie-view" data-jumie-view="'+esc(id)+'">View details</button></div></article>';
+      return '<article class="product" data-product-card="'+esc(id)+'">'+img+'<button type="button" class="jumie-wish '+(isSaved?'saved':'')+'" data-jumie-wish="'+esc(id)+'" aria-label="Save to wishlist">'+(isSaved?'♥':'♡')+'</button><div class="info"><h3>'+esc(p.name)+'</h3><p class="price">'+money(p.price)+'</p><p class="stock">'+(stock===null?'Availability to be confirmed':stock>0?stock+' available':'Out of stock')+'</p><button class="add" type="button" data-id="'+esc(id)+'" '+(stock!==null&&stock<=0?'disabled':'')+'>🛒 Add to Cart</button><button type="button" class="jumie-view" data-jumie-view="'+esc(id)+'">View details</button></div></article>';
     }).join('') : '<div class="jumie-empty">'+(wishlistOnly?'No saved products yet. Tap ♡ on a product to add it.':'No products found. Try another search or category.')+'</div>';
     const count=document.getElementById('jumieResultCount');
     if(count)count.textContent=list.length+' products';
@@ -103,6 +104,21 @@
 
   // Wishlist and product details use the existing Supabase product records.
   catalog.addEventListener('click',e=>{
+    const addButton=e.target.closest('button.add[data-id]');
+    if(addButton){
+      e.preventDefault();
+      const id=String(addButton.dataset.id);
+      const p=products.find(x=>String(x.id)===id);
+      if(!p){alert('This product is still loading. Please try again.');return}
+      const stock=p.stock==null||p.stock===''?null:Number(p.stock);
+      const item=cart.find(x=>String(x.id)===id);
+      if(stock!==null&&(!Number.isFinite(stock)||stock<=0)){alert('This product is currently out of stock.');return}
+      if(item&&stock!==null&&item.qty>=stock){alert('You have added all available stock.');return}
+      add(id);
+      addButton.textContent='✓ Added to Cart';
+      setTimeout(()=>{if(addButton.isConnected)addButton.textContent='🛒 Add to Cart'},1200);
+      return;
+    }
     const wish=e.target.closest('[data-jumie-wish]');
     if(wish){const id=String(wish.dataset.jumieWish);saved.has(id)?saved.delete(id):saved.add(id);persist();decorate();return}
     const view=e.target.closest('[data-jumie-view]');
@@ -120,14 +136,21 @@
   const originalAdd=add;
   add=function(id){
     const p=products.find(x=>String(x.id)===String(id));if(!p)return;
+    const stock=p.stock==null||p.stock===''?null:Number(p.stock);
     const item=cart.find(x=>String(x.id)===String(id));
+    if(stock!==null&&(!Number.isFinite(stock)||stock<=0)){alert('This product is currently out of stock.');return}
+    if(item&&stock!==null&&item.qty>=stock){alert('You have added all available stock.');return}
     if(item)item.qty++;else cart.push({id:p.id,name:p.name,price:Number(p.price||0),qty:1});
     persist();renderCart();
   };
   renderCart=function(){
     const count=cart.reduce((s,x)=>s+Number(x.qty||0),0),sum=cart.reduce((s,x)=>s+Number(x.price||0)*Number(x.qty||0),0);
-    if($('count'))$('count').textContent=count;
+    document.querySelectorAll('#navCartCount').forEach(el=>el.textContent=String(count));
+    document.querySelectorAll('#count').forEach(el=>el.textContent=String(count));
     if($('total'))$('total').textContent=money(sum);
+    const dock=$('cartCheckoutDock');if(dock)dock.classList.toggle('visible',count>0);
+    const checkout=$('cartCheckoutButton');if(checkout)checkout.textContent='Checkout ('+money(sum)+')';
+    const inline=$('cartInlineCheckout');if(inline)inline.textContent='Continue to checkout ('+money(sum)+')';
     const items=$('items');if(!items)return;
     items.innerHTML=cart.length?cart.map(x=>'<div class="jumie-cart-line"><div><b>'+esc(x.name)+'</b><div class="hint">'+money(x.price)+' each</div></div><div class="jumie-qty"><button type="button" data-jumie-minus="'+esc(x.id)+'">−</button><b>'+Number(x.qty)+'</b><button type="button" data-jumie-plus="'+esc(x.id)+'">＋</button></div><button type="button" class="jumie-remove" data-jumie-remove="'+esc(x.id)+'">Remove</button></div>').join(''):'<div class="jumie-empty">Your cart is empty. Add a product to get started.</div>';
   };
