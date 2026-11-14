@@ -101,23 +101,22 @@ document.getElementById("flutterwaveForm").addEventListener("submit", async func
         "Authorization": "Bearer " + KEY
       },
       body: JSON.stringify({
-        cart: cart.map(item => ({ id: item.id, qty: item.qty })),
-        customer: {
-          name,
-          email,
-          phone: document.getElementById("fwCustomerPhone").value.trim(),
-          state: document.getElementById("fwCustomerState").value.trim(),
-          city: document.getElementById("fwCustomerCity").value.trim(),
-          address: document.getElementById("fwCustomerAddress").value.trim()
-        }
+        amount: Number(cart.reduce((sum, item) => sum + (Number(item.price) * Number(item.qty)), 0).toFixed(2)),
+        name,
+        email,
+        phone: document.getElementById("fwCustomerPhone").value.trim(),
+        state: document.getElementById("fwCustomerState").value.trim(),
+        city: document.getElementById("fwCustomerCity").value.trim(),
+        address: document.getElementById("fwCustomerAddress").value.trim()
       })
     });
     const data = await response.json();
-    if (!response.ok || !data.checkout_url) {
+    const checkoutLink = data.link || data.checkout_url;
+    if (!response.ok || data.status === "error" || !checkoutLink) {
       throw new Error(data.error || data.message || "Could not create checkout. Please try again.");
     }
     message.textContent = "Checkout created. Redirecting to Flutterwave...";
-    window.location.href = data.checkout_url;
+    window.location.href = checkoutLink;
   } catch (error) {
     message.textContent = "Payment setup error: " + error.message;
     button.disabled = false;
