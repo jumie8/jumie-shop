@@ -171,6 +171,7 @@ if ("serviceWorker" in navigator) {
   if (!products) return;
 
   const controls = document.createElement("div");
+  controls.id = "wishlist";
   controls.style.cssText = "display:flex;gap:10px;margin:12px 0;align-items:center";
   controls.innerHTML = `
     <button id="jumieSavedOnly" style="padding:10px 14px;border:0;border-radius:8px;background:#f68b1f;color:white;font-weight:bold">
