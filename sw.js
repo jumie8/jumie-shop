@@ -1,4 +1,4 @@
-const CACHE_NAME = "jumie-shell-v3";
+const CACHE_NAME = "jumie-shell-v4";
 const APP_SHELL = ["./", "./manifest.webmanifest", "./icons/jumie-192.svg", "./icons/jumie-512.svg"];
 
 self.addEventListener("install", event => {
