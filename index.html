@@ -238,4 +238,5 @@ if ("serviceWorker" in navigator) {
 </script>
 <script>document.querySelectorAll('[data-category]').forEach(btn=>btn.addEventListener('click',()=>{activeCategory=btn.dataset.category;document.querySelectorAll('[data-category]').forEach(x=>x.classList.toggle('active',x===btn));render();document.getElementById('products').scrollIntoView({behavior:'smooth'});}));</script>
 <script>if('serviceWorker'in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(console.error));}</script>
+<script src="./store-enhancements.js"></script>
 </body></html>
