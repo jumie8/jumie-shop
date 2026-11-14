@@ -1,4 +1,4 @@
-const CACHE_NAME = "jumie-shell-v2";
+const CACHE_NAME = "jumie-shell-v3";
 const APP_SHELL = ["./", "./manifest.webmanifest", "./icons/jumie-192.svg", "./icons/jumie-512.svg"];
 
 self.addEventListener("install", event => {
@@ -15,7 +15,7 @@ self.addEventListener("activate", event => {
 
 self.addEventListener("fetch", event => {
   const url = new URL(event.request.url);
-  // Never cache Supabase API requests, product images, or the Google order form.
+  // Never cache Supabase API requests, product images, or checkout requests.
   if (url.origin !== self.location.origin || event.request.method !== "GET") return;
 
   event.respondWith(
