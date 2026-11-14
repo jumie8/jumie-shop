@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f68b1f"><title>JUMIE Admin Dashboard</title>
+<style>
+:root{--orange:#f68b1f;--dark:#df6500;--ink:#202124;--muted:#68707b;--line:#e7e9ef;--bg:#f5f6fa}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,sans-serif}
+header{background:#fff;padding:15px 4%;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 8px #0001;position:sticky;top:0;z-index:3}
+.brand{font-size:23px;font-weight:800;color:var(--dark)}.brand small{display:block;font-size:11px;color:var(--muted);letter-spacing:1px}
+button,input,select,textarea{font:inherit}button{border:0;border-radius:8px;padding:10px 14px;background:var(--orange);color:white;font-weight:bold;cursor:pointer}button:disabled{opacity:.55;cursor:not-allowed}.secondary{background:#eceff4;color:#30343a}.danger{background:#b42318}
+main{max-width:1200px;margin:24px auto;padding:0 14px}.panel{background:#fff;border:1px solid var(--line);border-radius:13px;padding:18px;margin-bottom:18px}
+h1{font-size:25px;margin:0 0 6px}h2{font-size:19px;margin:0 0 14px}.muted,.note{color:var(--muted);font-size:13px;line-height:1.5}
+#loginPanel{max-width:440px;margin:55px auto}.field{display:grid;gap:6px;margin:12px 0}.field input,.field textarea,.field select{width:100%;padding:12px;border:1px solid #d8dce4;border-radius:8px;background:#fff}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.stat{background:#fff;border:1px solid var(--line);border-radius:12px;padding:15px}.stat b{display:block;font-size:23px;margin-top:7px}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}.tabs button.active{background:#242424}
+.tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:720px}th,td{text-align:left;padding:11px 9px;border-bottom:1px solid var(--line);font-size:13px;vertical-align:top}th{color:var(--muted);font-size:12px;background:#fafafa}
+.status{display:inline-block;border-radius:20px;padding:5px 9px;background:#fff2df;color:#9a4c00;font-size:11px;font-weight:bold}
+.formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 14px}.wide{grid-column:1/-1}.actions{display:flex;gap:7px;flex-wrap:wrap}.hidden{display:none!important}
+#message{padding:10px;border-radius:8px;background:#fff4e8;color:#8a4700;margin:12px 0;font-size:13px}
+@media(max-width:700px){.stats{grid-template-columns:repeat(2,1fr)}.formgrid{grid-template-columns:1fr}.wide{grid-column:auto}header{padding:12px}.stat b{font-size:20px}}
+</style>
+</head>
+<body>
+<header><div class="brand">JUMIE <small>STORE ADMIN</small></div><div class="actions"><a href="./" style="font-size:13px;color:#a34b00;text-decoration:none;padding:10px">View Store</a><button id="logout" class="secondary hidden">Log Out</button></div></header>
+<main>
+<section class="panel" id="loginPanel">
+<h1>Admin sign in</h1><p class="muted">Sign in with your approved JUMIE administrator account.</p>
+<form id="loginForm">
+<div class="field"><label for="email">Email address</label><input id="email" type="email" autocomplete="username" required value=""></div>
+<div class="field"><label for="password">Password</label><input id="password" type="password" autocomplete="current-password" required></div>
+<button id="loginButton" type="submit">Sign In</button>
+</form><div id="loginMessage" class="note" aria-live="polite"></div>
+</section>
+<section id="dashboard" class="hidden">
+<div class="panel"><h1>Store overview</h1><p class="muted" id="welcome">Private JUMIE administration</p><div id="message" class="hidden" role="status"></div></div>
+<div class="stats">
+<div class="stat"><span class="muted">Total orders</span><b id="statOrders">0</b></div>
+<div class="stat"><span class="muted">Paid orders</span><b id="statPaid">0</b></div>
+<div class="stat"><span class="muted">Confirmed revenue</span><b id="statRevenue">₦0</b></div>
+<div class="stat"><span class="muted">Products</span><b id="statProducts">0</b></div>
+</div>
+<div class="tabs"><button class="active" data-tab="orders">Orders</button><button data-tab="products">Products & Stock</button></div>
+<section class="panel" id="ordersTab"><div class="actions" style="justify-content:space-between;align-items:center"><h2>Customer orders</h2><button id="refreshOrders" class="secondary">Refresh</button></div><div class="tablewrap"><table><thead><tr><th>Order</th><th>Customer</th><th>Total</th><th>Payment</th><th>Order status</th><th>Date</th><th>Items</th></tr></thead><tbody id="ordersBody"><tr><td colspan="7">Loading orders…</td></tr></tbody></table></div><p class="note">Payment status is read from the verified payment record. Do not mark an unpaid order as paid manually.</p></section>
+<section class="panel hidden" id="productsTab"><h2 id="productFormTitle">Add a product</h2>
+<form id="productForm"><input id="productId" type="hidden">
+<div class="formgrid">
+<div class="field"><label for="productName">Product name</label><input id="productName" required></div>
+<div class="field"><label for="productPrice">Price (₦)</label><input id="productPrice" type="number" min="1" step="1" required></div>
+<div class="field"><label for="productStock">Stock quantity</label><input id="productStock" type="number" min="0" step="1" required></div>
+<div class="field"><label for="productImage">Image URL</label><input id="productImage" type="url" placeholder="https://…"></div>
+<div class="field wide"><label for="productDescription">Description</label><textarea id="productDescription" rows="3"></textarea></div>
+</div><div class="actions"><button id="saveProduct" type="submit">Save Product</button><button id="cancelEdit" type="button" class="secondary hidden">Cancel Edit</button></div>
+</form>
+<hr style="border:0;border-top:1px solid var(--line);margin:20px 0"><div class="actions" style="justify-content:space-between"><h2>Inventory</h2><button id="refreshProducts" class="secondary">Refresh</button></div>
+<div class="tablewrap"><table><thead><tr><th>Product</th><th>Price</th><th>Stock</th><th>Actions</th></tr></thead><tbody id="productsBody"><tr><td colspan="4">Loading products…</td></tr></tbody></table></div>
+</section>
+</section>
+</main>
+<script>
+const SUPABASE_URL="https://vwiohwwquxiqytqcbwtj.supabase.co";
+const SUPABASE_KEY="sb_publishable_FGJ4Xs5dl5XMc3xrVULLTQ_x8c1cGwp";
+const SESSION_KEY="jumieCustomerSession";
+const $=id=>document.getElementById(id);
+let session=null,orders=[],items=[],products=[];
+const money=n=>"₦"+Number(n||0).toLocaleString("en-NG");
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function message(t){$("message").textContent=t;$("message").classList.remove("hidden")}
+async function api(path,options={}){
+ const headers={apikey:SUPABASE_KEY,Authorization:"Bearer "+session.access_token,"Content-Type":"application/json",...(options.headers||{})};
+ const r=await fetch(SUPABASE_URL+path,{...options,headers});
+ const body=await r.text();let data=null;try{data=body?JSON.parse(body):null}catch{data=body}
+ if(!r.ok)throw Error(data?.message||data?.hint||data?.details||data?.error_description||("Request failed ("+r.status+")"));
+ return data;
+}
+async function refreshSession(){
+ if(!session?.refresh_token)return false;
+ const r=await fetch(SUPABASE_URL+"/auth/v1/token?grant_type=refresh_token",{method:"POST",headers:{apikey:SUPABASE_KEY,"Content-Type":"application/json"},body:JSON.stringify({refresh_token:session.refresh_token})});
+ const d=await r.json();if(!r.ok||!d.access_token)return false;
+ session={access_token:d.access_token,refresh_token:d.refresh_token,user:d.user};localStorage.setItem(SESSION_KEY,JSON.stringify(session));return true;
+}
+async function adminCheck(){
+ try{return await api("/rest/v1/rpc/is_jumie_admin",{method:"POST",body:"{}"})===true}catch(e){return false}
+}
+async function login(email,password){
+ const r=await fetch(SUPABASE_URL+"/auth/v1/token?grant_type=password",{method:"POST",headers:{apikey:SUPABASE_KEY,"Content-Type":"application/json"},body:JSON.stringify({email,password})});
+ const d=await r.json();if(!r.ok||!d.access_token)throw Error(d.msg||d.message||d.error_description||"Sign-in failed");
+ session={access_token:d.access_token,refresh_token:d.refresh_token,user:d.user};localStorage.setItem(SESSION_KEY,JSON.stringify(session));
+ if(!(await adminCheck())){localStorage.removeItem(SESSION_KEY);session=null;throw Error("This account is not approved as a JUMIE administrator.");}
+}
+async function ensureAdmin(){
+ try{session=JSON.parse(localStorage.getItem(SESSION_KEY)||"null")}catch{session=null}
+ if(!session?.access_token)return false;
+ if(!(await adminCheck()) && await refreshSession() && !(await adminCheck()))return false;
+ return await adminCheck();
+}
+function showDashboard(){
+ $("loginPanel").classList.add("hidden");$("dashboard").classList.remove("hidden");$("logout").classList.remove("hidden");
+ $("welcome").textContent="Signed in as "+(session.user?.email||"JUMIE administrator");
+}
+function showLogin(note=""){
+ $("dashboard").classList.add("hidden");$("loginPanel").classList.remove("hidden");$("logout").classList.add("hidden");$("loginMessage").textContent=note;
+}
+async function loadAll(){
+ message("Loading your store data…");
+ try{
+  [orders,items,products]=await Promise.all([
+   api("/rest/v1/orders?select=*&order=created_at.desc"),
+   api("/rest/v1/order_items?select=*&order=created_at.desc"),
+   api("/rest/v1/products?select=*&order=created_at.desc")
+  ]);
+  renderOrders();renderProducts();renderStats();$("message").classList.add("hidden");
+ }catch(e){message("Could not load dashboard data: "+e.message)}
+}
+function renderStats(){
+ const paid=orders.filter(o=>String(o.payment_status||"").toLowerCase()==="successful"||String(o.payment_status||"").toLowerCase()==="paid");
+ $("statOrders").textContent=orders.length;$("statPaid").textContent=paid.length;
+ $("statRevenue").textContent=money(paid.reduce((s,o)=>s+Number(o.total||0),0));$("statProducts").textContent=products.length;
+}
+function renderOrders(){
+ $("ordersBody").innerHTML=orders.length?orders.map(o=>{
+  const lines=items.filter(i=>i.order_id===o.id).map(i=>esc(i.product_name)+" × "+i.quantity).join("<br>")||"—";
+  return "<tr><td><b>"+esc(o.order_number||o.id)+"</b><br><span class='muted'>"+esc(o.payment_method||"")+"</span></td><td>"+esc(o.customer_name)+"<br>"+esc(o.customer_email)+"<br>"+esc(o.phone)+"<br><span class='muted'>"+esc([o.delivery_address,o.city,o.state].filter(Boolean).join(", "))+"</span></td><td><b>"+money(o.total)+"</b></td><td><span class='status'>"+esc(o.payment_status||"pending")+"</span><br><span class='muted'>"+esc(o.transaction_id||"")+"</span></td><td><select data-order-status='"+esc(o.id)+"'>"+["Pending","Confirmed","Processing","Shipped","Delivered","Cancelled"].map(s=>"<option "+(o.status===s?"selected":"")+">"+s+"</option>").join("")+"</select></td><td>"+(o.created_at?new Date(o.created_at).toLocaleString():"—")+"</td><td>"+lines+"</td></tr>"
+ }).join(""):"<tr><td colspan='7'>No orders found yet.</td></tr>";
+ document.querySelectorAll("[data-order-status]").forEach(sel=>sel.onchange=async()=>{
+  const id=sel.dataset.orderStatus,old=orders.find(o=>o.id===id)?.status;sel.disabled=true;
+  try{await api("/rest/v1/orders?id=eq."+encodeURIComponent(id),{method:"PATCH",headers:{Prefer:"return=minimal"},body:JSON.stringify({status:sel.value,updated_at:new Date().toISOString()})});const o=orders.find(x=>x.id===id);if(o)o.status=sel.value;message("Order status updated.");}
+  catch(e){sel.value=old;message("Could not update order: "+e.message)}finally{sel.disabled=false}
+ });
+}
+function renderProducts(){
+ $("productsBody").innerHTML=products.length?products.map(p=>"<tr><td><b>"+esc(p.name)+"</b><br><span class='muted'>"+esc(p.description||"")+"</span></td><td>"+money(p.price)+"</td><td>"+Number(p.stock||0)+"</td><td><div class='actions'><button data-edit='"+esc(p.id)+"'>Edit</button><button class='danger' data-delete='"+esc(p.id)+"'>Delete</button></div></td></tr>").join(""):"<tr><td colspan='4'>No products found.</td></tr>";
+ document.querySelectorAll("[data-edit]").forEach(b=>b.onclick=()=>editProduct(b.dataset.edit));
+ document.querySelectorAll("[data-delete]").forEach(b=>b.onclick=()=>deleteProduct(b.dataset.delete));
+}
+function resetProductForm(){
+ $("productForm").reset();$("productId").value="";$("productFormTitle").textContent="Add a product";$("saveProduct").textContent="Save Product";$("cancelEdit").classList.add("hidden");
+}
+function editProduct(id){
+ const p=products.find(x=>String(x.id)===String(id));if(!p)return;
+ $("productId").value=p.id;$("productName").value=p.name||"";$("productPrice").value=p.price||"";$("productStock").value=p.stock??0;$("productImage").value=p.image_url||"";$("productDescription").value=p.description||"";
+ $("productFormTitle").textContent="Edit product";$("saveProduct").textContent="Update Product";$("cancelEdit").classList.remove("hidden");$("productForm").scrollIntoView({behavior:"smooth"});
+}
+async function deleteProduct(id){
+ const p=products.find(x=>String(x.id)===String(id));if(!p||!confirm("Delete "+p.name+"? This cannot be undone."))return;
+ try{await api("/rest/v1/products?id=eq."+encodeURIComponent(id),{method:"DELETE"});products=products.filter(x=>String(x.id)!==String(id));renderProducts();renderStats();message("Product deleted.");}
+ catch(e){message("Could not delete product: "+e.message)}
+}
+$("loginForm").onsubmit=async e=>{e.preventDefault();$("loginButton").disabled=true;$("loginMessage").textContent="Checking your account…";try{await login($("email").value.trim(),$("password").value);showDashboard();await loadAll()}catch(err){showLogin(err.message)}finally{$("loginButton").disabled=false}};
+$("logout").onclick=()=>{localStorage.removeItem(SESSION_KEY);session=null;showLogin("You have signed out.")};
+$("productForm").onsubmit=async e=>{
+ e.preventDefault();const id=$("productId").value;const record={name:$("productName").value.trim(),price:Number($("productPrice").value),stock:Number($("productStock").value),image_url:$("productImage").value.trim()||null,description:$("productDescription").value.trim()||null};
+ if(!record.name||!Number.isFinite(record.price)||record.price<=0||!Number.isInteger(record.stock)||record.stock<0){message("Enter a valid name, price and stock quantity.");return}
+ $("saveProduct").disabled=true;
+ try{
+  if(id){await api("/rest/v1/products?id=eq."+encodeURIComponent(id),{method:"PATCH",headers:{Prefer:"return=minimal"},body:JSON.stringify(record)});message("Product updated.");}
+  else{await api("/rest/v1/products",{method:"POST",headers:{Prefer:"return=minimal"},body:JSON.stringify(record)});message("Product added.");}
+  resetProductForm();products=await api("/rest/v1/products?select=*&order=created_at.desc");renderProducts();renderStats();
+ }catch(err){message("Could not save product: "+err.message)}finally{$("saveProduct").disabled=false}
+};
+$("cancelEdit").onclick=resetProductForm;
+$("refreshOrders").onclick=loadAll;$("refreshProducts").onclick=loadAll;
+document.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{document.querySelectorAll("[data-tab]").forEach(x=>x.classList.toggle("active",x===b));$("ordersTab").classList.toggle("hidden",b.dataset.tab!=="orders");$("productsTab").classList.toggle("hidden",b.dataset.tab!=="products")});
+(async()=>{if(await ensureAdmin()){showDashboard();await loadAll()}else showLogin("Sign in with your approved JUMIE admin email and password.")})();
+</script>
+</body></html>
