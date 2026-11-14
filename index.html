@@ -48,6 +48,7 @@ footer{background:#252525;color:#eee;text-align:center;padding:25px 15px;font-si
 <section class="section"><div class="sectionhead"><h2>🔥 Popular picks</h2><a href="#products">SHOP ALL　›</a></div><div class="status" id="status">Loading JUMIE products…</div><section class="products" id="products"></section></section>
 <section class="section panel"><div class="sectionhead"><h2>✨ Why shop with JUMIE?</h2></div><div class="benefits" id="benefits"><div>🚚 Delivery across Nigeria<small>Enter your address at checkout</small></div><div>🔒 Secure payments<small>Checkout powered by Flutterwave</small></div><div>💬 Customer care<small>We’re here to help</small></div></div></section>
 <section class="account-panel" id="account"><h2>👤 Your JUMIE Account</h2><div id="accountState">Sign in or create an account to get started.</div><form id="accountForm"><input id="accountEmail" type="email" placeholder="Email address" autocomplete="email" required><input id="accountPassword" type="password" placeholder="Password (at least 6 characters)" autocomplete="current-password" minlength="6" required><button type="button" id="accountLogin">Log In</button><button type="button" id="accountSignup" class="secondary">Create Account</button></form><p class="account-note" id="accountMessage">Use an email address you can access. Never share your password or verification code.</p></section>
+<section class="account-panel" id="myOrders"><h2>📦 My Orders</h2><div id="customerOrders"><p class="account-note">Sign in to view your orders and delivery progress.</p></div></section>
 <section class="cart" id="cart"><h2>🛒 Your Shopping Cart</h2><div id="items">Your cart is empty.</div><p><b>Total: <span id="total">₦0</span></b></p>
 <div class="bank-payment"><b>🔒 Secure payment:</b> You will be redirected to Flutterwave to complete payment. JUMIE does not collect or store your card PIN, OTP or banking password.</div>
 <form id="flutterwaveForm" class="delivery"><h3>📦 Delivery details</h3><p class="hint">Enter the details needed to deliver your order. Your cart and total are sent securely to JUMIE checkout.</p>
@@ -75,10 +76,21 @@ $('searchForm').onsubmit=e=>e.preventDefault();$('search').oninput=render;$('yea
 
 const AUTH_STORE='jumieCustomerSession';
 function readCustomerSession(){try{return JSON.parse(localStorage.getItem(AUTH_STORE)||'null')}catch{return null}}
+async function loadCustomerOrders(){
+ const s=readCustomerSession(),target=$('customerOrders');
+ if(!s?.access_token||!s?.user?.id){target.innerHTML='<p class="account-note">Sign in to view your orders and delivery progress.</p>';return}
+ target.innerHTML='<p class="account-note">Loading your orders…</p>';
+ try{
+  const r=await fetch(URL+'/rest/v1/orders?select=id,order_number,total,status,payment_status,tracking_number,created_at&user_id=eq.'+encodeURIComponent(s.user.id)+'&order=created_at.desc',{headers:{apikey:KEY,Authorization:'Bearer '+s.access_token,Accept:'application/json'},cache:'no-store'});
+  if(!r.ok)throw Error('Could not load orders (HTTP '+r.status+').');
+  const rows=await r.json();
+  target.innerHTML=rows.length?rows.map(o=>'<div class="row"><span><b>'+esc(o.order_number||'JUMIE order')+'</b><br><span class="hint">'+(o.created_at?new Date(o.created_at).toLocaleDateString():'')+' · '+esc(o.status||'Pending')+' · Payment: '+esc(o.payment_status||'pending')+(o.tracking_number?' · Tracking: '+esc(o.tracking_number):'')+'</span></span><b>'+money(o.total)+'</b></div>').join(''):'<p class="account-note">You have no orders yet. Your orders will appear here after checkout.</p>';
+ }catch(e){target.innerHTML='<p class="account-note">'+esc(e.message)+'</p>'}
+}
 function showCustomer(){
  const s=readCustomerSession(),state=$('accountState'),form=$('accountForm');
- if(s&&s.user){state.innerHTML='<b>Signed in as '+esc(s.user.email||'JUMIE customer')+'</b>';form.style.display='none';$('accountMessage').textContent='You are signed in. Order history will be connected in the next step.';let b=document.getElementById('accountLogout');if(!b){b=document.createElement('button');b.id='accountLogout';b.textContent='Log Out';b.onclick=()=>{localStorage.removeItem(AUTH_STORE);showCustomer();$('accountMessage').textContent='You have been signed out.'};state.appendChild(b)}}
- else{state.textContent='Sign in or create an account to get started.';form.style.display='flex';let b=document.getElementById('accountLogout');if(b)b.remove()}
+ if(s&&s.user){state.innerHTML='<b>Signed in as '+esc(s.user.email||'JUMIE customer')+'</b>';form.style.display='none';$('accountMessage').textContent='You are signed in. Your orders are available below.';let b=document.getElementById('accountLogout');if(!b){b=document.createElement('button');b.id='accountLogout';b.textContent='Log Out';b.onclick=()=>{localStorage.removeItem(AUTH_STORE);showCustomer();$('accountMessage').textContent='You have been signed out.'};state.appendChild(b)}loadCustomerOrders()}
+ else{state.textContent='Sign in or create an account to get started.';form.style.display='flex';let b=document.getElementById('accountLogout');if(b)b.remove();loadCustomerOrders()}
 }
 async function customerAuth(mode){
  const email=$('accountEmail').value.trim(),password=$('accountPassword').value;
@@ -124,7 +136,7 @@ document.getElementById("flutterwaveForm").addEventListener("submit", async func
       headers: {
         "Content-Type": "application/json",
         "apikey": KEY,
-        "Authorization": "Bearer " + KEY
+        "Authorization": "Bearer " + ((readCustomerSession() && readCustomerSession().access_token) || KEY)
       },
       body: JSON.stringify({
         items: cart.map(item => ({ id: item.id, qty: item.qty })),
@@ -162,79 +174,6 @@ if ("serviceWorker" in navigator) {
 
 ;
 
-(function(){
-  const saved = new Set(
-    JSON.parse(localStorage.getItem("jumieWishlist") || "[]").map(String)
-  );
-
-  const products = document.getElementById("products");
-  if (!products) return;
-
-  const controls = document.createElement("div");
-  controls.id = "wishlist";
-  controls.style.cssText = "display:flex;gap:10px;margin:12px 0;align-items:center";
-  controls.innerHTML = `
-    <button id="jumieSavedOnly" style="padding:10px 14px;border:0;border-radius:8px;background:#f68b1f;color:white;font-weight:bold">
-      ♡ My Wishlist
-    </button>
-    <span id="jumieSavedCount">0 saved</span>
-  `;
-  products.parentNode.insertBefore(controls, products);
-
-  let showSaved = false;
-
-  function update(){
-    const countLabel = document.getElementById("jumieSavedCount");
-    const countText = saved.size + " saved";
-    if (countLabel.textContent !== countText) countLabel.textContent = countText;
-
-    document.querySelectorAll(".product").forEach(card => {
-      const add = card.querySelector(".add");
-      if (!add) return;
-
-      const id = String(add.dataset.id);
-      let button = card.querySelector(".jumie-wish");
-
-      if (!button) {
-        button = document.createElement("button");
-        button.className = "jumie-wish";
-        button.style.cssText =
-          "width:100%;padding:9px;margin-top:7px;border:1px solid #f68b1f;border-radius:8px;background:#fff5eb;color:#d85c00;font-weight:bold";
-        card.querySelector(".info").appendChild(button);
-        button.onclick = () => {
-          if(saved.has(id)) saved.delete(id);
-          else saved.add(id);
-
-          localStorage.setItem(
-            "jumieWishlist", JSON.stringify([...saved])
-          );
-          update();
-        };
-      }
-
-      const buttonText = saved.has(id)
-        ? "♥ Saved to Wishlist"
-        : "♡ Save for Later";
-      if (button.textContent !== buttonText) button.textContent = buttonText;
-
-      const display = showSaved && !saved.has(id) ? "none" : "";
-      if (card.style.display !== display) card.style.display = display;
-    });
-  }
-
-  document.getElementById("jumieSavedOnly").onclick = function(){
-    showSaved = !showSaved;
-    this.textContent = showSaved ? "← All Products" : "♡ My Wishlist";
-    update();
-  };
-
-  new MutationObserver(update).observe(products, {
-    childList:true,
-    subtree:true
-  });
-
-  update();
-})();
 </script>
 <script>document.querySelectorAll('[data-category]').forEach(btn=>btn.addEventListener('click',()=>{activeCategory=btn.dataset.category;document.querySelectorAll('[data-category]').forEach(x=>x.classList.toggle('active',x===btn));render();document.getElementById('products').scrollIntoView({behavior:'smooth'});}));</script>
 <script>if('serviceWorker'in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(console.error));}</script>
