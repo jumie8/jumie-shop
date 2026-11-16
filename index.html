@@ -567,4 +567,49 @@ if ("serviceWorker" in navigator) {
  dots.forEach((d,i)=>d.addEventListener('click',()=>{show(i);restart()}));if(slides.length>1)restart();
 })();
 </script>
+
+<!-- JUMIE Jumia-style product page -->
+<style>
+#jpPage{display:none;position:fixed;inset:0;z-index:10050;background:#f4f5f8;overflow:auto;padding-bottom:78px}#jpPage.open{display:block}
+#jpPage .jpHead{position:sticky;top:0;background:#fff;padding:12px;display:flex;gap:12px;align-items:center;z-index:2;box-shadow:0 2px 6px #0001}
+#jpPage .jpHead button{border:0;background:none;font-size:27px}#jpPage .jpSearch{background:#f1f1f1;border-radius:25px;padding:12px;flex:1}
+#jpBody{max-width:850px;margin:10px auto;background:#fff}#jpBody .jpImage{height:300px;width:100%;object-fit:contain;padding:15px}
+#jpBody .jpInfo{padding:16px}#jpBody h1{font-size:21px;font-weight:500;line-height:1.4;margin:8px 0}
+#jpBody .jpBadge{display:inline-block;background:#e6f1f4;padding:5px 8px;font-size:11px;margin-right:5px}
+#jpBody .jpPrice{font-size:27px;font-weight:800;margin:12px 0 3px}#jpBody .jpOld{text-decoration:line-through;color:#888;margin-right:8px}
+#jpBody .jpOff{background:#fff0df;color:#bd6414;padding:4px;font-size:12px;font-weight:bold}
+#jpBody .jpBrand,#jpBody .jpShip{font-size:13px;color:#626a73;margin:10px 0}
+#jpBody .jpStock{color:#a16c18;font-size:13px;margin:12px 0}
+#jpBody .jpRating{color:#eda000;margin:12px 0}#jpBody .jpRating span{color:#2874bd}
+#jpBody .jpSection{border-top:8px solid #f4f5f8;padding:17px;font-size:14px;line-height:1.65;white-space:pre-line}
+#jpBody .jpSection h2{font-size:17px;margin:0 0 12px}
+#jpPage .jpFoot{position:fixed;bottom:0;left:0;right:0;background:white;padding:10px;display:flex;z-index:3;border-top:1px solid #ddd}
+#jpPage .jpFoot button{height:50px;border-radius:7px;font-weight:bold}#jpClose{width:58px;background:#fff;border:1px solid #f68b1f;color:#f68b1f;font-size:22px}
+#jpAdd{flex:1;margin-left:10px;background:#f68b1f;color:#fff;border:0;font-size:16px}#jpAdd:disabled{background:#bbb}
+.jpDetailsBtn{width:100%;padding:9px;margin-top:6px;border:1px solid #ddd;background:#fff;border-radius:6px;font-weight:bold;font-size:12px}
+@media(min-width:700px){#jpBody{border-radius:10px;overflow:hidden}#jpBody .jpImage{height:380px}}
+</style>
+<div id="jpPage"><div class="jpHead"><button id="jpBack">‹</button><div class="jpSearch">⌕ &nbsp; Search on JUMIE</div>🛒</div><div id="jpBody"></div><div class="jpFoot"><button id="jpClose">⌂</button><button id="jpAdd">Add To Cart</button></div></div>
+<script>
+(function(){
+const page=document.getElementById('jpPage'),body=document.getElementById('jpBody');if(!page||!body)return;
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const money=n=>'₦'+Number(n||0).toLocaleString('en-NG');let selected=null;
+function open(p){
+selected=p;const price=Number(p.price||0),old=Number(p.original_price||0),off=old>price&&old?Math.round((old-price)/old*100):0;
+const stock=p.stock==null||p.stock===''?null:Number(p.stock),stockText=stock===null?'Availability to be confirmed':stock<=0?'Out of stock':stock<=5?'Few units left':'In Stock';
+const rating=Number(p.rating||0),reviews=Number(p.review_count||0),img=p.image_url;
+body.innerHTML='<div>'+(img?'<img class="jpImage" src="'+esc(img)+'" alt="'+esc(p.name)+'">':'<div class="jpImage" style="font-size:90px;text-align:center">🛍️</div>')+'</div><div class="jpInfo"><span class="jpBadge">JUMIE Store</span>'+(off?'<span class="jpBadge">Deal</span>':'')+'<h1>'+esc(p.name)+'</h1>'+(p.brand?'<div class="jpBrand">Brand: <b>'+esc(p.brand)+'</b></div>':'')+'<div class="jpPrice">'+money(price)+'</div>'+(off?'<span class="jpOld">'+money(old)+'</span><span class="jpOff">-'+off+'%</span>':'')+'<div class="jpStock">'+stockText+'</div><div class="jpShip">Shipping: Delivery fee and options calculated at checkout</div>'+(rating?'<div class="jpRating">★★★★★ <span>'+rating.toFixed(1)+(reviews?' ('+reviews+' ratings)':'')+'</span></div>':'')+(p.variation?'<div class="jpSection"><h2>Variation</h2>'+esc(p.variation)+'</div>':'')+'</div><div class="jpSection"><h2>Product Description</h2>'+(p.description?esc(p.description):'Product details will be updated by JUMIE Store.')+'</div><div class="jpSection"><h2>Product details</h2>'+(p.category?'Category: '+esc(p.category)+'<br>':'')+(p.brand?'Brand: '+esc(p.brand)+'<br>':'')+'Availability: '+stockText+'</div>';
+page.classList.add('open');document.body.style.overflow='hidden';const b=document.getElementById('jpAdd');b.disabled=stock!==null&&stock<=0;b.textContent=b.disabled?'Out of Stock':'Add To Cart';
+}
+function close(){page.classList.remove('open');document.body.style.overflow='';selected=null}
+function decorate(){document.querySelectorAll('#products .product').forEach(card=>{if(card.querySelector('.jpDetailsBtn'))return;const b=card.querySelector('button[data-id]');if(!b)return;const v=document.createElement('button');v.className='jpDetailsBtn';v.type='button';v.textContent='View Product Details';v.dataset.jpId=b.dataset.id;b.insertAdjacentElement('afterend',v);const im=card.querySelector('img');if(im)im.addEventListener('click',()=>{const p=products.find(x=>String(x.id)===String(b.dataset.id));if(p)open(p)})})}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-jp-id]');if(b){e.preventDefault();e.stopImmediatePropagation();const p=products.find(x=>String(x.id)===String(b.dataset.jpId));if(p)open(p)}});
+document.getElementById('jpBack').onclick=close;document.getElementById('jpClose').onclick=close;
+document.getElementById('jpAdd').onclick=()=>{if(selected&&typeof add==='function')add(selected.id)};
+document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
+const list=document.getElementById('products');if(list){new MutationObserver(decorate).observe(list,{childList:true,subtree:true});decorate()}
+})();
+</script>
+
 </body></html>
