@@ -118,15 +118,22 @@ function renderStats(){
  $("statRevenue").textContent=money(paid.reduce((s,o)=>s+Number(o.total||0),0));$("statProducts").textContent=products.length;
 }
 function renderOrders(){
- $("ordersBody").innerHTML=orders.length?orders.map(o=>{
-  const lines=items.filter(i=>i.order_id===o.id).map(i=>esc(i.product_name)+" × "+i.quantity).join("<br>")||"—";
-  return "<tr><td><b>"+esc(o.order_number||o.id)+"</b><br><span class='muted'>"+esc(o.payment_method||"")+"</span></td><td><b>"+esc(o.customer_name||"—")+"</b><br>"+esc(o.customer_email||"No email")+(o.phone?"<br><a href='tel:"+esc(o.phone)+"'>"+esc(o.phone)+"</a>":"<br>No phone")+"<br><details class='mobile-delivery'><summary>View full delivery address</summary><div><b>"+esc(o.delivery_address||"Address missing")+"</b><br>"+esc([o.city,o.state].filter(Boolean).join(", ")||"City/state missing")+"</div></details>")+"</td><td><b>"+esc(o.delivery_address||"Address missing")+"</b><br>"+esc([o.city,o.state].filter(Boolean).join(", ")||"City/state missing")+"</td><td><b>"+money(o.total)+"</b></td><td><span class='status'>"+esc(o.payment_status||"pending")+"</span><br><span class='muted'>"+esc(o.transaction_id||"")+"</span></td><td><select data-order-status='"+esc(o.id)+"'>"+["Pending","Confirmed","Processing","Shipped","Delivered","Cancelled"].map(s=>"<option "+(o.status===s?"selected":"")+">"+s+"</option>").join("")+"</select></td><td>"+(o.created_at?new Date(o.created_at).toLocaleString():"—")+"</td><td>"+lines+"</td></tr>"
- }).join(""):"<tr><td colspan='7'>No orders found yet.</td></tr>";
- document.querySelectorAll("[data-order-status]").forEach(sel=>sel.onchange=async()=>{
-  const id=sel.dataset.orderStatus,old=orders.find(o=>o.id===id)?.status;sel.disabled=true;
-  try{await api("/rest/v1/orders?id=eq."+encodeURIComponent(id),{method:"PATCH",headers:{Prefer:"return=minimal"},body:JSON.stringify({status:sel.value,updated_at:new Date().toISOString()})});const o=orders.find(x=>x.id===id);if(o)o.status=sel.value;message("Order status updated.");}
-  catch(e){sel.value=old;message("Could not update order: "+e.message)}finally{sel.disabled=false}
- });
+  $("ordersBody").innerHTML=orders.length?orders.map(o=>{
+    const lines=items.filter(i=>i.order_id===o.id).map(i=>esc(i.product_name)+" × "+i.quantity).join("<br>")||"—";
+    const address=esc(o.delivery_address||"Address missing");
+    const location=esc([o.city,o.state].filter(Boolean).join(", ")||"City/state missing");
+    const contact="<b>"+esc(o.customer_name||"—")+"</b><br>"+esc(o.customer_email||"No email")+(o.phone?"<br><a href='tel:"+esc(o.phone)+"'>"+esc(o.phone)+"</a>":"<br>No phone");
+    const delivery="<details class='mobile-delivery'><summary>View full delivery address</summary><div><b>"+address+"</b><br>"+location+"</div></details>";
+    return "<tr><td><b>"+esc(o.order_number||o.id)+"</b><br><span class='muted'>"+esc(o.payment_method||"")+"</span></td><td>"+contact+delivery+"</td><td><b>"+address+"</b><br>"+location+"</td><td><b>"+money(o.total)+"</b></td><td><span class='status'>"+esc(o.payment_status||"pending")+"</span><br><span class='muted'>"+esc(o.transaction_id||"")+"</span></td><td><select data-order-status='"+esc(o.id)+"'>"+["Pending","Confirmed","Processing","Shipped","Delivered","Cancelled"].map(s=>"<option "+(o.status===s?"selected":"")+">"+s+"</option>").join("")+"</select></td><td>"+(o.created_at?new Date(o.created_at).toLocaleString():"—")+"</td><td>"+lines+"</td></tr>";
+  }).join(""):"<tr><td colspan='8'>No orders found yet.</td></tr>";
+  document.querySelectorAll("[data-order-status]").forEach(sel=>sel.onchange=async()=>{
+    const id=sel.dataset.orderStatus,old=orders.find(o=>o.id===id)?.status;sel.disabled=true;
+    try{
+      await api("/rest/v1/orders?id=eq."+encodeURIComponent(id),{method:"PATCH",headers:{Prefer:"return=minimal"},body:JSON.stringify({status:sel.value,updated_at:new Date().toISOString()})});
+      const o=orders.find(x=>x.id===id);if(o)o.status=sel.value;message("Order status updated.");
+    }catch(e){sel.value=old;message("Could not update order: "+e.message);}
+    finally{sel.disabled=false;}
+  });
 }
 function renderProducts(){
  $("productsBody").innerHTML=products.length?products.map(p=>"<tr><td><b>"+esc(p.name)+"</b><br><span class='muted'>"+esc(p.description||"")+"</span></td><td>"+money(p.price)+"</td><td>"+Number(p.stock||0)+"</td><td><div class='actions'><button data-edit='"+esc(p.id)+"'>Edit</button><button class='danger' data-delete='"+esc(p.id)+"'>Delete</button></div></td></tr>").join(""):"<tr><td colspan='4'>No products found.</td></tr>";
