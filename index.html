@@ -644,55 +644,11 @@ const list=document.getElementById('products');if(list){new MutationObserver(dec
   const txRef = params.get("tx_ref") || saved?.tx_ref || "";
   const hasReturnParams = Boolean(paymentStatus || transactionId || params.get("tx_ref") || saved?.tx_ref);
   if (!hasReturnParams) {
-    // Quietly reconcile the signed-in customer's latest pending checkout.
-    // This also recovers a completed payment if the browser already removed
-    // Flutterwave's redirect query parameters before the customer refreshed.
-    (async () => {
-      try {
-        const session = await getFreshCustomerSession();
-        if (!session?.access_token) return;
-        const response = await fetch(URL + "/functions/v1/flutterwave-confirm", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "apikey": KEY,
-            "Authorization": "Bearer " + session.access_token
-          },
-          body: JSON.stringify({ recover_latest: true }),
-          cache: "no-store"
-        });
-        const data = await response.json().catch(() => ({}));
-        if (!response.ok || data.status !== "success") return;
-        const main = document.querySelector("main") || document.body;
-        if (document.getElementById("jumie-payment-result")) return;
-        const panel = document.createElement("section");
-        panel.id = "jumie-payment-result";
-        panel.className = "jumie-payment-result";
-        const heading = document.createElement("h2");
-        heading.textContent = "✓ Payment Successful!";
-        const message = document.createElement("p");
-        message.textContent = "Your recent JUMIE payment has been verified and your order is confirmed.";
-        const delivery = document.createElement("p");
-        const date = data.expected_delivery_date
-          ? new Date(data.expected_delivery_date).toLocaleDateString("en-NG", { day: "numeric", month: "long", year: "numeric", timeZone: "Africa/Lagos" })
-          : "";
-        delivery.textContent = "Delivery: Please allow up to 14 days after successful payment for your order to arrive." + (date ? " Expected by " + date + "." : "");
-        const order = document.createElement("p");
-        order.className = "order-ref";
-        order.textContent = data.order_number ? "Order number: " + data.order_number : "";
-        panel.append(heading, message, delivery, order);
-        main.prepend(panel);
-        try {
-          localStorage.removeItem("jumieCart");
-          localStorage.removeItem("jumiePendingPayment");
-        } catch (_) {}
-        if (typeof cart !== "undefined") cart = [];
-        if (typeof renderCart === "function") renderCart();
-      } catch (_) {}
-    })();
+    // Do not replay a previous payment-success banner on ordinary page refreshes.
+    // Payment is checked and the success message is shown only on Flutterwave's return visit.
+    try { localStorage.removeItem("jumiePendingPayment"); } catch (_) {}
     return;
   }
-
   const main = document.querySelector("main") || document.body;
   if (document.getElementById("jumie-payment-result")) return;
   const panel = document.createElement("section");
