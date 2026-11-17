@@ -3,3 +3,6 @@ verify_jwt = false
 
 [functions.flutterwave-webhook]
 verify_jwt = false
+
+[functions.flutterwave-confirm]
+verify_jwt = false
