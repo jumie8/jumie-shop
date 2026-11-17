@@ -756,6 +756,44 @@ const list=document.getElementById('products');if(list){new MutationObserver(dec
       if (typeof cart !== "undefined") cart = [];
       if (typeof renderCart === "function") renderCart();
     } catch (error) {
+      // A stale return reference can fail even when the signed-in customer's order is already paid.
+      // Recover the latest order before displaying a payment-failure warning.
+      try {
+        const session = await getFreshCustomerSession();
+        if (session?.access_token) {
+          const recovery = await fetch(URL + "/functions/v1/flutterwave-confirm", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "apikey": KEY,
+              "Authorization": "Bearer " + session.access_token
+            },
+            body: JSON.stringify({ recover_latest: true }),
+            cache: "no-store"
+          });
+          const recovered = await recovery.json().catch(() => ({}));
+          if (recovery.ok && recovered.status === "success") {
+            panel.className = "jumie-payment-result";
+            heading.textContent = "✓ Payment Successful!";
+            message.textContent = "Your payment has already been verified and your JUMIE order is confirmed.";
+            const delivery = document.createElement("p");
+            delivery.textContent = "Delivery: Please allow up to 14 days after successful payment for your order to arrive.";
+            const order = document.createElement("p");
+            order.className = "order-ref";
+            order.textContent = recovered.order_number ? "Order number: " + recovered.order_number : "";
+            panel.append(delivery, order);
+            try {
+              localStorage.removeItem("jumieCart");
+              localStorage.removeItem("jumiePendingPayment");
+            } catch (_) {}
+            if (typeof cart !== "undefined") cart = [];
+            if (typeof renderCart === "function") renderCart();
+            return;
+          }
+        }
+      } catch (recoveryError) {
+        console.warn("JUMIE payment recovery check failed:", recoveryError);
+      }
       panel.className = "jumie-payment-result failed";
       heading.textContent = "Payment not confirmed yet";
       message.textContent = error.message + " Please do not pay again until the transaction has been checked.";
