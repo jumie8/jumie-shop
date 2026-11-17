@@ -639,7 +639,7 @@ const list=document.getElementById('products');if(list){new MutationObserver(dec
   let saved = null;
   try { saved = JSON.parse(localStorage.getItem("jumiePendingPayment") || "null"); } catch (_) {}
   const txRef = params.get("tx_ref") || saved?.tx_ref || "";
-  const hasReturnParams = Boolean(paymentStatus || transactionId || params.get("tx_ref"));
+  const hasReturnParams = Boolean(paymentStatus || transactionId || params.get("tx_ref") || saved?.tx_ref);
   if (!hasReturnParams) {
     // Quietly reconcile the signed-in customer's latest pending checkout.
     // This also recovers a completed payment if the browser already removed
@@ -758,7 +758,6 @@ const list=document.getElementById('products');if(list){new MutationObserver(dec
       message.textContent = error.message + " Please do not pay again until the transaction has been checked.";
     }
   })();
-})();
 })();
 </script>
 
