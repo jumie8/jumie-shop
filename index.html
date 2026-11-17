@@ -447,7 +447,10 @@ async function getFreshCustomerSession(){
  return updated;
 }
 async function loadCustomerOrders(){
- const s=readCustomerSession(),target=$('customerOrders');
+ const target=$('customerOrders');
+ let s;
+ try { s=await getFreshCustomerSession(); }
+ catch(e){ target.innerHTML='<p class="account-note">'+esc(e.message)+'</p>'; return; }
  if(!s?.access_token||!s?.user?.id){target.innerHTML='<p class="account-note">Sign in to view your orders and delivery progress.</p>';return}
  target.innerHTML='<p class="account-note">Loading your orders…</p>';
  try{
