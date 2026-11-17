@@ -794,6 +794,37 @@ const list=document.getElementById('products');if(list){new MutationObserver(dec
       } catch (recoveryError) {
         console.warn("JUMIE payment recovery check failed:", recoveryError);
       }
+      // Final account-level fallback: trust only an order already marked paid
+      // in Supabase for this authenticated customer (previously verified payment).
+      try {
+        const session = await getFreshCustomerSession();
+        if (session?.access_token && session?.user?.id) {
+          const paidUrl = URL + "/rest/v1/orders?select=order_number,payment_status,paid_at&user_id=eq." +
+            encodeURIComponent(session.user.id) + "&payment_status=eq.paid&order=created_at.desc&limit=1";
+          const paidRes = await fetch(paidUrl, {
+            headers: { "apikey": KEY, "Authorization": "Bearer " + session.access_token, "Accept": "application/json" },
+            cache: "no-store"
+          });
+          const paidRows = paidRes.ok ? await paidRes.json().catch(() => []) : [];
+          if (Array.isArray(paidRows) && paidRows.length && String(paidRows[0].payment_status).toLowerCase() === "paid") {
+            panel.className = "jumie-payment-result";
+            heading.textContent = "✓ Payment Successful!";
+            message.textContent = "Your JUMIE account has a payment-confirmed order. You do not need to pay again.";
+            const delivery = document.createElement("p");
+            delivery.textContent = "Delivery: Please allow up to 14 days after successful payment for your order to arrive.";
+            const order = document.createElement("p");
+            order.className = "order-ref";
+            order.textContent = paidRows[0].order_number ? "Order number: " + paidRows[0].order_number : "";
+            panel.append(delivery, order);
+            try { localStorage.removeItem("jumieCart"); localStorage.removeItem("jumiePendingPayment"); } catch (_) {}
+            if (typeof cart !== "undefined") cart = [];
+            if (typeof renderCart === "function") renderCart();
+            return;
+          }
+        }
+      } catch (paidLookupError) {
+        console.warn("JUMIE paid-order account lookup failed:", paidLookupError);
+      }
       panel.className = "jumie-payment-result failed";
       heading.textContent = "Payment not confirmed yet";
       message.textContent = error.message + " Please do not pay again until the transaction has been checked.";
