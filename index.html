@@ -528,6 +528,15 @@ document.getElementById("flutterwaveForm").addEventListener("submit", async func
     if (!response.ok || data.status === "error" || !checkoutLink) {
       throw new Error(data.error || data.message || "Could not create checkout. Please try again.");
     }
+    // Keep the order reference so JUMIE can still verify payment if Flutterwave
+    // omits one of its redirect query parameters on the way back.
+    try {
+      if (data.tx_ref) localStorage.setItem("jumiePendingPayment", JSON.stringify({
+        tx_ref: data.tx_ref,
+        order_number: data.order_number || "",
+        saved_at: Date.now()
+      }));
+    } catch (_) {}
     message.textContent = "Checkout created. Redirecting to Flutterwave...";
     window.location.href = checkoutLink;
   } catch (error) {
@@ -627,8 +636,11 @@ const list=document.getElementById('products');if(list){new MutationObserver(dec
   const params = new URLSearchParams(window.location.search);
   const paymentStatus = (params.get("status") || "").toLowerCase();
   const transactionId = params.get("transaction_id");
-  const txRef = params.get("tx_ref");
-  if (!paymentStatus && !transactionId && !txRef) return;
+  let saved = null;
+  try { saved = JSON.parse(localStorage.getItem("jumiePendingPayment") || "null"); } catch (_) {}
+  const txRef = params.get("tx_ref") || saved?.tx_ref || "";
+  const hasReturnParams = Boolean(paymentStatus || transactionId || params.get("tx_ref"));
+  if (!hasReturnParams) return;
 
   const main = document.querySelector("main") || document.body;
   if (document.getElementById("jumie-payment-result")) return;
@@ -639,52 +651,66 @@ const list=document.getElementById('products');if(list){new MutationObserver(dec
   const heading = document.createElement("h2");
   const message = document.createElement("p");
   heading.textContent = "Checking your payment…";
-  message.textContent = "Please wait while JUMIE securely confirms your payment with Flutterwave.";
+  message.textContent = "Please wait while JUMIE securely checks the transaction with Flutterwave.";
   panel.append(heading, message);
   main.prepend(panel);
 
-  // Remove Flutterwave query details from the visible address after capturing them.
+  // Capture the references first, then clean the visible URL.
   try { window.history.replaceState({}, document.title, window.location.pathname + window.location.hash); } catch (_) {}
 
-  if (paymentStatus !== "successful" || !transactionId || !txRef) {
-    panel.className = "jumie-payment-result failed";
-    heading.textContent = "Payment not confirmed";
-    message.textContent = "Your payment has not been confirmed. If you cancelled checkout, you can return to your cart and try again. If money was deducted, please contact JUMIE support before making another payment.";
-    return;
-  }
+  (async () => {
+    try {
+      let customerSession = null;
+      if (!txRef) {
+        try { customerSession = await getFreshCustomerSession(); } catch (_) {}
+        if (!customerSession?.access_token) {
+          throw new Error("We could not find the order reference. Please sign in and contact JUMIE support before paying again.");
+        }
+      }
+      const response = await fetch(URL + "/functions/v1/flutterwave-confirm", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "apikey": KEY,
+          ...(customerSession?.access_token ? { "Authorization": "Bearer " + customerSession.access_token } : {})
+        },
+        body: JSON.stringify({
+          transaction_id: transactionId || null,
+          tx_ref: txRef || null,
+          recover_latest: !txRef
+        }),
+        cache: "no-store"
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok || data.status !== "success") {
+        throw new Error(data.error || "Flutterwave has not confirmed this payment yet. If money was deducted, contact JUMIE support before trying again.");
+      }
 
-  fetch(URL + "/functions/v1/flutterwave-confirm", {
-    method: "POST",
-    headers: { "Content-Type": "application/json", "apikey": KEY },
-    body: JSON.stringify({ transaction_id: transactionId, tx_ref: txRef }),
-    cache: "no-store"
-  })
-  .then(async response => {
-    const data = await response.json().catch(() => ({}));
-    if (!response.ok || data.status !== "success") {
-      throw new Error(data.error || "We could not confirm your payment. Please contact JUMIE support.");
+      panel.className = "jumie-payment-result";
+      heading.textContent = "✓ Payment Successful!";
+      message.textContent = "Thank you for shopping with JUMIE Store. Your payment has been verified and your order is confirmed.";
+      const delivery = document.createElement("p");
+      const date = data.expected_delivery_date
+        ? new Date(data.expected_delivery_date).toLocaleDateString("en-NG", { day: "numeric", month: "long", year: "numeric", timeZone: "Africa/Lagos" })
+        : "";
+      delivery.textContent = "Delivery: Please allow up to 14 days after successful payment for your order to arrive." + (date ? " Expected by " + date + "." : "");
+      const order = document.createElement("p");
+      order.className = "order-ref";
+      order.textContent = data.order_number ? "Order number: " + data.order_number : "";
+      panel.append(delivery, order);
+      try {
+        localStorage.removeItem("jumieCart");
+        localStorage.removeItem("jumiePendingPayment");
+      } catch (_) {}
+      if (typeof cart !== "undefined") cart = [];
+      if (typeof renderCart === "function") renderCart();
+    } catch (error) {
+      panel.className = "jumie-payment-result failed";
+      heading.textContent = "Payment not confirmed yet";
+      message.textContent = error.message + " Please do not pay again until the transaction has been checked.";
     }
-    panel.className = "jumie-payment-result";
-    heading.textContent = "✓ Payment Successful!";
-    message.textContent = "Thank you for shopping with JUMIE Store. Your payment has been verified and your order is confirmed.";
-    const delivery = document.createElement("p");
-    const date = data.expected_delivery_date
-      ? new Date(data.expected_delivery_date).toLocaleDateString("en-NG", { day: "numeric", month: "long", year: "numeric", timeZone: "Africa/Lagos" })
-      : "";
-    delivery.textContent = "Delivery: Please allow up to 14 days after successful payment for your order to arrive." + (date ? " Expected by " + date + "." : "");
-    const order = document.createElement("p");
-    order.className = "order-ref";
-    order.textContent = data.order_number ? "Order number: " + data.order_number : "";
-    panel.append(delivery, order);
-    try { localStorage.removeItem("jumieCart"); } catch (_) {}
-    if (typeof cart !== "undefined") cart = [];
-    if (typeof renderCart === "function") renderCart();
-  })
-  .catch(error => {
-    panel.className = "jumie-payment-result failed";
-    heading.textContent = "We’re checking your payment";
-    message.textContent = error.message + " Please do not pay again until you have checked your order status or contacted support.";
-  });
+  })();
+})();
 })();
 </script>
 
