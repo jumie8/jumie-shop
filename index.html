@@ -237,79 +237,6 @@ footer{background:#252525;color:#eee;text-align:center;padding:25px 15px;font-si
 
 /* Remove the duplicate fixed cart checkout bar; keep the normal checkout button inside the cart/payment page. */
 .cart-checkout-dock{display:none!important;visibility:hidden!important;pointer-events:none!important}
-.jumie-cart-icon{position:relative;display:inline-flex;align-items:center;justify-content:center}
-.jumie-cart-badge{position:absolute;top:-10px;right:-12px;z-index:2;min-width:19px;height:19px;padding:0 5px;display:grid;place-items:center;border-radius:20px;background:#f68b1f;color:#fff!important;font-size:11px!important;line-height:1;font-weight:900;box-shadow:0 1px 3px #0002}
-.jumie-cart-badge.is-empty{display:none}
-.jumie-header-cart{position:relative}
-.jumie-product-qty{display:flex;align-items:center;justify-content:space-between;width:100%;min-height:39px;border:1px solid #f68b1f;border-radius:7px;overflow:hidden;background:#fff;color:#252525}
-.jumie-product-qty button{width:42px;align-self:stretch;border:0;background:#f68b1f;color:#fff;font-size:23px;font-weight:700;line-height:1}
-.jumie-product-qty button:disabled{background:#c8cbd0;cursor:not-allowed}
-.jumie-product-qty b{flex:1;text-align:center;font-size:14px;font-weight:800}
-@media(max-width:650px){.jumie-cart-badge{top:-9px;right:-10px;min-width:18px;height:18px;font-size:10px!important}.jumie-product-qty{min-height:37px}.jumie-product-qty button{width:39px}}
-</style>
-<style>
-/* Mobile storefront layout matched to the supplied JUMIE reference */
-@media (max-width:650px){
-  .jumie-main-header{position:sticky;top:0;z-index:100;background:#fff}
-  .jumie-head-inner{
-    display:flex;
-    flex-wrap:wrap;
-    align-items:center;
-    gap:8px;
-    padding:12px 22px 13px;
-  }
-  .jumie-head-inner .jumie-menu-toggle{order:0;display:block;flex:0 0 38px;padding:0;text-align:left;font-size:29px;line-height:42px}
-  .jumie-head-inner .logo{order:1;flex:1 1 auto;min-width:0;gap:9px}
-  .jumie-head-inner .logo .mark{width:43px;height:43px;border-radius:13px;font-size:27px}
-  .jumie-head-inner .logo strong{font-size:25px;letter-spacing:-.8px}
-  .jumie-head-inner .logo small{font-size:10px;letter-spacing:.1px;white-space:nowrap}
-  .jumie-head-inner .headlink:not(.jumie-header-cart){order:2;flex:0 0 auto;display:flex;align-items:center;gap:7px;padding:5px 0;font-size:14px;white-space:nowrap}
-  .jumie-head-inner .headlink:not(.jumie-header-cart) span{font-size:27px}
-  .jumie-head-inner .headlink:not(.jumie-header-cart) i{display:inline;font-style:normal;font-size:14px}
-  .jumie-head-inner .jumie-header-cart{
-    order:3;
-    flex:0 0 100%;
-    display:flex;
-    align-items:center;
-    justify-content:flex-start;
-    gap:9px;
-    min-height:42px;
-    padding:2px 0 0 9px;
-    font-size:14px;
-    white-space:nowrap;
-  }
-  .jumie-head-inner .jumie-header-cart .jumie-cart-icon{font-size:34px;line-height:38px}
-  .jumie-head-inner .jumie-header-cart i{display:inline;font-style:normal;font-size:14px}
-  .jumie-head-inner .jumie-header-cart .jumie-cart-badge{top:-8px;right:-10px;min-width:20px;height:20px;font-size:11px!important}
-  .jumie-head-inner .search{
-    order:4;
-    flex:0 0 100%;
-    width:100%;
-    max-width:none;
-    height:52px;
-    margin-top:4px;
-    border-radius:13px;
-    background:#fff;
-  }
-  .jumie-head-inner .search input{min-width:0;font-size:15px;padding:0 14px;border:2px solid #e4e4e4;border-right:0;border-radius:13px 0 0 13px;background:#fff}
-  .jumie-head-inner .search input::placeholder{color:#888;opacity:1}
-  .jumie-head-inner .search button{padding:0 18px;border-radius:0 13px 13px 0;font-size:14px;font-weight:800}
-  .products{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-  .products .product{min-width:0;border:1px solid #e8e8e8;border-radius:21px;background:#fff;overflow:hidden;box-shadow:0 1px 3px #00000008}
-  .products .product img,.products .product .placeholder{width:100%;height:185px;object-fit:contain;padding:10px}
-  .products .product .info{padding:12px 13px 14px}
-  .products .product .info h3{font-size:14px;line-height:1.42;min-height:58px;font-weight:500;margin-bottom:9px}
-  .products .product .price{font-size:17px;font-weight:800;margin-bottom:7px}
-  .products .product .stock{font-size:12px;margin-bottom:10px}
-  .products .product .add{min-height:43px;border-radius:10px;font-size:13px;font-weight:800;background:#f68b1f}
-  .products .product .jumie-product-qty{min-height:43px;border-radius:9px;overflow:hidden;background:#f68b1f}
-  .products .product .jumie-product-qty button{width:39px;min-height:43px;background:#f68b1f;color:#fff;font-size:25px}
-  .products .product .jumie-product-qty b{background:#fff;align-self:stretch;display:grid;place-items:center;min-width:45px}
-  .products .product .jpDetailsBtn{min-height:43px;margin-top:9px;border:1px solid #ddd;border-radius:10px;background:#fff;font-size:13px}
-  .bottomnav{position:fixed;left:0;right:0;bottom:0;z-index:120;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));padding:8px 3px calc(8px + env(safe-area-inset-bottom));background:#fff;border-top:1px solid #e6e6e6;box-shadow:0 -2px 10px #00000008}
-  .bottomnav button{min-width:0;gap:4px;font-size:11px}
-  .bottomnav button span{font-size:25px;line-height:27px}
-}
 </style>
 </head>
 <body>
@@ -320,7 +247,7 @@ footer{background:#252525;color:#eee;text-align:center;padding:25px 15px;font-si
 <form class="search" id="searchForm"><input id="search" type="search" placeholder="Search for products, brands and more" aria-label="Search products"><button type="submit">SEARCH</button></form>
 <button class="headlink" onclick="showView('account')"><span>♙</span> <i>Account</i></button>
 
-<button class="headlink jumie-header-cart" id="jumieHeaderCartButton" type="button" aria-label="Open shopping cart"><span class="jumie-cart-icon">🛒<b id="count" class="jumie-cart-badge is-empty">0</b></span> <i>Cart</i></button>
+<button class="headlink" onclick="showView('cart')"><span>🛒</span> <i>Cart</i> <b id="count">0</b></button>
 </div></header>
 <nav class="jumie-nav"><div><a href="#categories">☰ All Categories</a><a href="#flash">⚡ Flash Deals</a><a href="#products">Top Products</a><a href="#benefits">Why Shop JUMIE</a></div></nav>
 <div class="jumie-drawer" id="jumieDrawer"><div class="jumie-drawer-box"><div class="jumie-drawer-top"><b>Shop by Category</b><button id="jumieMenuClose" aria-label="Close">×</button></div><button data-category="phones">📱 Phones & Tablets</button><button data-category="fashion">👗 Fashion & Clothing</button><button data-category="beauty">💄 Beauty & Personal Care</button><button data-category="home">🏠 Home & Kitchen</button><button data-category="electronics">💻 Electronics</button><button data-category="all">🛍️ All Products</button></div></div>
@@ -408,8 +335,7 @@ const URL='https://vwiohwwquxiqytqcbwtj.supabase.co',KEY='sb_publishable_FGJ4Xs5
 const $=id=>document.getElementById(id),money=n=>'₦'+Number(n||0).toLocaleString('en-NG');
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function icon(n){n=(n||'').toLowerCase();if(/iphone|phone|samsung|tecno|infinix|pixel|redmi/.test(n))return'📱';if(/laptop|computer/.test(n))return'💻';if(/ear|airpod|speaker/.test(n))return'🎧';if(/watch/.test(n))return'⌚';return'🛍️';}
-function productCartControl(p){const item=cart.find(x=>String(x.id)===String(p.id)),qty=item?Number(item.qty)||0:0,stock=p.stock==null||p.stock===''?null:Number(p.stock),disabled=stock!==null&&(!Number.isFinite(stock)||stock<=0);if(qty>0)return '<div class="jumie-product-qty" aria-label="Quantity controls for '+esc(p.name)+'"><button type="button" data-product-qty="'+esc(p.id)+'" data-change="-1" aria-label="Decrease quantity">−</button><b>'+qty+'</b><button type="button" data-product-qty="'+esc(p.id)+'" data-change="1" aria-label="Increase quantity" '+(stock!==null&&qty>=stock?'disabled':'')+'>＋</button></div>';return '<button class="add" type="button" data-id="'+esc(p.id)+'" '+(disabled?'disabled':'')+'>🛒 Add to Cart</button>';}
-function render(){let q=$('search').value.toLowerCase().trim(),list=products.filter(p=>{const hay=((p.name||'')+' '+(p.description||'')).toLowerCase();const matchesSearch=hay.includes(q);const terms={phones:['phone','iphone','samsung','tecno','infinix','tablet'],fashion:['fashion','dress','shirt','shoe','bag','clothing'],beauty:['beauty','makeup','skin','hair','perfume'],home:['home','kitchen','cook','chair','bed','appliance'],electronics:['laptop','computer','electronic','speaker','headphone','watch']};const matchesCategory=activeCategory==='all'||(terms[activeCategory]||[]).some(t=>hay.includes(t));return matchesSearch&&matchesCategory;});const sort=$('productSort')?.value||'recommended';if(sort==='price-low')list.sort((a,b)=>Number(a.price)-Number(b.price));if(sort==='price-high')list.sort((a,b)=>Number(b.price)-Number(a.price));if(sort==='name')list.sort((a,b)=>(a.name||'').localeCompare(b.name||''));$('products').innerHTML=list.length?list.map(p=>`<article class="product"><button class="wishlist-toggle" data-wish-id="${esc(p.id)}" aria-label="Save to wishlist">♡</button>${p.image_url?`<img src="${esc(p.image_url)}" alt="${esc(p.name)}" loading="lazy" onerror="this.style.display='none'">`:`<div class="placeholder">${icon(p.name)}</div>`}<div class="info"><h3>${esc(p.name)}</h3><p class="price">${money(p.price)}</p><p class="stock">${p.stock==null||p.stock===''?'Availability to be confirmed':Number(p.stock)>0?p.stock+' available':'Out of stock'}</p>${productCartControl(p)}</div></article>`).join(''):'<p>No products found.</p>';/* Add-to-cart clicks are handled once by the document-level listener below. */document.querySelectorAll('[data-wish-id]').forEach(b=>{b.classList.toggle('saved',wishlist.includes(String(b.dataset.wishId)));b.onclick=()=>toggleWish(b.dataset.wishId)});}
+function render(){let q=$('search').value.toLowerCase().trim(),list=products.filter(p=>{const hay=((p.name||'')+' '+(p.description||'')).toLowerCase();const matchesSearch=hay.includes(q);const terms={phones:['phone','iphone','samsung','tecno','infinix','tablet'],fashion:['fashion','dress','shirt','shoe','bag','clothing'],beauty:['beauty','makeup','skin','hair','perfume'],home:['home','kitchen','cook','chair','bed','appliance'],electronics:['laptop','computer','electronic','speaker','headphone','watch']};const matchesCategory=activeCategory==='all'||(terms[activeCategory]||[]).some(t=>hay.includes(t));return matchesSearch&&matchesCategory;});const sort=$('productSort')?.value||'recommended';if(sort==='price-low')list.sort((a,b)=>Number(a.price)-Number(b.price));if(sort==='price-high')list.sort((a,b)=>Number(b.price)-Number(a.price));if(sort==='name')list.sort((a,b)=>(a.name||'').localeCompare(b.name||''));$('products').innerHTML=list.length?list.map(p=>`<article class="product"><button class="wishlist-toggle" data-wish-id="${esc(p.id)}" aria-label="Save to wishlist">♡</button>${p.image_url?`<img src="${esc(p.image_url)}" alt="${esc(p.name)}" loading="lazy" onerror="this.style.display='none'">`:`<div class="placeholder">${icon(p.name)}</div>`}<div class="info"><h3>${esc(p.name)}</h3><p class="price">${money(p.price)}</p><p class="stock">${p.stock==null||p.stock===''?'Availability to be confirmed':Number(p.stock)>0?p.stock+' available':'Out of stock'}</p><button class="add" data-id="${esc(p.id)}" ${p.stock!=null&&p.stock!==''&&Number(p.stock)<=0?'disabled':''}>🛒 Add to Cart</button></div></article>`).join(''):'<p>No products found.</p>';/* Add-to-cart clicks are handled once by the document-level listener below. */document.querySelectorAll('[data-wish-id]').forEach(b=>{b.classList.toggle('saved',wishlist.includes(String(b.dataset.wishId)));b.onclick=()=>toggleWish(b.dataset.wishId)});}
 function renderFlashDeals(){
  const target=$('flashProducts');if(!target)return;
  if(!products.length){target.innerHTML='<div class="jumie-flash-loading">No products are available for today’s featured picks yet.</div>';return}
@@ -446,27 +372,8 @@ function renderWishlist(){const box=$('wishlistContent');if(!box)return;const re
 box.querySelectorAll('[data-wish-add]').forEach(b=>b.onclick=()=>add(b.dataset.wishAdd));box.querySelectorAll('[data-wish-remove]').forEach(b=>b.onclick=()=>toggleWish(b.dataset.wishRemove));}
 function categoryFor(p){const n=((p.name||'')+' '+(p.description||'')).toLowerCase();if(/phone|iphone|samsung|tecno|infinix|tablet/.test(n))return'Phones & Tablets';if(/fashion|dress|shirt|shoe|bag|clothing|watch/.test(n))return'Fashion';if(/beauty|makeup|skin|hair|perfume/.test(n))return'Health & Beauty';if(/laptop|computer|electronic|speaker|headphone|charger|power bank/.test(n))return'Electronics';if(/home|kitchen|cook|chair|bed|appliance|pillow/.test(n))return'Home & Office';if(/grocery|food|drink/.test(n))return'Groceries';return'Other Products'}
 function renderCategories(){const names=['Home & Office','Phones & Tablets','Fashion','Health & Beauty','Electronics','Computing','Grocery','Garden & Outdoors','Automobile','Sporting Goods','Other Products'];const tabs=$('categoryTabs'),content=$('categoryContent');if(!tabs||!content)return;const selected=window.jumieSelectedCategory||names[0];tabs.innerHTML=names.map(n=>'<button class="'+(selected===n?'active':'')+'" data-cat-tab="'+esc(n)+'">'+esc(n)+'</button>').join('');const groups=selected==='Home & Office'?['All Products','Home & Office','Appliances','Small Appliances']:selected==='Phones & Tablets'?['All Products','Smartphones','Tablets','Phone Accessories']:selected==='Fashion'?['All Products','Clothing','Shoes','Bags']:selected==='Health & Beauty'?['All Products','Beauty','Personal Care']:selected==='Electronics'?['All Products','Electronics','Accessories']:['All Products',selected];const subset=selected==='Home & Office'?products.filter(p=>['Home & Office','Other Products'].includes(categoryFor(p))):products.filter(p=>categoryFor(p)===selected);content.innerHTML=groups.map((g,i)=>'<section class="category-group"><h3>'+esc(g)+(i===0?'<span>›</span>':'<a href="#categoryProducts">See All</a>')+'</h3><div class="category-mini-grid">'+(i===0?subset.slice(0,3):subset.slice(i*3,(i+1)*3)).map(p=>'<button data-category-product="'+esc(p.id)+'">'+(p.image_url?'<img src="'+esc(p.image_url)+'" alt="">':'<span>'+icon(p.name)+'</span>')+'<small>'+esc(p.name)+'</small></button>').join('')+'</div></section>').join('')||'<div class="empty-state">Products in this category will appear here as you add them to JUMIE.</div>';tabs.querySelectorAll('[data-cat-tab]').forEach(b=>b.onclick=()=>{window.jumieSelectedCategory=b.dataset.catTab;renderCategories()});content.querySelectorAll('[data-category-product]').forEach(b=>b.onclick=()=>{const p=products.find(x=>String(x.id)===b.dataset.categoryProduct);if(p){recentlyViewed=[String(p.id),...recentlyViewed.filter(x=>x!==String(p.id))].slice(0,6);localStorage.setItem('jumieRecent',JSON.stringify(recentlyViewed));showView('home');$('search').value=p.name;render()}})}
-function showView(view){const ids={home:'homeView',categories:'categoriesView',cart:'cartView',wishlist:'wishlistView',account:'accountView'};if(!ids[view])return;Object.entries(ids).forEach(([k,id])=>$(id)?.classList.toggle('active',k===view));document.querySelectorAll('.bottomnav [data-view]').forEach(b=>b.classList.toggle('active',b.dataset.view===view));if(view==='categories')renderCategories();if(view==='wishlist')renderWishlist();if(view==='account'){const s=readCustomerSession();$('accountWelcome').innerHTML=s&&s.user?'<h2>Welcome '+esc((s.user.email||'JUMIE customer').split('@')[0])+'!</h2><p>'+esc(s.user.email||'')+'</p>':'<h2>Welcome to JUMIE!</h2><p>Sign in to manage your account.</p>';}if(view==='cart')renderCart();window.scrollTo({top:0,behavior:'smooth'})}
-$('jumieHeaderCartButton')?.addEventListener('click',e=>{e.preventDefault();showView('cart');});
+function showView(view){const ids={home:'homeView',categories:'categoriesView',cart:'cartView',wishlist:'wishlistView',account:'accountView'};Object.entries(ids).forEach(([k,id])=>$(id)?.classList.toggle('active',k===view));document.querySelectorAll('.bottomnav [data-view]').forEach(b=>b.classList.toggle('active',b.dataset.view===view));if(view==='categories')renderCategories();if(view==='wishlist')renderWishlist();if(view==='account'){const s=readCustomerSession();$('accountWelcome').innerHTML=s&&s.user?'<h2>Welcome '+esc((s.user.email||'JUMIE customer').split('@')[0])+'!</h2><p>'+esc(s.user.email||'')+'</p>':'<h2>Welcome to JUMIE!</h2><p>Sign in to manage your account.</p>';}if(view==='cart')renderCart();window.scrollTo({top:0,behavior:'smooth'})}
 document.querySelectorAll('.bottomnav [data-view]').forEach(b=>b.addEventListener('click',()=>showView(b.dataset.view)));
-/* Product-card quantity controls mirror the Jumia product-page stepper. */
-function changeProductQty(id,delta){
- const p=products.find(x=>String(x.id)===String(id));if(!p)return;
- const stock=p.stock==null||p.stock===''?null:Number(p.stock);
- let item=cart.find(x=>String(x.id)===String(id));
- if(!item&&delta>0){add(id);return;}
- if(!item)return;
- if(delta>0&&stock!==null&&item.qty>=stock){alert('You have added all available stock.');return;}
- item.qty+=delta;
- if(item.qty<=0)cart=cart.filter(x=>String(x.id)!==String(id));
- saveCart();renderCart();render();renderFlashDeals();renderHotDeals();
-}
-document.addEventListener('click',function(event){
- const control=event.target.closest('[data-product-qty]');
- if(!control)return;
- event.preventDefault();event.stopImmediatePropagation();
- changeProductQty(control.dataset.productQty,Number(control.dataset.change));
-},true);
 /* Reliable delegated Add to Cart handler for products rendered after inventory loads. */
 document.addEventListener('click',function(event){
  const button=event.target.closest('button[data-id]');
@@ -490,7 +397,6 @@ function add(id){
  recentlyViewed=[String(p.id),...recentlyViewed.filter(x=>x!==String(p.id))].slice(0,6);
  try{localStorage.setItem('jumieRecent',JSON.stringify(recentlyViewed));}catch(e){console.warn('Could not save recently viewed items',e);}
  renderCart();
- render();renderFlashDeals();renderHotDeals();
  const notice=$('cartAddNotice');
  if(notice){notice.textContent=p.name+' added to your cart';notice.classList.add('show');}
  const cartButton=document.querySelector('.bottomnav [data-view="cart"]');
@@ -498,7 +404,7 @@ function add(id){
 }
 function renderCart(){
  const count=cart.reduce((s,x)=>s+Math.max(0,Number(x.qty)||0),0),sum=cart.reduce((s,x)=>s+(Number(x.price)||0)*(Number(x.qty)||0),0);
- document.querySelectorAll("#navCartCount").forEach(el=>el.textContent=String(count));document.querySelectorAll("#count").forEach(el=>{el.textContent=String(count);el.classList.toggle('is-empty',count===0);});if($('count')){$('count').textContent=String(count);$('count').classList.toggle('is-empty',count===0);}$('total').textContent=money(sum);
+ document.querySelectorAll("#navCartCount").forEach(el=>el.textContent=String(count));document.querySelectorAll("#count").forEach(el=>el.textContent=String(count));if($('count'))$('count').textContent=String(count);$('total').textContent=money(sum);
  
  
  $('items').innerHTML=cart.length?'<div class="cart-summary"><h3>CART SUMMARY</h3><div><span>Cart ('+count+')</span><b>'+money(sum)+'</b></div><div class="cart-subtotal"><span>Subtotal</span><b>'+money(sum)+'</b></div></div><h3 class="cart-items-title">Cart ('+count+')</h3>'+cart.map((x,i)=>{
@@ -691,11 +597,11 @@ if ("serviceWorker" in navigator) {
 #jpBody .jpSection h2{font-size:17px;margin:0 0 12px}
 #jpPage .jpFoot{position:fixed;bottom:0;left:0;right:0;background:white;padding:10px;display:flex;z-index:3;border-top:1px solid #ddd}
 #jpPage .jpFoot button{height:50px;border-radius:7px;font-weight:bold}#jpClose{width:58px;background:#fff;border:1px solid #f68b1f;color:#f68b1f;font-size:22px}
-#jpCartActions{flex:1;display:flex;min-width:0;margin-left:10px}#jpCartActions #jpAdd{flex:1;margin:0;background:#f68b1f;color:#fff;border:0;font-size:16px}#jpCartActions #jpAdd:disabled{background:#bbb}.jpQty{height:50px;display:flex;align-items:center;justify-content:space-between;flex:1;background:#f68b1f;color:#fff;border-radius:7px;overflow:hidden}.jpQty button{width:58px;height:50px;border:0;background:#f68b1f;color:#fff;font-size:25px}.jpQty button:disabled{background:#c8cbd0}.jpQty b{font-size:18px}
+#jpAdd{flex:1;margin-left:10px;background:#f68b1f;color:#fff;border:0;font-size:16px}#jpAdd:disabled{background:#bbb}
 .jpDetailsBtn{width:100%;padding:9px;margin-top:6px;border:1px solid #ddd;background:#fff;border-radius:6px;font-weight:bold;font-size:12px}
 @media(min-width:700px){#jpBody{border-radius:10px;overflow:hidden}#jpBody .jpImage{height:380px}}
 </style>
-<div id="jpPage"><div class="jpHead"><button id="jpBack">‹</button><div class="jpSearch">⌕ &nbsp; Search on JUMIE</div>🛒</div><div id="jpBody"></div><div class="jpFoot"><button id="jpClose">⌂</button><div id="jpCartActions"><button id="jpAdd" type="button">Add To Cart</button></div></div></div>
+<div id="jpPage"><div class="jpHead"><button id="jpBack">‹</button><div class="jpSearch">⌕ &nbsp; Search on JUMIE</div>🛒</div><div id="jpBody"></div><div class="jpFoot"><button id="jpClose">⌂</button><button id="jpAdd">Add To Cart</button></div></div>
 <script>
 (function(){
 const page=document.getElementById('jpPage'),body=document.getElementById('jpBody');if(!page||!body)return;
@@ -706,24 +612,13 @@ selected=p;const price=Number(p.price||0),old=Number(p.original_price||0),off=ol
 const stock=p.stock==null||p.stock===''?null:Number(p.stock),stockText=stock===null?'Availability to be confirmed':stock<=0?'Out of stock':stock<=5?'Few units left':'In Stock';
 const rating=Number(p.rating||0),reviews=Number(p.review_count||0),img=p.image_url;
 body.innerHTML='<div>'+(img?'<img class="jpImage" src="'+esc(img)+'" alt="'+esc(p.name)+'">':'<div class="jpImage" style="font-size:90px;text-align:center">🛍️</div>')+'</div><div class="jpInfo"><span class="jpBadge">JUMIE Store</span>'+(off?'<span class="jpBadge">Deal</span>':'')+'<h1>'+esc(p.name)+'</h1>'+(p.brand?'<div class="jpBrand">Brand: <b>'+esc(p.brand)+'</b></div>':'')+'<div class="jpPrice">'+money(price)+'</div>'+(off?'<span class="jpOld">'+money(old)+'</span><span class="jpOff">-'+off+'%</span>':'')+'<div class="jpStock">'+stockText+'</div><div class="jpShip">Shipping: Delivery fee and options calculated at checkout</div>'+(rating?'<div class="jpRating">★★★★★ <span>'+rating.toFixed(1)+(reviews?' ('+reviews+' ratings)':'')+'</span></div>':'')+(p.variation?'<div class="jpSection"><h2>Variation</h2>'+esc(p.variation)+'</div>':'')+'</div><div class="jpSection"><h2>Product Description</h2>'+(p.description?esc(p.description):'Product details will be updated by JUMIE Store.')+'</div><div class="jpSection"><h2>Product details</h2>'+(p.category?'Category: '+esc(p.category)+'<br>':'')+(p.brand?'Brand: '+esc(p.brand)+'<br>':'')+'Availability: '+stockText+'</div>';
-page.classList.add('open');document.body.style.overflow='hidden';syncDetailCartControl();
-}
-function syncDetailCartControl(){
- const actions=document.getElementById('jpCartActions');if(!actions||!selected)return;
- const item=cart.find(x=>String(x.id)===String(selected.id));
- const stock=selected.stock==null||selected.stock===''?null:Number(selected.stock);
- if(item&&Number(item.qty)>0){actions.innerHTML='<div class="jpQty" aria-label="Product quantity controls"><button type="button" id="jpQtyMinus" aria-label="Decrease quantity">−</button><b>'+Number(item.qty)+'</b><button type="button" id="jpQtyPlus" aria-label="Increase quantity" '+(stock!==null&&Number(item.qty)>=stock?'disabled':'')+'>＋</button></div>';
-  document.getElementById('jpQtyMinus').onclick=()=>{const current=cart.find(x=>String(x.id)===String(selected.id));if(!current)return;current.qty--;if(current.qty<=0)cart=cart.filter(x=>String(x.id)!==String(selected.id));saveCart();renderCart();render();renderFlashDeals();renderHotDeals();syncDetailCartControl();};
-  document.getElementById('jpQtyPlus').onclick=()=>{add(selected.id);syncDetailCartControl();};
- }else{actions.innerHTML='<button id="jpAdd" type="button" '+(stock!==null&&stock<=0?'disabled':'')+'>'+(stock!==null&&stock<=0?'Out of Stock':'Add To Cart')+'</button>';
-  document.getElementById('jpAdd').onclick=()=>{if(selected&&typeof add==='function'){add(selected.id);syncDetailCartControl();}};
- }
+page.classList.add('open');document.body.style.overflow='hidden';const b=document.getElementById('jpAdd');b.disabled=stock!==null&&stock<=0;b.textContent=b.disabled?'Out of Stock':'Add To Cart';
 }
 function close(){page.classList.remove('open');document.body.style.overflow='';selected=null}
-function decorate(){document.querySelectorAll('#products .product').forEach(card=>{const control=card.querySelector('button[data-id],button[data-product-qty]');if(!control)return;const id=control.dataset.id||control.dataset.productQty;if(!card.querySelector('.jpDetailsBtn')){const v=document.createElement('button');v.className='jpDetailsBtn';v.type='button';v.textContent='View Product Details';v.dataset.jpId=id;const info=card.querySelector('.info')||card;info.appendChild(v)}const im=card.querySelector('img');if(im&&!im.dataset.jpBound){im.dataset.jpBound='1';im.addEventListener('click',()=>{const p=products.find(x=>String(x.id)===String(id));if(p)open(p)})}})}
+function decorate(){document.querySelectorAll('#products .product').forEach(card=>{if(card.querySelector('.jpDetailsBtn'))return;const b=card.querySelector('button[data-id]');if(!b)return;const v=document.createElement('button');v.className='jpDetailsBtn';v.type='button';v.textContent='View Product Details';v.dataset.jpId=b.dataset.id;b.insertAdjacentElement('afterend',v);const im=card.querySelector('img');if(im)im.addEventListener('click',()=>{const p=products.find(x=>String(x.id)===String(b.dataset.id));if(p)open(p)})})}
 document.addEventListener('click',e=>{const b=e.target.closest('[data-jp-id]');if(b){e.preventDefault();e.stopImmediatePropagation();const p=products.find(x=>String(x.id)===String(b.dataset.jpId));if(p)open(p)}});
 document.getElementById('jpBack').onclick=close;document.getElementById('jpClose').onclick=close;
-/* The detail-page Add To Cart / quantity stepper is bound by syncDetailCartControl(). */
+document.getElementById('jpAdd').onclick=()=>{if(selected&&typeof add==='function')add(selected.id)};
 document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
 const list=document.getElementById('products');if(list){new MutationObserver(decorate).observe(list,{childList:true,subtree:true});decorate()}
 })();
