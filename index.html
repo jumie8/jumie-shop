@@ -247,6 +247,70 @@ footer{background:#252525;color:#eee;text-align:center;padding:25px 15px;font-si
 .jumie-product-qty b{flex:1;text-align:center;font-size:14px;font-weight:800}
 @media(max-width:650px){.jumie-cart-badge{top:-9px;right:-10px;min-width:18px;height:18px;font-size:10px!important}.jumie-product-qty{min-height:37px}.jumie-product-qty button{width:39px}}
 </style>
+<style>
+/* Mobile storefront layout matched to the supplied JUMIE reference */
+@media (max-width:650px){
+  .jumie-main-header{position:sticky;top:0;z-index:100;background:#fff}
+  .jumie-head-inner{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:8px;
+    padding:12px 22px 13px;
+  }
+  .jumie-head-inner .jumie-menu-toggle{order:0;display:block;flex:0 0 38px;padding:0;text-align:left;font-size:29px;line-height:42px}
+  .jumie-head-inner .logo{order:1;flex:1 1 auto;min-width:0;gap:9px}
+  .jumie-head-inner .logo .mark{width:43px;height:43px;border-radius:13px;font-size:27px}
+  .jumie-head-inner .logo strong{font-size:25px;letter-spacing:-.8px}
+  .jumie-head-inner .logo small{font-size:10px;letter-spacing:.1px;white-space:nowrap}
+  .jumie-head-inner .headlink:not(.jumie-header-cart){order:2;flex:0 0 auto;display:flex;align-items:center;gap:7px;padding:5px 0;font-size:14px;white-space:nowrap}
+  .jumie-head-inner .headlink:not(.jumie-header-cart) span{font-size:27px}
+  .jumie-head-inner .headlink:not(.jumie-header-cart) i{display:inline;font-style:normal;font-size:14px}
+  .jumie-head-inner .jumie-header-cart{
+    order:3;
+    flex:0 0 100%;
+    display:flex;
+    align-items:center;
+    justify-content:flex-start;
+    gap:9px;
+    min-height:42px;
+    padding:2px 0 0 9px;
+    font-size:14px;
+    white-space:nowrap;
+  }
+  .jumie-head-inner .jumie-header-cart .jumie-cart-icon{font-size:34px;line-height:38px}
+  .jumie-head-inner .jumie-header-cart i{display:inline;font-style:normal;font-size:14px}
+  .jumie-head-inner .jumie-header-cart .jumie-cart-badge{top:-8px;right:-10px;min-width:20px;height:20px;font-size:11px!important}
+  .jumie-head-inner .search{
+    order:4;
+    flex:0 0 100%;
+    width:100%;
+    max-width:none;
+    height:52px;
+    margin-top:4px;
+    border-radius:13px;
+    background:#fff;
+  }
+  .jumie-head-inner .search input{min-width:0;font-size:15px;padding:0 14px;border:2px solid #e4e4e4;border-right:0;border-radius:13px 0 0 13px;background:#fff}
+  .jumie-head-inner .search input::placeholder{color:#888;opacity:1}
+  .jumie-head-inner .search button{padding:0 18px;border-radius:0 13px 13px 0;font-size:14px;font-weight:800}
+  .products{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .products .product{min-width:0;border:1px solid #e8e8e8;border-radius:21px;background:#fff;overflow:hidden;box-shadow:0 1px 3px #00000008}
+  .products .product img,.products .product .placeholder{width:100%;height:185px;object-fit:contain;padding:10px}
+  .products .product .info{padding:12px 13px 14px}
+  .products .product .info h3{font-size:14px;line-height:1.42;min-height:58px;font-weight:500;margin-bottom:9px}
+  .products .product .price{font-size:17px;font-weight:800;margin-bottom:7px}
+  .products .product .stock{font-size:12px;margin-bottom:10px}
+  .products .product .add{min-height:43px;border-radius:10px;font-size:13px;font-weight:800;background:#f68b1f}
+  .products .product .jumie-product-qty{min-height:43px;border-radius:9px;overflow:hidden;background:#f68b1f}
+  .products .product .jumie-product-qty button{width:39px;min-height:43px;background:#f68b1f;color:#fff;font-size:25px}
+  .products .product .jumie-product-qty b{background:#fff;align-self:stretch;display:grid;place-items:center;min-width:45px}
+  .products .product .jpDetailsBtn{min-height:43px;margin-top:9px;border:1px solid #ddd;border-radius:10px;background:#fff;font-size:13px}
+  .bottomnav{position:fixed;left:0;right:0;bottom:0;z-index:120;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));padding:8px 3px calc(8px + env(safe-area-inset-bottom));background:#fff;border-top:1px solid #e6e6e6;box-shadow:0 -2px 10px #00000008}
+  .bottomnav button{min-width:0;gap:4px;font-size:11px}
+  .bottomnav button span{font-size:25px;line-height:27px}
+}
+</style>
 </head>
 <body>
 <div class="jumie-utility"><span>Welcome to JUMIE Store</span><span><a href="#help">Help Centre</a>　<a href="#account">My Account</a>　<a href="#sell">Sell on JUMIE</a></span></div>
