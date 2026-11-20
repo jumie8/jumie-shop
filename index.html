@@ -656,7 +656,7 @@ function syncDetailCartControl(){
  }
 }
 function close(){page.classList.remove('open');document.body.style.overflow='';selected=null}
-function decorate(){document.querySelectorAll('#products .product').forEach(card=>{if(card.querySelector('.jpDetailsBtn'))return;const b=card.querySelector('button[data-id]');if(!b)return;const v=document.createElement('button');v.className='jpDetailsBtn';v.type='button';v.textContent='View Product Details';v.dataset.jpId=b.dataset.id;b.insertAdjacentElement('afterend',v);const im=card.querySelector('img');if(im)im.addEventListener('click',()=>{const p=products.find(x=>String(x.id)===String(b.dataset.id));if(p)open(p)})})}
+function decorate(){document.querySelectorAll('#products .product').forEach(card=>{const control=card.querySelector('button[data-id],button[data-product-qty]');if(!control)return;const id=control.dataset.id||control.dataset.productQty;if(!card.querySelector('.jpDetailsBtn')){const v=document.createElement('button');v.className='jpDetailsBtn';v.type='button';v.textContent='View Product Details';v.dataset.jpId=id;const info=card.querySelector('.info')||card;info.appendChild(v)}const im=card.querySelector('img');if(im&&!im.dataset.jpBound){im.dataset.jpBound='1';im.addEventListener('click',()=>{const p=products.find(x=>String(x.id)===String(id));if(p)open(p)})}})}
 document.addEventListener('click',e=>{const b=e.target.closest('[data-jp-id]');if(b){e.preventDefault();e.stopImmediatePropagation();const p=products.find(x=>String(x.id)===String(b.dataset.jpId));if(p)open(p)}});
 document.getElementById('jpBack').onclick=close;document.getElementById('jpClose').onclick=close;
 /* The detail-page Add To Cart / quantity stepper is bound by syncDetailCartControl(). */
