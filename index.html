@@ -303,6 +303,7 @@ footer{background:#252525;color:#eee;text-align:center;padding:25px 15px;font-si
  <div class="account-menu"><h3>Need Assistance?</h3><a href="#help">ⓘ　 Help & Support　›</a><h3>My JUMIE Account</h3><a href="#myOrders">▣　 Orders　›</a><a href="#inbox">✉　 Inbox　›</a><a href="#reviews">▤　 Ratings & Reviews　›</a><a href="#vouchers">♧　 Vouchers　›</a><button data-view="wishlist">♡　 Wishlist　›</button><a href="#sell">▣　 Follow Seller　›</a><a href="#recent">◷　 Recently Viewed　›</a></div>
 <section class="account-panel" id="account"><h2>👤 Your JUMIE Account</h2><div id="accountState">Sign in or create an account to get started.</div><form id="accountForm"><input id="accountEmail" type="email" placeholder="Email address" autocomplete="email" required><input id="accountPassword" type="password" placeholder="Password (at least 6 characters)" autocomplete="current-password" minlength="6" required><button type="button" id="accountLogin">Log In</button><button type="button" id="accountSignup" class="secondary">Create Account</button></form><p class="account-note" id="accountMessage">Use an email address you can access. Never share your password or verification code.</p></section>
 <section class="account-panel" id="myOrders"><h2>📦 My Orders</h2><div id="customerOrders"><p class="account-note">Sign in to view your orders and delivery progress.</p></div></section>
+<section class="account-panel" id="adminOrdersPanel" style="display:none"><h2>🛠️ JUMIE Admin — Paid Orders</h2><p class="account-note">Orders shown here are restricted by Supabase admin permissions.</p><button type="button" id="refreshAdminOrders" class="secondary">Refresh orders</button><div id="adminOrdersList"><p class="account-note">Loading admin access…</p></div></section>
 </div>
 <div class="app-view" id="cartView">
 <section class="cart" id="cart"><div class="cart-topbar"><button type="button" data-view="home">←</button><h1>Cart</h1></div><div id="items">Your cart is empty.</div><p class="cart-total-row"><b>Total: <span id="total">₦0</span></b></p><button type="button" class="checkout cart-inline-checkout" id="cartInlineCheckout">Continue to checkout</button>
@@ -460,10 +461,35 @@ async function loadCustomerOrders(){
   target.innerHTML=rows.length?rows.map(o=>'<div class="row"><span><b>'+esc(o.order_number||'JUMIE order')+'</b><br><span class="hint">'+(o.created_at?new Date(o.created_at).toLocaleDateString():'')+' · '+esc(o.status||'Pending')+' · Payment: '+esc(o.payment_status||'pending')+(o.tracking_number?' · Tracking: '+esc(o.tracking_number):'')+'</span></span><b>'+money(o.total)+'</b></div>').join(''):'<p class="account-note">You have no orders yet. Your orders will appear here after checkout.</p>';
  }catch(e){target.innerHTML='<p class="account-note">'+esc(e.message)+'</p>'}
 }
+async function loadAdminOrders(){
+ const panel=$('adminOrdersPanel'),target=$('adminOrdersList');
+ if(!panel||!target)return;
+ let session;
+ try{session=await getFreshCustomerSession()}catch(e){return}
+ if(!session?.access_token)return;
+ try{
+  const check=await fetch(URL+'/rest/v1/rpc/is_jumie_admin',{method:'POST',headers:{apikey:KEY,Authorization:'Bearer '+session.access_token,'Content-Type':'application/json'},body:'{}',cache:'no-store'});
+  if(!check.ok)throw Error('Could not verify admin access.');
+  const isAdmin=await check.json();
+  if(isAdmin!==true){panel.style.display='none';return}
+  panel.style.display='block';
+  target.innerHTML='<p class="account-note">Loading paid customer orders…</p>';
+  const response=await fetch(URL+'/rest/v1/orders?select=id,order_number,customer_name,customer_email,phone,total,currency,status,payment_status,paid_at,created_at,delivery_address,city,state,order_items(product_name,quantity,unit_price,subtotal)&payment_status=eq.paid&order=paid_at.desc.nullslast,created_at.desc',{headers:{apikey:KEY,Authorization:'Bearer '+session.access_token,Accept:'application/json'},cache:'no-store'});
+  if(!response.ok)throw Error('Could not load paid orders (HTTP '+response.status+').');
+  const orders=await response.json();
+  if(!orders.length){target.innerHTML='<p class="account-note">No paid orders found yet. New successfully paid orders will appear here.</p>';return}
+  target.innerHTML=orders.map(o=>{
+   const items=(o.order_items||[]).map(i=>'<li>'+esc(i.product_name)+' × '+esc(i.quantity)+' — '+money(i.subtotal)+'</li>').join('');
+   const when=o.paid_at||o.created_at;
+   return '<article style="border:1px solid var(--line);border-radius:12px;padding:14px;margin:12px 0;background:var(--card,#fff)"><div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap"><b>'+esc(o.order_number||'JUMIE order')+'</b><b>'+money(o.total)+'</b></div><p><b>Customer:</b> '+esc(o.customer_name||'Not provided')+'<br><b>Email:</b> '+esc(o.customer_email||'Not provided')+'<br><b>Phone:</b> '+esc(o.phone||'Not provided')+'<br><b>Paid:</b> '+(when?new Date(when).toLocaleString('en-NG'):'Date unavailable')+'<br><b>Payment:</b> '+esc(o.payment_status)+'<br><b>Order status:</b> '+esc(o.status)+'</p><b>Items purchased</b><ul>'+items+'</ul><p><b>Delivery:</b> '+esc([o.delivery_address,o.city,o.state].filter(Boolean).join(', ')||'Not provided')+'</p></article>';
+  }).join('');
+ }catch(e){panel.style.display='block';target.innerHTML='<p class="account-note">'+esc(e.message)+'</p>'}
+}
+document.addEventListener('click',e=>{if(e.target&&e.target.id==='refreshAdminOrders')loadAdminOrders()});
 function showCustomer(){
  const s=readCustomerSession(),state=$('accountState'),form=$('accountForm');
- if(s&&s.user){state.innerHTML='<b>Signed in as '+esc(s.user.email||'JUMIE customer')+'</b>';form.style.display='none';$('accountMessage').textContent='You are signed in. Your orders are available below.';let b=document.getElementById('accountLogout');if(!b){b=document.createElement('button');b.id='accountLogout';b.textContent='Log Out';b.onclick=()=>{localStorage.removeItem(AUTH_STORE);showCustomer();$('accountMessage').textContent='You have been signed out.'};state.appendChild(b)}loadCustomerOrders()}
- else{state.textContent='Sign in or create an account to get started.';form.style.display='flex';let b=document.getElementById('accountLogout');if(b)b.remove();loadCustomerOrders()}
+ if(s&&s.user){loadAdminOrders();state.innerHTML='<b>Signed in as '+esc(s.user.email||'JUMIE customer')+'</b>';form.style.display='none';$('accountMessage').textContent='You are signed in. Your orders are available below.';let b=document.getElementById('accountLogout');if(!b){b=document.createElement('button');b.id='accountLogout';b.textContent='Log Out';b.onclick=()=>{localStorage.removeItem(AUTH_STORE);showCustomer();$('accountMessage').textContent='You have been signed out.'};state.appendChild(b)}loadCustomerOrders()}
+ else{$('adminOrdersPanel').style.display='none';state.textContent='Sign in or create an account to get started.';form.style.display='flex';let b=document.getElementById('accountLogout');if(b)b.remove();loadCustomerOrders()}
 }
 async function customerAuth(mode){
  const email=$('accountEmail').value.trim(),password=$('accountPassword').value;
