@@ -639,13 +639,12 @@ const list=document.getElementById('products');if(list){new MutationObserver(dec
   const params = new URLSearchParams(window.location.search);
   const paymentStatus = (params.get("status") || "").toLowerCase();
   const transactionId = params.get("transaction_id");
-  let saved = null;
-  try { saved = JSON.parse(localStorage.getItem("jumiePendingPayment") || "null"); } catch (_) {}
-  const txRef = params.get("tx_ref") || saved?.tx_ref || "";
-  const hasReturnParams = Boolean(paymentStatus || transactionId || params.get("tx_ref") || saved?.tx_ref);
+  // Only verify a payment when Flutterwave has actually redirected the customer
+  // back with callback parameters. A stale local pending-payment record must never
+  // trigger a warning on an ordinary homepage visit or refresh.
+  const txRef = params.get("tx_ref") || "";
+  const hasReturnParams = Boolean(paymentStatus || transactionId || txRef);
   if (!hasReturnParams) {
-    // Do not replay a previous payment-success banner on ordinary page refreshes.
-    // Payment is checked and the success message is shown only on Flutterwave's return visit.
     try { localStorage.removeItem("jumiePendingPayment"); } catch (_) {}
     return;
   }
