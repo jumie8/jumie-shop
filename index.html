@@ -455,10 +455,10 @@ async function loadCustomerOrders(){
  if(!s?.access_token||!s?.user?.id){target.innerHTML='<p class="account-note">Sign in to view your orders and delivery progress.</p>';return}
  target.innerHTML='<p class="account-note">Loading your orders…</p>';
  try{
-  const r=await fetch(URL+'/rest/v1/orders?select=id,order_number,total,status,payment_status,tracking_number,created_at&user_id=eq.'+encodeURIComponent(s.user.id)+'&order=created_at.desc',{headers:{apikey:KEY,Authorization:'Bearer '+s.access_token,Accept:'application/json'},cache:'no-store'});
+  const r=await fetch(URL+'/rest/v1/orders?select=id,order_number,total,status,payment_status,tracking_number,created_at,delivered_at&user_id=eq.'+encodeURIComponent(s.user.id)+'&order=created_at.desc',{headers:{apikey:KEY,Authorization:'Bearer '+s.access_token,Accept:'application/json'},cache:'no-store'});
   if(!r.ok)throw Error('Could not load orders (HTTP '+r.status+').');
   const rows=await r.json();
-  target.innerHTML=rows.length?rows.map(o=>'<div class="row"><span><b>'+esc(o.order_number||'JUMIE order')+'</b><br><span class="hint">'+(o.created_at?new Date(o.created_at).toLocaleDateString():'')+' · '+esc(o.status||'Pending')+' · Payment: '+esc(o.payment_status||'pending')+(o.tracking_number?' · Tracking: '+esc(o.tracking_number):'')+'</span></span><b>'+money(o.total)+'</b></div>').join(''):'<p class="account-note">You have no orders yet. Your orders will appear here after checkout.</p>';
+  target.innerHTML=rows.length?rows.map(o=>'<div class="row"><span><b>'+esc(o.order_number||'JUMIE order')+'</b><br><span class="hint">'+(o.created_at?new Date(o.created_at).toLocaleDateString():'')+' · '+esc(o.status||'Pending')+' · Payment: '+esc(o.payment_status||'pending')+(o.tracking_number?' · Tracking: '+esc(o.tracking_number):'')+(o.delivered_at?' · Delivered: '+new Date(o.delivered_at).toLocaleDateString('en-NG'):'')+'</span></span><b>'+money(o.total)+'</b></div>').join(''):'<p class="account-note">You have no orders yet. Your orders will appear here after checkout.</p>';
  }catch(e){target.innerHTML='<p class="account-note">'+esc(e.message)+'</p>'}
 }
 async function loadAdminOrders(){
@@ -474,17 +474,39 @@ async function loadAdminOrders(){
   if(isAdmin!==true){panel.style.display='none';return}
   panel.style.display='block';
   target.innerHTML='<p class="account-note">Loading paid customer orders…</p>';
-  const response=await fetch(URL+'/rest/v1/orders?select=id,order_number,customer_name,customer_email,phone,total,currency,status,payment_status,paid_at,created_at,delivery_address,city,state,order_items(product_name,quantity,unit_price,subtotal)&payment_status=eq.paid&order=paid_at.desc.nullslast,created_at.desc',{headers:{apikey:KEY,Authorization:'Bearer '+session.access_token,Accept:'application/json'},cache:'no-store'});
+  const response=await fetch(URL+'/rest/v1/orders?select=id,order_number,customer_name,customer_email,phone,total,currency,status,payment_status,paid_at,delivered_at,created_at,delivery_address,city,state,order_items(product_name,quantity,unit_price,subtotal)&payment_status=eq.paid&order=paid_at.desc.nullslast,created_at.desc',{headers:{apikey:KEY,Authorization:'Bearer '+session.access_token,Accept:'application/json'},cache:'no-store'});
   if(!response.ok)throw Error('Could not load paid orders (HTTP '+response.status+').');
   const orders=await response.json();
   if(!orders.length){target.innerHTML='<p class="account-note">No paid orders found yet. New successfully paid orders will appear here.</p>';return}
   target.innerHTML=orders.map(o=>{
    const items=(o.order_items||[]).map(i=>'<li>'+esc(i.product_name)+' × '+esc(i.quantity)+' — '+money(i.subtotal)+'</li>').join('');
    const when=o.paid_at||o.created_at;
-   return '<article style="border:1px solid var(--line);border-radius:12px;padding:14px;margin:12px 0;background:var(--card,#fff)"><div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap"><b>'+esc(o.order_number||'JUMIE order')+'</b><b>'+money(o.total)+'</b></div><p><b>Customer:</b> '+esc(o.customer_name||'Not provided')+'<br><b>Email:</b> '+esc(o.customer_email||'Not provided')+'<br><b>Phone:</b> '+esc(o.phone||'Not provided')+'<br><b>Paid:</b> '+(when?new Date(when).toLocaleString('en-NG'):'Date unavailable')+'<br><b>Payment:</b> '+esc(o.payment_status)+'<br><b>Order status:</b> '+esc(o.status)+'</p><b>Items purchased</b><ul>'+items+'</ul><p><b>Delivery:</b> '+esc([o.delivery_address,o.city,o.state].filter(Boolean).join(', ')||'Not provided')+'</p></article>';
+   const delivered=Boolean(o.delivered_at)||String(o.status||'').toLowerCase()==='delivered';
+   const deliveryLabel=delivered?'Delivered'+(o.delivered_at?' on '+new Date(o.delivered_at).toLocaleString('en-NG'):''):'Not delivered yet';
+   const action=delivered?'<p style="color:#168b45;font-weight:800">✓ Delivery completed</p>':'<button type="button" class="checkout" data-mark-delivered="'+esc(o.id)+'" style="margin-top:8px">Mark as Delivered</button>';
+   return '<article style="border:1px solid var(--line);border-radius:12px;padding:14px;margin:12px 0;background:var(--card,#fff)"><div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap"><b>'+esc(o.order_number||'JUMIE order')+'</b><b>'+money(o.total)+'</b></div><p><b>Customer:</b> '+esc(o.customer_name||'Not provided')+'<br><b>Email:</b> '+esc(o.customer_email||'Not provided')+'<br><b>Phone:</b> '+esc(o.phone||'Not provided')+'<br><b>Paid:</b> '+(when?new Date(when).toLocaleString('en-NG'):'Date unavailable')+'<br><b>Payment:</b> '+esc(o.payment_status)+'<br><b>Delivery status:</b> '+deliveryLabel+'</p><b>Items purchased</b><ul>'+items+'</ul><p><b>Delivery address:</b> '+esc([o.delivery_address,o.city,o.state].filter(Boolean).join(', ')||'Not provided')+'</p>'+action+'</article>';
   }).join('');
  }catch(e){panel.style.display='block';target.innerHTML='<p class="account-note">'+esc(e.message)+'</p>'}
 }
+document.addEventListener('click',async e=>{
+ const button=e.target?.closest?.('[data-mark-delivered]');
+ if(!button)return;
+ const orderId=button.getAttribute('data-mark-delivered');
+ if(!orderId||button.disabled)return;
+ if(!confirm('Confirm that this customer has received the products?'))return;
+ button.disabled=true;button.textContent='Saving…';
+ try{
+  const session=await getFreshCustomerSession();
+  if(!session?.access_token)throw Error('Please log in again as the JUMIE admin.');
+  const response=await fetch(URL+'/rest/v1/orders?id=eq.'+encodeURIComponent(orderId)+'&payment_status=eq.paid',{
+   method:'PATCH',
+   headers:{apikey:KEY,Authorization:'Bearer '+session.access_token,'Content-Type':'application/json',Prefer:'return=minimal'},
+   body:JSON.stringify({status:'delivered',delivered_at:new Date().toISOString(),updated_at:new Date().toISOString()})
+  });
+  if(!response.ok)throw Error('Could not update this order (HTTP '+response.status+').');
+  await loadAdminOrders();
+ }catch(error){alert(error.message);button.disabled=false;button.textContent='Mark as Delivered'}
+});
 document.addEventListener('click',e=>{if(e.target&&e.target.id==='refreshAdminOrders')loadAdminOrders()});
 function showCustomer(){
  const s=readCustomerSession(),state=$('accountState'),form=$('accountForm');
