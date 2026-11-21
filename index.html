@@ -501,7 +501,7 @@ document.addEventListener('click',async e=>{
   const response=await fetch(URL+'/rest/v1/orders?id=eq.'+encodeURIComponent(orderId)+'&payment_status=eq.paid',{
    method:'PATCH',
    headers:{apikey:KEY,Authorization:'Bearer '+session.access_token,'Content-Type':'application/json',Prefer:'return=minimal'},
-   body:JSON.stringify({status:'delivered',delivered_at:new Date().toISOString(),updated_at:new Date().toISOString()})
+   body:JSON.stringify({status:'Delivered',delivered_at:new Date().toISOString(),updated_at:new Date().toISOString()})
   });
   if(!response.ok)throw Error('Could not update this order (HTTP '+response.status+').');
   await loadAdminOrders();
