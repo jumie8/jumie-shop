@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#f68b1f"><meta name="description" content="Shop smart on JUMIE Store. Discover great deals on fashion, phones, electronics, beauty and home essentials.">
-<title>JUMlA | Shop Smart • Live Better</title>
+<title>JUMIA | Shop Smart • Live Better</title>
 <link rel="manifest" href="./manifest.webmanifest">
 <style>
 :root{--orange:#f68b1f;--deep:#e86b00;--ink:#282a2e;--muted:#737982;--bg:#f4f5f8;--line:#e8e9ed;--green:#168b45}
@@ -238,7 +238,7 @@ footer{background:#252525;color:#eee;text-align:center;padding:25px 15px;font-si
 /* Remove the duplicate fixed cart checkout bar; keep the normal checkout button inside the cart/payment page. */
 .cart-checkout-dock{display:none!important;visibility:hidden!important;pointer-events:none!important}
 
-/* JUMlA branded launch screen */
+/* JUMIA branded launch screen */
 #jumiaSplash{position:fixed;inset:0;z-index:99999;background:#f68b1f;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;opacity:1;visibility:visible;transition:opacity .45s ease,visibility .45s ease}
 #jumiaSplash.is-hidden{opacity:0;visibility:hidden;pointer-events:none}
 #jumiaSplash .splash-emblem{width:176px;height:176px;border-radius:50%;background:#fff;display:grid;place-items:center}
@@ -248,16 +248,16 @@ footer{background:#252525;color:#eee;text-align:center;padding:25px 15px;font-si
 </style>
 </head>
 <body>
-<div id="jumiaSplash" role="status" aria-label="JUMlA loading">
+<div id="jumiaSplash" role="status" aria-label="JUMIA loading">
   <div class="splash-emblem" aria-hidden="true">
     <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><path fill="#f68b1f" d="M60 5 74.7 35.2 108 40.1 84 63.5 89.7 96.7 60 81 30.3 96.7 36 63.5 12 40.1 45.3 35.2Z"/></svg>
   </div>
-  <div class="splash-word">JUMlA</div>
+  <div class="splash-word">JUMIA</div>
 </div>
 <div class="jumie-utility"><span>Welcome to JUMIE Store</span><span><a href="#help">Help Centre</a>　<a href="#account">My Account</a>　<a href="#sell">Sell on JUMIE</a></span></div>
 <header class="jumie-main-header"><div class="jumie-head-inner">
 <button class="jumie-menu-toggle" id="jumieMenuOpen" aria-label="Open categories">☰</button>
-<a class="logo" href="#"><span class="mark">J</span><span><strong>JUMlA</strong><small>SHOP SMART • LIVE BETTER</small></span></a>
+<a class="logo" href="#"><span class="mark">J</span><span><strong>JUMIA</strong><small>SHOP SMART • LIVE BETTER</small></span></a>
 <form class="search" id="searchForm"><input id="search" type="search" placeholder="Search for products, brands and more" aria-label="Search products"><button type="submit">SEARCH</button></form>
 <button class="headlink" onclick="showView('account')"><span>♙</span> <i>Account</i></button>
 
@@ -855,7 +855,7 @@ const list=document.getElementById('products');if(list){new MutationObserver(dec
   var splash=document.getElementById('jumiaSplash');
   if(!splash)return;
   window.addEventListener('load',function(){
-    window.setTimeout(function(){splash.classList.add('is-hidden');window.setTimeout(function(){splash.remove()},500)},1600);
+    window.setTimeout(function(){splash.classList.add('is-hidden');window.setTimeout(function(){splash.remove()},500)},2200);
   });
 })();
 </script>
