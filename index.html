@@ -239,7 +239,7 @@ footer{background:#252525;color:#eee;text-align:center;padding:25px 15px;font-si
 .cart-checkout-dock{display:none!important;visibility:hidden!important;pointer-events:none!important}
 
 /* JUMIA branded launch screen */
-#jumiaSplash{position:fixed;inset:0;z-index:99999;background:#f68b1f;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;opacity:1;visibility:visible;transition:opacity .45s ease,visibility .45s ease}
+#jumiaSplash{position:fixed;inset:0;z-index:99999;background:#f68b1f;display:none;flex-direction:column;align-items:center;justify-content:center;gap:24px;opacity:1;visibility:visible}html.show-jumia-splash #jumiaSplash{display:flex}
 #jumiaSplash.is-hidden{opacity:0;visibility:hidden;pointer-events:none}
 #jumiaSplash .splash-emblem{width:176px;height:176px;border-radius:50%;background:#fff;display:grid;place-items:center}
 #jumiaSplash .splash-emblem svg{width:112px;height:112px;display:block}
@@ -248,6 +248,17 @@ footer{background:#252525;color:#eee;text-align:center;padding:25px 15px;font-si
 </style>
 </head>
 <body>
+<script>
+(function(){
+  try {
+    if (!sessionStorage.getItem("jumiaSplashSeen")) {
+      sessionStorage.setItem("jumiaSplashSeen","1");
+      document.documentElement.classList.add("show-jumia-splash");
+    }
+  } catch (_) {}
+})();
+</script>
+
 <div id="jumiaSplash" role="status" aria-label="JUMIA loading">
   <div class="splash-emblem" aria-hidden="true">
     <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><path fill="#f68b1f" d="M60 5 74.7 35.2 108 40.1 84 63.5 89.7 96.7 60 81 30.3 96.7 36 63.5 12 40.1 45.3 35.2Z"/></svg>
@@ -853,9 +864,15 @@ const list=document.getElementById('products');if(list){new MutationObserver(dec
 <script>
 (function(){
   var splash=document.getElementById('jumiaSplash');
-  if(!splash)return;
+  if(!splash || !document.documentElement.classList.contains('show-jumia-splash')) {
+    if (splash) splash.remove();
+    return;
+  }
   window.addEventListener('load',function(){
-    window.setTimeout(function(){splash.classList.add('is-hidden');window.setTimeout(function(){splash.remove()},500)},2200);
+    window.setTimeout(function(){
+      splash.remove();
+      document.documentElement.classList.remove('show-jumia-splash');
+    },1800);
   });
 })();
 </script>
