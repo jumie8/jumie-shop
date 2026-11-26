@@ -1,7 +1,7 @@
 {
-  "name": "JUMlA Online Shopping",
-  "short_name": "JUMlA",
-  "description": "Shop smart. Live better. Discover products at JUMlA Online Shopping.",
+  "name": "JUMIA Online Shopping",
+  "short_name": "JUMIA",
+  "description": "Shop smart. Live better. Discover products at JUMIA Online Shopping.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
